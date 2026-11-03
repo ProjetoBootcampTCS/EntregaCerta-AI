@@ -1,0 +1,5 @@
+Arquivo recebido: logistic-brazilian-dataset.zip
+SHA-256: 967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784
+Fonte: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+Licença publicada: CC BY-NC-SA 4.0. Dados reais anonimizados, 2016-2018.
+Integridade e comparação preliminar anteriores preservadas no histórico; tratamento final ainda não executado.

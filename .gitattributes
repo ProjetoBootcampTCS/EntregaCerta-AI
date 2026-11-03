@@ -1,12 +1,6 @@
 * text=auto
 *.py text eol=lf
-*.json text eol=lf
 *.md text eol=lf
-*.toml text eol=lf
-*.sql text eol=lf
+*.txt text eol=lf
 *.bpmn text eol=lf
-*.xsd text eol=lf
-*.svg text eol=lf
 *.png binary
-docs/validacao/bpmn-xsd/** -text
-docs/diagramas/vendor/** -text

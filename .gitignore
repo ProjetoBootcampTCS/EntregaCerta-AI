@@ -1,31 +1,29 @@
+# Ambiente e segredos locais
 .venv/
-__pycache__/
-.pytest_cache/
 .env
 .env.*
 !.env.example
 .streamlit/secrets.toml
-data/raw/
-data/processed/
-data/*.db
-data/*.sqlite
-data/*.sqlite3
-artifacts/*.joblib
+
+# Dados reais e modelos ficam fora do Git
+Dados/*
+!Dados/.gitkeep
+Modelos/*
+!Modelos/.gitkeep
+
+# Arquivos gerados pelo Python e notebooks
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+*.log
+
+# Estado e credenciais da infraestrutura futura
 .terraform/
 *.tfstate
 *.tfstate.*
 *.tfplan
-*.auto.tfvars
-*.auto.tfvars.json
-terraform.tfvars
-terraform.tfvars.json
-crash.log
-*.log
-.local/
-.tools/
-*.egg-info/
-build/
-/dist/
-coverage.xml
-.coverage
-htmlcov/
+*.tfvars
+*.tfvars.json
+!*.example.tfvars

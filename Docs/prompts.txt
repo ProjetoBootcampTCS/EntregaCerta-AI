@@ -1,3 +1,49 @@
+# Registro de desenvolvimento assistido — planejamento
+
+Data: 29/10/2026.
+
+## Pedido da equipe
+
+> Certo, vamos com o **EntregaCerta AI, vamos lá, passo a passo, o que faremos ?**
+
+## Contexto fornecido pela equipe
+
+Desenvolver o projeto por etapas, com dados reais, Pandas/SQL, ML validado, GenAI por API e aplicação funcional. Considerar o guia, a trilha e `requisitos_projeto.MD`, incluindo frontend, backend, banco, Terraform, documentação, BPMN e apresentação de até vinte minutos.
+
+## Trabalho realizado nesta rodada
+
+Organizar o plano e registrar a escolha do projeto e da base Olist. Criar README, contrato inicial do problema, plano de desenvolvimento e regras iniciais de exclusão de arquivos sensíveis do versionamento. Não houve treinamento nem criação da aplicação.
+
+## Decisões registradas
+
+- Previsão na aprovação; alvo por dia civil de entrega comparado ao dia prometido.
+- Evidência inicial limitada a pedidos entregues com desfecho conhecido.
+- Experimento de ML anterior ao investimento na interface completa.
+- Relatórios generativos fundamentados nos fatos e na documentação.
+- Provisionamento Terraform verificável e separação de responsabilidades de interface, backend e persistência.
+
+Os conteúdos anteriores desta conversa e as auditorias citadas no plano são contexto, não resultados gerados nesta rodada. Este registro não contém chaves, credenciais ou instruções internas do assistente.
+
+
+# Registro de desenvolvimento assistido — etapas executáveis
+
+Data: 29/10/2026.
+
+## Pedido da equipe
+
+> certo, divida em etapas, para quando eu pedir pra você realizar uma vocÊ faça tudo oq ela pede
+
+## Trabalho desta rodada
+
+Definir o escopo, os entregáveis e os critérios de conclusão de cada uma das sete etapas combinadas. Criar o documento de execução e o registro de status; ajustar README e plano para apontar para a mesma numeração e explicitar que a etapa 2 ainda precisa ser concluída.
+
+O pedido de uma etapa deve abranger sua implementação, verificações, correções e documentação. Não avançar automaticamente para outra etapa; não marcar pendências externas como concluídas. A seleção permanece concluída e os modelos, a aplicação e o provisionamento continuam não executados.
+
+## Verificação prevista para esta rodada
+
+Conferir formato do status, unicidade e ordem das sete etapas, referências de arquivos, alinhamento do próximo pedido e ausência de alteração indevida do estado de implementação.
+
+
 # Registro de desenvolvimento assistido · etapa 2
 
 Data: 30/10/2026. Pedido da equipe: **“Perfeito, pode fazer a etapa 2”**. Escopo interpretado conforme `docs/ETAPAS_EXECUCAO.md`: realizar planejamento técnico e ambiente integralmente, verificar evidências e encerrar antes dos dados da etapa 3. A proposta EntregaCerta e a base Olist já estavam escolhidas.
@@ -31,3 +77,9 @@ Arquitetura modular Python/FastAPI/Streamlit/SQLite, treinamento offline e GenAI
 - Git local próprio preparado para este projeto. Docker client encontrado, Engine sem conexão, Terraform ausente. Provisionamento não executado.
 
 Evidências e comandos finais: `docs/ETAPA_2_RESULTADOS.md`, `docs/AMBIENTE.md` e `docs/validacao/`. Não houve treinamento, medição de métricas preditivas, implementação da página de negócio, chamada real de LLM nem infraestrutura aplicada.
+
+
+Registro de 30/10/2026 - estrutura inicial simplificada
+Pedido da equipe: ok crie a pasta inicial mais ou menos desse jeito.
+Referência visual: .venv, Dados, Docs, Modelos, Notebooks, src, .gitignore e requirements.txt.
+Ação: estrutura simples, documentação centralizada, PostgreSQL previsto, ambiente preservado e planejamento anterior movido para cópia de segurança local. Sem aquisição/treino/aplicação nova.
