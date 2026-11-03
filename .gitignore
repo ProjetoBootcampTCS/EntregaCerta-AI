@@ -6,10 +6,15 @@
 .streamlit/secrets.toml
 
 # Dados reais e modelos ficam fora do Git
+<<<<<<< HEAD
 #Dados/*
 #!Dados/.gitkeep
 #Modelos/*
 #!Modelos/.gitkeep
+=======
+Dados/*
+!Dados/.gitkeep
+>>>>>>> 8021390 (pln adicionado)
 
 # Arquivos gerados pelo Python e notebooks
 __pycache__/

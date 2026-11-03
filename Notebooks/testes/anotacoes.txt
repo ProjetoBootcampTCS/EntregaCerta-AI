@@ -15,7 +15,7 @@ em olist_orders_dataset.csv
 			982 avaliaram 1, 
 			94 avaliaram 2, 
 			53 avaliaram 3, 
-			20 avaliaram 4,
+			20 avaliaram 4,aaaa
 			60 avaliaram 5
 		 - opção 1: antes de estimar tempo, é preciso identificar quantos não receberam, e quantos receberam com atraso,
 		   remover as exceções, verificar a correlação entre avaliação e tempo de entrega, e, treinar a IA
