@@ -1,0 +1,13 @@
+flowchart LR
+  A[ZIP Olist e manifesto] --> B[Pandas e preparação SQL]
+  B --> C[(SQLite)]
+  C --> D[Treinamento temporal offline]
+  D --> E[Pipeline e manifesto]
+  E --> F[Backend FastAPI]
+  C <--> F
+  F <--> G[Interface Streamlit]
+  G <--> H[Analista]
+  F -. contexto controlado .-> I[GenAI por API]
+  J[Documentação e fatos calculados] -.-> I
+  I -. relatório .-> F
+  K[Terraform: containers, rede e persistência na etapa 7]

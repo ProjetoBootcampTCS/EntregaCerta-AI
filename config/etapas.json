@@ -1,0 +1,103 @@
+{
+  "project": "EntregaCerta AI",
+  "scope_version": "1.0",
+  "updated_on_local_date": "2026-10-30",
+  "execution_contract": "docs/ETAPAS_EXECUCAO.md",
+  "execution_rule": "Executar todo o escopo da etapa pedida, verificar os resultados, corrigir falhas e atualizar evidências e status. Não avançar automaticamente para a etapa seguinte.",
+  "completion_rule": "Não declarar uma etapa integralmente concluída enquanto existir critério obrigatório pendente. Registrar separadamente bloqueios externos e partes verificadas.",
+  "stages": [
+    {
+      "id": 1,
+      "name": "Análise, viabilidade e escolha",
+      "status": "concluida_para_selecao",
+      "depends_on": [],
+      "evidence": [
+        "Auditorias e scripts anteriores da Olist",
+        "Requisitos consolidados",
+        "Escolha da equipe registrada na conversa"
+      ],
+      "note": "Auditoria preliminar não substitui a etapa 3. Não houve treinamento ou implementação da aplicação."
+    },
+    {
+      "id": 2,
+      "name": "Planejamento técnico e ambiente",
+      "status": "concluida",
+      "depends_on": [
+        1
+      ],
+      "evidence": [
+        "docs/ETAPA_2_RESULTADOS.md",
+        "docs/ESCOPO_E_CONTRATO.md",
+        "config/atributos.json",
+        "docs/ARQUITETURA.md",
+        "docs/MODELO_DADOS.md",
+        "docs/diagramas/processo.bpmn",
+        "docs/MATRIZ_REQUISITOS.md",
+        "docs/EQUIPE_E_EXECUCAO.md",
+        "requirements.lock",
+        "docs/validacao/tests.xml",
+        "docs/validacao/tests_reproducao.xml",
+        "docs/validacao/reproducao.json",
+        "docs/validacao/planejamento.json",
+        "prompts/development/003-etapa-2.md",
+        "README.md"
+      ],
+      "pending": [],
+      "completed_on_local_date": "2026-10-30",
+      "future_stage_dependencies": [
+        "Docker Engine indisponível e Terraform ausente; resolver para etapa 7",
+        "Nomes da equipe, provedor/chave LLM e destino remoto serão preenchidos quando necessários"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Dados, análise exploratória e SQL",
+      "status": "nao_iniciada",
+      "depends_on": [
+        2
+      ],
+      "evidence": []
+    },
+    {
+      "id": 4,
+      "name": "Machine Learning, avaliação e inferência",
+      "status": "nao_iniciada",
+      "depends_on": [
+        3
+      ],
+      "evidence": []
+    },
+    {
+      "id": 5,
+      "name": "GenAI fundamentada e funcionamento sem API",
+      "status": "nao_iniciada",
+      "depends_on": [
+        4
+      ],
+      "evidence": []
+    },
+    {
+      "id": 6,
+      "name": "Aplicação web integrada",
+      "status": "nao_iniciada",
+      "depends_on": [
+        3,
+        4,
+        5
+      ],
+      "evidence": []
+    },
+    {
+      "id": 7,
+      "name": "Infraestrutura, validação final e apresentação",
+      "status": "nao_iniciada",
+      "depends_on": [
+        6
+      ],
+      "evidence": []
+    }
+  ],
+  "next_stage": 3,
+  "model_training_performed": false,
+  "application_implementation_performed": false
+}

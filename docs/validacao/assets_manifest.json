@@ -1,0 +1,105 @@
+[
+  {
+    "path": "docs/validacao/bpmn-xsd/BPMN20.xsd",
+    "url": "https://www.omg.org/spec/BPMN/20100501/BPMN20.xsd",
+    "sha256": "a07c159cb0594573dd7c97b1370dd116112378f377e43c89a8bf512ac5030705"
+  },
+  {
+    "path": "docs/validacao/bpmn-xsd/BPMNDI.xsd",
+    "url": "https://www.omg.org/spec/BPMN/20100501/BPMNDI.xsd",
+    "sha256": "f0dff1cd559d1514d8ebfc8c646f58402bcaced27ec22e2aa6456c2dcc80b038"
+  },
+  {
+    "path": "docs/validacao/bpmn-xsd/DC.xsd",
+    "url": "https://www.omg.org/spec/BPMN/20100501/DC.xsd",
+    "sha256": "a2f90e5ad9bb48c6915e4e034b4e27ac838264a1d4f27bfc70dbdfc69351312d"
+  },
+  {
+    "path": "docs/validacao/bpmn-xsd/DI.xsd",
+    "url": "https://www.omg.org/spec/BPMN/20100501/DI.xsd",
+    "sha256": "8220b179c175572df74e08a51bffabe957867962035cee7b5fee0b6acb4c4498"
+  },
+  {
+    "path": "docs/validacao/bpmn-xsd/Semantic.xsd",
+    "url": "https://www.omg.org/spec/BPMN/20100501/Semantic.xsd",
+    "sha256": "c4318842f7d2bbc262d7954c9452c501db16f0868eac0b8732ec5d7fb384d9a7"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/LICENSE",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "04551f3ac59831ce1c607994c2f1aaedc917d7e702296f2d37ac28980af9fef1"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "f192619485cd34ee90e2c3dace2665fea776ed251dc031798b51438abda0c133"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "28ee993466dd75dbbe50e761b69e9bf5c481408c47090bf878a8e86056bd45f8"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-js.css",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "c08f5fbb52d70a46a6647e54daf08f032318de8b0b817cc7d2f688a8add3ff5a"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/css/bpmn.css",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "aae436b1017808030f51e3853df6949a2f2f477aeeaf969b63f301c43996f62e"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/diagram-js.css",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "08ead062d4284cb1214787098506c97a01c6a871c8096943b7b3d2cc2e6bc238"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/font/bpmn.eot",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "9178281a0695f79ff8bff8eca529231b67f896dc1c12c8dbaaad24b32dd3fc07"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/bpmn-modeler.production.min.js",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "5956b3e36ce23b3fc011daa865a3d2f9139713184aeb608fd716f6b843990325"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/README.md",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "d0715ced814736e3de600319ef80aebb8b08da47af17452abc02328cd27e3e40"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/font/bpmn.svg",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "b366faf39f6bcc48f10b10f2860e5ebe57091cb2a15beeed8a0977e24560bbba"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/font/bpmn.ttf",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "7f909a44ec10c6e2c7afb707176f826edd21dc6923d608bac5c5eb6730ca307d"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/font/bpmn.woff",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "9c7f85112c47ef358d97258a6f4dbeaec049ebcecbfd7de3ec95bc8fefd0a2ea"
+  },
+  {
+    "path": "docs/diagramas/vendor/bpmn-js/dist/assets/bpmn-font/font/bpmn.woff2",
+    "url": "https://registry.npmjs.org/bpmn-js/-/bpmn-js-18.16.0.tgz",
+    "version": "18.16.0",
+    "sha256": "8336b83d627d619399abef1f4b5c0990fb2ed7ccb2d0cbaf5ba02037f21a7484"
+  }
+]

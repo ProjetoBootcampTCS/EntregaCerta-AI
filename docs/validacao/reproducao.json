@@ -1,0 +1,8 @@
+{
+  "clean_install_completed": true,
+  "locked_distribution_count": 60,
+  "versions_match_lock": true,
+  "both_venvs_no_system_packages": true,
+  "pip_check_both_passed": true,
+  "scope": "Instalação, importações e testes técnicos; não valida desempenho de ML ou aplicação futura"
+}

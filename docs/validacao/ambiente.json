@@ -1,0 +1,53 @@
+{
+  "checked_at_utc": "2026-10-30T11:44:12.935777+00:00",
+  "project": "EntregaCerta AI",
+  "version": "0.2.0",
+  "python": "3.12.14",
+  "platform": "Windows",
+  "independent_venv": true,
+  "system_site_packages_disabled": true,
+  "python_312": true,
+  "dependencies": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "fastapi": "0.162.0",
+    "uvicorn": "0.54.0",
+    "streamlit": "1.66.1",
+    "plotly": "6.9.0",
+    "httpx": "0.28.1",
+    "python-dotenv": "1.2.4",
+    "pydantic": "2.14.2",
+    "pytest": "9.2.0",
+    "lxml": "6.1.3"
+  },
+  "dataset_archive_configured": true,
+  "dataset_archive_exists": true,
+  "llm_key_present": false,
+  "llm_integration_tested": false,
+  "business_application_available": false,
+  "model_available": false,
+  "tools": {
+    "git": {
+      "executable_found": true,
+      "returncode": 0,
+      "output": "git version 2.55.0.windows.5"
+    },
+    "docker_client": {
+      "executable_found": true,
+      "returncode": 0,
+      "output": "Docker version 29.8.1, build 4a63305"
+    },
+    "docker_engine": {
+      "executable_found": true,
+      "returncode": 1,
+      "output": "{\"Client\":{\"Version\":\"29.8.1\",\"ApiVersion\":\"1.56\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"4a63305\",\"GoVersion\":\"go1.26.8\",\"Os\":\"windows\",\"Arch\":\"amd64\",\"BuildTime\":\"Tue Sep 15 16:28:39 2026\",\"Context\":\"desktop-linux\"},\"Server\":null}\nfailed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified."
+    },
+    "terraform": {
+      "executable_found": false,
+      "returncode": null,
+      "output": "Não encontrado no PATH"
+    }
+  },
+  "python_environment_ok": true
+}

@@ -1,0 +1,38 @@
+{
+  "version": "approval-v1",
+  "prediction_time": "order_approved_at",
+  "unit": "order_id",
+  "status": "Contrato planejado; cálculo e auditoria na etapa 3",
+  "aggregation": "Uma linha por pedido. Agregar itens antes de unir outras tabelas. Cada linha de item representa uma unidade registrada na fonte.",
+  "categorical_ties": "Moda por número de linhas de item; empate por ordem lexicográfica do código normalizado; nulo se todos ausentes",
+  "missing_policy": "Preservar nulos e indicadores. Agregado de peso/volume fica nulo se qualquer item necessário estiver ausente ou inválido. Imputação e codificação ajustadas apenas no treino na etapa 4.",
+  "features": [
+    {"name": "item_value_total", "type": "numeric", "source": ["items.price"], "rule": "Soma do preço por linha de item; valores negativos/ausentes são erro de qualidade"},
+    {"name": "freight_total", "type": "numeric", "source": ["items.freight_value"], "rule": "Soma do frete informado por item; não representa custo logístico real"},
+    {"name": "item_count", "type": "numeric", "source": ["items.order_item_id"], "rule": "Número de linhas únicas de item do pedido"},
+    {"name": "product_count", "type": "numeric", "source": ["items.product_id"], "rule": "Quantidade de produtos distintos; ID usado somente na agregação"},
+    {"name": "seller_count", "type": "numeric", "source": ["items.seller_id"], "rule": "Quantidade de vendedores distintos; ID usado somente na agregação"},
+    {"name": "product_weight_total_g", "type": "numeric", "source": ["products.product_weight_g"], "rule": "Soma por item se todos os pesos forem válidos e maiores que zero"},
+    {"name": "product_volume_total_cm3", "type": "numeric", "source": ["products.product_length_cm", "products.product_height_cm", "products.product_width_cm"], "rule": "Soma de comprimento x altura x largura por item com todas as dimensões maiores que zero; não é volume da embalagem"},
+    {"name": "missing_weight_share", "type": "numeric", "source": ["products.product_weight_g"], "rule": "Fração de itens com peso ausente ou não positivo"},
+    {"name": "missing_dimensions_share", "type": "numeric", "source": ["products.product_length_cm", "products.product_height_cm", "products.product_width_cm"], "rule": "Fração de itens com ao menos uma dimensão ausente ou não positiva"},
+    {"name": "customer_state", "type": "categorical", "source": ["customers.customer_state"], "rule": "UF normalizada do cliente; código inválido vira nulo com registro da ocorrência"},
+    {"name": "seller_state_main", "type": "categorical", "source": ["sellers.seller_state"], "rule": "UF modal por linhas de item, com desempate definido"},
+    {"name": "same_state_item_share", "type": "numeric", "source": ["customers.customer_state", "sellers.seller_state"], "rule": "Fração de itens cujo vendedor tem a mesma UF do cliente; nulo se alguma UF necessária for desconhecida"},
+    {"name": "product_category_main", "type": "categorical", "source": ["products.product_category_name"], "rule": "Categoria modal por linhas de item; manter códigos originais normalizados"},
+    {"name": "missing_category_share", "type": "numeric", "source": ["products.product_category_name"], "rule": "Fração de itens sem categoria; não substituir categoria por informação futura"},
+    {"name": "promised_days", "type": "numeric", "source": ["orders.order_estimated_delivery_date", "orders.order_approved_at"], "rule": "Dia civil prometido menos dia civil da aprovação; deve ser >= 0"},
+    {"name": "approval_delay_hours", "type": "numeric", "source": ["orders.order_approved_at", "orders.order_purchase_timestamp"], "rule": "Diferença em horas entre aprovação e compra; deve ser >= 0"},
+    {"name": "approval_month", "type": "numeric", "source": ["orders.order_approved_at"], "rule": "Mês 1..12; decidir codificação no treino"},
+    {"name": "approval_weekday", "type": "numeric", "source": ["orders.order_approved_at"], "rule": "Dia da semana 0=segunda..6=domingo"},
+    {"name": "approval_hour", "type": "numeric", "source": ["orders.order_approved_at"], "rule": "Hora 0..23 no formato da fonte; fuso não documentado"}
+  ],
+  "forbidden_source_columns": [
+    "order_delivered_customer_date", "order_delivered_carrier_date", "order_status",
+    "shipping_limit_date", "review_score", "review_comment_message", "review_creation_date",
+    "review_answer_timestamp", "is_late", "delay_days", "label_observed_at"
+  ],
+  "lineage_only": ["order_id", "customer_id", "customer_unique_id", "seller_id", "product_id"],
+  "excluded_extensions": ["Histórico de atrasos por vendedor", "Geolocalização detalhada", "Pagamentos", "Avaliações", "Texto livre"],
+  "availability_assumption": "A fonte é uma fotografia sem versões. Assume-se que itens, cadastro e promessa presentes no arquivo representem os disponíveis na aprovação; não é possível provar essa hipótese com a base."
+}

@@ -1,0 +1,3 @@
+# EntregaCerta AI — dependências exatas, Python 3.12
+# Instalação completa recomendada: scripts/setup.ps1 (inclui o pacote local).
+-r requirements.lock
