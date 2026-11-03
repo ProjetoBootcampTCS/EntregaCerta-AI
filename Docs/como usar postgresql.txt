@@ -1,0 +1,2 @@
+para executar o terminal
+docker exec -it postgres_db psql -U admin -d meu_banco
