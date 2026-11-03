@@ -1,7 +1,6 @@
-# Lista inicial. A instalação desta nova stack ainda será executada e verificada.
-# Versões exatas serão consolidadas após os testes de compatibilidade.
 pandas>=2.2,<4
 numpy>=1.26,<3
+ipykernel>=6,<8
 scikit-learn>=1.5,<2
 torch>=2,<3
 matplotlib>=3.8,<4
