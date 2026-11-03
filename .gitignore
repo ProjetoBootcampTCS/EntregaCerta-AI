@@ -25,7 +25,7 @@ crash.log
 .tools/
 *.egg-info/
 build/
-dist/
+/dist/
 coverage.xml
 .coverage
 htmlcov/

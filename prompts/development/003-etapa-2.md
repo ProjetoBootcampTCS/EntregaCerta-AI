@@ -27,6 +27,7 @@ Arquitetura modular Python/FastAPI/Streamlit/SQLite, treinamento offline e GenAI
 - A criação de temporários pelo ensurepip/pytest falhou inicialmente na pasta restrita do sandbox. Setup passou a usar `.local/tmp`; testes usam `.local/pytest-temp` limitado ao projeto. Reexecução: 9 testes aprovados em ambos os ambientes.
 - A primeira prévia local não respondeu no navegador devido à restrição de socket do sandbox. Servidor restrito a 127.0.0.1 foi executado com acesso local permitido; o visualizador então importou/exportou o BPMN com sucesso. Nenhum arquivo foi enviado a serviço externo para renderização.
 - O caminho pessoal do ZIP saiu do manifesto versionado e foi configurado no `.env` local; hashes/proveniência foram preservados. Não houve extração/carga de registros nesta etapa.
+- Conferência de versionamento identificou que a regra genérica `dist/` ocultava assets do modelador. A exclusão foi limitada ao `dist` da raiz e os hashes dos assets no índice Git foram conferidos, preservando os arquivos originais de terceiros.
 - Git local próprio preparado para este projeto. Docker client encontrado, Engine sem conexão, Terraform ausente. Provisionamento não executado.
 
 Evidências e comandos finais: `docs/ETAPA_2_RESULTADOS.md`, `docs/AMBIENTE.md` e `docs/validacao/`. Não houve treinamento, medição de métricas preditivas, implementação da página de negócio, chamada real de LLM nem infraestrutura aplicada.

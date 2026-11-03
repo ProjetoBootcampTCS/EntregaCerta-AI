@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-10-30T11:54:58.996887+00:00",
+  "all_required_diagram_assets_tracked": true,
+  "asset_count": 18,
+  "index_hashes_match_original_manifest": true,
+  "excluded_local_paths": [
+    ".env",
+    ".venv/",
+    ".local/",
+    "data/raw/",
+    "data/processed/",
+    "*.tfstate"
+  ],
+  "remote_published": false
+}
