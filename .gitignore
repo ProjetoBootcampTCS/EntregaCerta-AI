@@ -8,8 +8,8 @@
 # Dados reais e modelos ficam fora do Git
 #Dados/*
 #!Dados/.gitkeep
-Modelos/*
-!Modelos/.gitkeep
+#Modelos/*
+#!Modelos/.gitkeep
 
 # Arquivos gerados pelo Python e notebooks
 __pycache__/
