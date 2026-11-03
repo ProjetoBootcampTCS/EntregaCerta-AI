@@ -1,3 +1,58 @@
+# 🚚 EntregaCerta AI
+
+**Inteligência Artificial aplicada à previsão de atrasos e à priorização de pedidos no e-commerce.**
+
+O **EntregaCerta AI** é um projeto de apoio à decisão logística que propõe integrar **Machine Learning (ML), análise de dados e Inteligência Artificial Generativa (GenAI)** para identificar pedidos com maior risco de atraso e auxiliar analistas na definição de prioridades operacionais.
+
+A solução foi concebida para transformar dados históricos de pedidos em informações úteis à tomada de decisão, oferecendo previsões de risco, evidências explicativas, acompanhamento de decisões e geração assistida de relatórios.
+
+O objetivo não é substituir o analista, mas fornecer informações estruturadas para apoiar decisões mais rápidas, consistentes e rastreáveis.
+
+## 📌 Status do projeto
+
+**Última atualização:** 30 de outubro de 2026
+
+**Etapa atual:** Etapa 2 concluída — Planejamento técnico e preparação do ambiente.
+
+**Próxima etapa:** Etapa 3 — Engenharia e análise dos dados.
+
+O projeto está em desenvolvimento. Até o momento, foram concluídos o planejamento técnico, a definição metodológica, a estruturação do ambiente e as validações iniciais.
+
+**Ainda não foram implementados:**
+
+- Modelo de Machine Learning treinado.
+- Interface operacional de análise logística.
+- Banco de dados populado para utilização pela aplicação.
+- Integração funcional com uma API de LLM.
+- Pipeline completo de previsão em produção.
+
+Os comandos disponíveis atualmente permitem executar diagnósticos, testes automatizados, verificações de planejamento e visualização dos diagramas técnicos.
+
+A documentação detalhada está disponível em [Resultados da Etapa 2](docs/ETAPA_2_RESULTADOS.md).
+
+---
+
+## 🎯 Objetivos
+
+O EntregaCerta AI busca desenvolver uma solução capaz de:
+
+1. **Prever riscos:** estimar, no momento da aprovação do pedido, a probabilidade de atraso na entrega.
+2. **Priorizar pedidos:** organizar uma fila de análise conforme o risco previsto e a capacidade operacional.
+3. **Apoiar decisões:** disponibilizar evidências e informações relevantes para interpretação dos resultados.
+4. **Registrar ações:** permitir que o analista documente suas decisões e acompanhe os pedidos.
+5. **Gerar relatórios:** utilizar GenAI para produzir sínteses assistidas baseadas em informações verificáveis.
+6. **Avaliar o desempenho:** medir a qualidade das previsões e investigar a utilidade operacional da solução.
+
+A arquitetura prevê que os recursos de ML e visualização continuem disponíveis mesmo em caso de indisponibilidade da API de LLM.
+
+## 🗂️ Dataset
+
+O projeto utiliza o [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), disponibilizado publicamente no Kaggle.
+
+O conjunto contém registros reais e anonimizados de operações de comércio eletrônico realizadas entre 2016 e 2018.
+
+Entre as informações disponíveis estão pedidos, clientes, vendedores, produtos, pagamentos, avaliações e eventos logístico
+
 # EntregaCerta AI
 
 Projeto integrador do Bootcamp TCS: apoiar o acompanhamento de pedidos com risco de atraso de entrega, usando dados reais da Olist.
