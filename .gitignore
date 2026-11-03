@@ -6,8 +6,8 @@
 .streamlit/secrets.toml
 
 # Dados reais e modelos ficam fora do Git
-Dados/*
-!Dados/.gitkeep
+#Dados/*
+#!Dados/.gitkeep
 Modelos/*
 !Modelos/.gitkeep
 
