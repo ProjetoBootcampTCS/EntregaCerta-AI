@@ -1,0 +1,16 @@
+tarefa,origem,metrica,media,desvio,valor
+classificacao,cv,accuracy,0.7595992625539048,0.023361691790134854,
+classificacao,cv,f1_macro,0.5146811334121861,0.009407277869087597,
+classificacao,cv,f1_weighted,0.8296961636813032,0.015319859749217263,
+classificacao,teste,accuracy,,,0.9050880626223092
+classificacao,teste,precision_pos,,,0.10165339865278629
+classificacao,teste,recall_pos,,,0.14768683274021352
+classificacao,teste,f1_macro,,,0.5351291829360667
+classificacao,teste,f1_weighted,,,0.9133497688373884
+regressao,cv,mae,0.8307662284377848,0.04670517195843724,
+regressao,cv,mse,19.31408157258116,6.834849363518595,
+regressao,cv,r2,-0.004932834590179946,0.01727630182087563,
+regressao,teste,mae,,,0.5545078024936192
+regressao,teste,mse,,,5.4151420791928135
+regressao,teste,rmse,,,2.327045783647759
+regressao,teste,r2,,,-0.0016375275384798993
