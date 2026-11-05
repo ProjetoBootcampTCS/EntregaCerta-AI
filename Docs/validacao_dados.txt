@@ -1,0 +1,39 @@
+VALIDACAO DO DATASET CONSOLIDADO - Olist / EntregaCerta AI
+Fonte: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+Licenca documentada: CC BY-NC-SA 4.0. Registros reais anonimizados (2016-2018).
+Pandas 3.1.0; NumPy 2.5.4
+Pedidos originais: 99441
+Linhas consolidadas: 99441; colunas: 53
+Pedidos duplicados: 0
+Sem itens: 775
+Sem pagamento: 1
+Com varios vendedores: 1278
+Pedidos com peso total desconhecido: 797
+Pedidos sem nenhuma distancia disponivel: 1264
+Pedidos com ao menos um vendedor sem distancia: 493
+Pedidos com distancia apenas parcialmente disponivel: 4
+Com entrega anterior a aprovacao: 61
+Com promessa anterior ao dia da aprovacao: 10
+Rotulos observados: 96470
+Sem rotulo: 2971
+Atrasados observados: 6534
+Elegiveis inicialmente para modelagem: 96394
+Chaves, quantidade de pedidos/itens/pagamentos e totais monetarios: OK.
+Hashes dos nove originais conferidos antes/depois: OK.
+Avaliacoes e traducao de categorias preservadas, mas nao usadas na consolidacao.
+Nao houve treinamento, imputacao de datas/rotulos, carga SQL ou avaliacao de modelo.
+
+Entradas candidatas na aprovacao (disponibilidade historica ainda e uma hipotese):
+customer_state, uf_origem, categoria_principal, quantidade_itens, quantidade_produtos, quantidade_vendedores, quantidade_categorias, quantidade_ufs_origem, valor_itens, valor_frete, peso_total_g, volume_total_cm3, itens_sem_peso, itens_sem_dimensoes, itens_sem_categoria, distancia_media_vendedores_km, distancia_max_vendedores_km, vendedores_sem_distancia, vendedores_sem_uf, valor_pago, quantidade_pagamentos, quantidade_formas_pagamento, parcelas_maximas, tipo_pagamento_principal, prazo_prometido_dias, tempo_aprovacao_horas, dia_semana_aprovacao, mes_aprovacao, hora_aprovacao
+
+SHA-256 DOS ORIGINAIS:
+olist_customers_dataset.csv: 8a80cdbd27b49a1331f70547f46b376c15cfd172cbb4bc1b74071c86acea4ec8
+olist_geolocation_dataset.csv: 3b7cf4f504ce3fbb3e63693f48d20ac4a4925619720e2ed46aba2f9801260876
+olist_order_items_dataset.csv: 14e321c489a729b088f26f73262b506577e2b7fcb19cf04cd70fa6276d16ff65
+olist_order_payments_dataset.csv: 6ca92718f7e0ac4a77b386515ef8de1ca54cf18eb5787f07d25d0baa4e2cd870
+olist_order_reviews_dataset.csv: 012b61c7593e34f51fa614efdf802b9c7056ce6aae5307ddb93236e7cfc797d7
+olist_orders_dataset.csv: 1dca8c9a7a8d34f0a8d0f7c272616d582e7f29d67a8c21ddd903152bf4ee6441
+olist_products_dataset.csv: 66f99d0261196b7f272c4ac58cf088688994a6200aa2841484defdaa42d3ade2
+olist_sellers_dataset.csv: c877ee451aadbec30ddc58542c12b87685703f9c8a2ba410fb3087336ac65d4a
+product_category_name_translation.csv: a81f0d1f27b27e7293f761bc79e3ce8f348ee39c4b3ed3e49bde38f478586278
+Reabertura do CSV e preservacao de rotulos ausentes: OK.

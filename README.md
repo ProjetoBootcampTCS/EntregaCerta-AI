@@ -95,10 +95,23 @@ A instalação completa dessa lista ainda não foi validada. Em 03/11/2026, fora
 
 A conexão PostgreSQL será configurada e testada na etapa correspondente. Manter senhas e chaves somente no `.env` local.
 
+## Dataset consolidado
+
+Os nove CSVs originais ficam em `Dados/Brazilian Logistic/`. Para gerar `Dados/pedidos_consolidados.csv`, com uma linha por pedido:
+
+```powershell
+.\.venv\Scripts\python.exe src\preparar_dados.py
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+A execução de 05/11/2026 gerou 99.441 linhas e 53 colunas; cinco testes com registros reais passaram. Os originais foram preservados e os totais monetários reconciliados. O CSV contém campos retrospectivos para análise: no treinamento futuro, selecionar explicitamente as entradas candidatas em `COLUNAS_PREVISAO`, sem usar datas reais de entrega, status final, rótulos ou flags de elegibilidade como atributos. Há 2.971 pedidos sem rótulo, mantidos sem inventar desfechos.
+
+Regras das colunas e limitações estão em [desenvolvimento e roadmap](Docs/desenvolvimento.md); o registro de geração está em [validação dos dados](Docs/validacao_dados.txt).
+
 ## Estado e próximo trabalho
 
 Estrutura inicial simplificada em 30/10/2026. Dataset escolhido e planejamento anterior preservados no Git e em uma cópia de segurança local fora desta pasta. Em 03/11/2026, o `.venv` foi recriado para corrigir a mistura de Python 3.14 com bibliotecas compiladas para Python 3.12; o ambiente anterior ficou em backup fora desta pasta.
 
-O código de negócio, os notebooks, o banco PostgreSQL e os modelos serão desenvolvidos nas próximas etapas. Ainda não há comando para abrir a aplicação web.
+A consolidação dos dados está implementada; EDA completa, carga PostgreSQL, modelos e aplicação permanecem pendentes de desenvolvimento e validação. Ainda não há comando para abrir a aplicação web.
 
-O próximo trabalho é concluir a preparação do ambiente/PostgreSQL e depois iniciar o tratamento dos dados. Consulte [desenvolvimento e roadmap](Docs/desenvolvimento.md). O registro de prompts está em [prompts.txt](Docs/prompts.txt).
+O próximo trabalho é analisar a base consolidada e preparar a carga PostgreSQL e a divisão temporal. Consulte [desenvolvimento e roadmap](Docs/desenvolvimento.md). O registro de prompts está em [prompts.txt](Docs/prompts.txt).

@@ -83,3 +83,10 @@ Registro de 30/10/2026 - estrutura inicial simplificada
 Pedido da equipe: ok crie a pasta inicial mais ou menos desse jeito.
 Referência visual: .venv, Dados, Docs, Modelos, Notebooks, src, .gitignore e requirements.txt.
 Ação: estrutura simples, documentação centralizada, PostgreSQL previsto, ambiente preservado e planejamento anterior movido para cópia de segurança local. Sem aquisição/treino/aplicação nova.
+
+Registro de 05/11/2026 - consolidação do dataset real
+Pedido da equipe: faça esse dataset.
+Escopo: preservar os nove originais e gerar pedidos_consolidados.csv com uma linha por pedido, a partir de itens, pagamentos, produtos e localizações; avaliações separadas das entradas de previsão.
+Ação: criado src/preparar_dados.py, com agregações antes das junções, distâncias aproximadas por CEP, indicadores de ausência, rótulos somente observados e lista explícita de entradas candidatas na aprovação.
+Validação executada: 99.441 pedidos, 53 colunas, zero pedidos duplicados; hashes dos nove originais intactos, valores e itens reconciliados; cinco testes independentes com dados reais aprovados. 2.971 pedidos permaneceram sem rótulo.
+Limites: não houve treinamento, inferência, chamada de LLM, carga PostgreSQL ou avaliação de modelo. O CSV contém campos retrospectivos que devem ficar fora das entradas da previsão.
