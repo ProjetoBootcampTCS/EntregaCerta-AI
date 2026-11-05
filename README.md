@@ -10,13 +10,13 @@ O objetivo não é substituir o analista, mas fornecer informações estruturada
 
 ## 📌 Status do projeto
 
-**Última atualização:** 30 de outubro de 2026
+**Última atualização:** 5 de novembro de 2026
 
-**Etapa atual:** Etapa 2 concluída — Planejamento técnico e preparação do ambiente.
+**Etapa atual:** Etapa 3 — Consolidação e preparação temporal dos dados para ML implementadas.
 
-**Próxima etapa:** Etapa 3 — Engenharia e análise dos dados.
+**Próximos trabalhos:** concluir a EDA relacional e a carga PostgreSQL; comparar baseline e modelos.
 
-O projeto está em desenvolvimento. Até o momento, foram concluídos o planejamento técnico, a definição metodológica, a estruturação do ambiente e as validações iniciais.
+O projeto está em desenvolvimento. Há dados reais consolidados e matrizes preparadas para ML. O notebook abaixo apresenta esse fluxo de forma didática, sem treinar modelos preditivos.
 
 **Ainda não foram implementados:**
 
@@ -26,9 +26,9 @@ O projeto está em desenvolvimento. Até o momento, foram concluídos o planejam
 - Integração funcional com uma API de LLM.
 - Pipeline completo de previsão em produção.
 
-Os comandos disponíveis atualmente permitem executar diagnósticos, testes automatizados, verificações de planejamento e visualização dos diagramas técnicos.
+Os comandos disponíveis permitem consolidar e tratar os dados e executar os testes da preparação.
 
-A documentação detalhada está disponível em [Resultados da Etapa 2](docs/ETAPA_2_RESULTADOS.md).
+A documentação atual está em [desenvolvimento e roadmap](Docs/desenvolvimento.md).
 
 ---
 
@@ -94,6 +94,14 @@ Para instalar a lista inicial quando a equipe preparar o ambiente:
 A instalação completa dessa lista ainda não foi validada. Em 03/11/2026, foram instalados e verificados Python 3.12.14, NumPy 2.5.4, Pandas 3.1.0 e ipykernel 7.4.0. A importação do Pandas, a leitura dos cinco CSVs do notebook de tratamento e `pip check` passaram no terminal. O kernel do VS Code deve ser selecionado e reiniciado pela equipe.
 
 A conexão PostgreSQL será configurada e testada na etapa correspondente. Manter senhas e chaves somente no `.env` local.
+
+## Preparação didática no notebook
+
+Abra [01_preparacao_dados.ipynb](Notebooks/01_preparacao_dados.ipynb) no VS Code, selecione **.venv (Python 3.12)** e execute as células na ordem.
+
+O notebook explica a leitura dos sete CSVs usados, agregações e junções, distâncias, alvos observados, limpeza, divisão temporal e transformações ajustadas apenas no treino. As saídas incluem conferências e dois gráficos descritivos. Os scripts atuais continuam disponíveis para automatizar o mesmo trabalho.
+
+Ele calcula a preparação diretamente dos originais. Se `Dados/pedidos_ml.csv` e `Modelos/dados_ml.joblib` já existirem, compara os resultados e os preserva; uma divergência interrompe a execução. Se estiverem ausentes, cria esses arquivos. Ainda não treina classificadores ou regressores.
 
 ## Dataset consolidado
 
