@@ -19,7 +19,10 @@ DATAS = ["order_purchase_timestamp", "order_approved_at", "order_delivered_carri
 class TestConsolidacaoReal(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.base = pd.read_csv(RAIZ / "Dados" / "pedidos_consolidados.csv", parse_dates=DATAS)
+        entrada = RAIZ / "Dados" / "pedidos_consolidados.csv"
+        if not entrada.is_file():
+            entrada = RAIZ / "Dados" / "pedidos_consolidados_teste.csv"
+        cls.base = pd.read_csv(entrada, parse_dates=DATAS)
         cls.pedidos = pd.read_csv(ORIGINAIS / "olist_orders_dataset.csv", parse_dates=DATAS)
         cls.itens = pd.read_csv(ORIGINAIS / "olist_order_items_dataset.csv")
         cls.pagamentos = pd.read_csv(ORIGINAIS / "olist_order_payments_dataset.csv")

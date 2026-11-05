@@ -90,3 +90,17 @@ Escopo: preservar os nove originais e gerar pedidos_consolidados.csv com uma lin
 Ação: criado src/preparar_dados.py, com agregações antes das junções, distâncias aproximadas por CEP, indicadores de ausência, rótulos somente observados e lista explícita de entradas candidatas na aprovação.
 Validação executada: 99.441 pedidos, 53 colunas, zero pedidos duplicados; hashes dos nove originais intactos, valores e itens reconciliados; cinco testes independentes com dados reais aprovados. 2.971 pedidos permaneceram sem rótulo.
 Limites: não houve treinamento, inferência, chamada de LLM, carga PostgreSQL ou avaliação de modelo. O CSV contém campos retrospectivos que devem ficar fora das entradas da previsão.
+
+Registro de 05/11/2026 - preservação de contexto para artigo e slides
+Pedido da equipe: guardar todos os dados e informações do trabalho para o artigo e a apresentação PowerPoint.
+Ação: adicionado checkpoint em Docs/desenvolvimento.md com decisões, resultados verificados, limitações, propostas de modelos e próximos passos; definido o registro das evidências nas etapas futuras, sem criar documentação paralela.
+Conferência atual: Dados/pedidos_consolidados_teste.csv, 99.441 linhas, 53 colunas, zero pedidos duplicados e 2.971 rótulos ausentes; hash SHA-256 registrado no documento central. O caminho padrão do script continua pedidos_consolidados.csv.
+Limites: esta conferência não reexecutou os cinco testes anteriores e não treinou modelos nem gerou artigo ou slides.
+
+Registro de 05/11/2026 - tratamento completo para os testes de ML
+Pedido da equipe: fazer o tratamento completo do CSV consolidado para realizar os testes de ML.
+Entrada preservada: Dados/pedidos_consolidados_teste.csv, SHA-256 d9358143c89395d511effbd99da8dae454fe5824577072916b9a13628bd3e180.
+Ação: criado src/tratar_dados_ml.py; seleção por desfecho e cronologia, revisão geográfica com 31 pontos externos ao retângulo conservador, tratamento de domínios, nulos, categorias e escala; cortes temporais de 01/01/2018 e 01/05/2018 com exclusão de rótulos ainda indisponíveis. Medianas e codificação ajustadas somente no treino.
+Saídas: Dados/pedidos_ml.csv; Modelos/dados_ml.joblib; Docs/tratamento_ml.txt. 91.390 pedidos retidos: treino 41.173, validação 24.667 e teste 25.550. As 29 características originais geraram 159 atributos numéricos. O CSV preserva unidades e categorias legíveis, com imputação identificada.
+Verificação: 10 testes com dados reais aprovados e pip check sem dependências quebradas. Novas dependências necessárias instaladas: Scikit-learn e Joblib, com transitivas. As matrizes e alvos estão prontos; nenhum classificador ou regressor foi treinado.
+Limites: a seleção de entregues e a purga temporal alteram representatividade; distâncias por CEP permanecem aproximadas; a disponibilidade histórica dos atributos na aprovação é hipótese. Nenhum ganho operacional, ROI ou métrica de modelo foi medido. SQL e EDA relacional não foram executados nesta etapa.

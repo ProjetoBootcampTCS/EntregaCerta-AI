@@ -108,10 +108,31 @@ A execução de 05/11/2026 gerou 99.441 linhas e 53 colunas; cinco testes com re
 
 Regras das colunas e limitações estão em [desenvolvimento e roadmap](Docs/desenvolvimento.md); o registro de geração está em [validação dos dados](Docs/validacao_dados.txt).
 
+## Dados preparados para testes de ML
+
+```powershell
+.\.venv\Scripts\python.exe src\tratar_dados_ml.py --entrada "Dados\pedidos_consolidados_teste.csv"
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+Gera `Dados/pedidos_ml.csv` (base legível já imputada) e `Modelos/dados_ml.joblib` (matrizes, alvos e pré-processador). Foram preparados 91.390 pedidos: 41.173 de treino, 24.667 de validação e 25.550 de teste, respeitando a disponibilidade dos rótulos. Imputação, escala e codificação são ajustadas somente no treino. Os 10 testes passaram.
+
+Para comparar os algoritmos, carregar as matrizes prontas; elas já excluem IDs, datas reais e demais campos posteriores da entrada do modelo:
+
+```python
+import joblib
+dados = joblib.load("Modelos/dados_ml.joblib")
+X_treino, y_treino = dados["X"]["treino"], dados["y"]["treino"]
+X_validacao, y_validacao = dados["X"]["validacao"], dados["y"]["validacao"]
+X_teste, y_teste = dados["X"]["teste"], dados["y"]["teste"]
+```
+
+O CSV tratado tem categorias legíveis e metadados: não é uma matriz para passar inteira ao estimador. Usar as matrizes do pacote evita refazer transformações e perder os indicadores de ausência. Manter o teste reservado até a avaliação final. Consultar [registro do tratamento](Docs/tratamento_ml.txt) e [metodologia e limitações](Docs/desenvolvimento.md). Nenhum modelo preditivo foi treinado nesta etapa.
+
 ## Estado e próximo trabalho
 
 Estrutura inicial simplificada em 30/10/2026. Dataset escolhido e planejamento anterior preservados no Git e em uma cópia de segurança local fora desta pasta. Em 03/11/2026, o `.venv` foi recriado para corrigir a mistura de Python 3.14 com bibliotecas compiladas para Python 3.12; o ambiente anterior ficou em backup fora desta pasta.
 
-A consolidação dos dados está implementada; EDA completa, carga PostgreSQL, modelos e aplicação permanecem pendentes de desenvolvimento e validação. Ainda não há comando para abrir a aplicação web.
+A consolidação, o tratamento para ML e a divisão temporal estão implementados; EDA relacional, carga PostgreSQL, modelos e aplicação permanecem pendentes de desenvolvimento e validação. Ainda não há comando para abrir a aplicação web.
 
-O próximo trabalho é analisar a base consolidada e preparar a carga PostgreSQL e a divisão temporal. Consulte [desenvolvimento e roadmap](Docs/desenvolvimento.md). O registro de prompts está em [prompts.txt](Docs/prompts.txt).
+O próximo trabalho de ML é comparar o baseline e os modelos usando as matrizes preparadas. EDA relacional e carga PostgreSQL também precisam ser concluídas. Consulte [desenvolvimento e roadmap](Docs/desenvolvimento.md). O registro de prompts está em [prompts.txt](Docs/prompts.txt).

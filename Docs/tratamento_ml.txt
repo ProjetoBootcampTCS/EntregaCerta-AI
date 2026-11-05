@@ -1,0 +1,62 @@
+TRATAMENTO PARA TESTES DE ML - EntregaCerta AI
+Entrada: C:\Users\ghost\OneDrive\Documentos\ChatGPT\Nikolas\BootcampTCS\EntregaCertaAI\Dados\pedidos_consolidados_teste.csv
+Python 3.12.14; Pandas 3.1.0; NumPy 2.5.4; Scikit-learn 1.9.1; Joblib 1.6.0
+Pedidos na entrada: 99441
+Duplicatas identicas removidas: 0
+Datas invalidas convertidas em ausentes em order_purchase_timestamp: 0
+Datas invalidas convertidas em ausentes em order_approved_at: 0
+Datas invalidas convertidas em ausentes em order_delivered_customer_date: 0
+Datas invalidas convertidas em ausentes em order_estimated_delivery_date: 0
+Exclusao sequencial - identificador ausente: 0
+Exclusao sequencial - sem status delivered: 2963
+Exclusao sequencial - datas essenciais ausentes/invalidas: 22
+Exclusao sequencial - aprovacao anterior a compra: 0
+Exclusao sequencial - entrega anterior a aprovacao: 61
+Exclusao sequencial - promessa anterior ao dia da aprovacao: 1
+Exclusao sequencial - sem itens: 0
+Coorte basica antes da separacao temporal: 96394
+Coordenadas originais fora do retangulo conservador: 31
+Pedidos com distancia maxima alterada/indefinida apos revisao geografica: 47
+Ausencias antes de imputar categoria_principal: 1331
+Ausencias antes de imputar peso_total_g: 22
+Ausencias antes de imputar volume_total_cm3: 16
+Ausencias antes de imputar distancia_media_vendedores_km: 477
+Ausencias antes de imputar distancia_max_vendedores_km: 477
+Ausencias antes de imputar valor_pago: 1
+Ausencias antes de imputar quantidade_pagamentos: 1
+Ausencias antes de imputar quantidade_formas_pagamento: 1
+Ausencias antes de imputar parcelas_maximas: 1
+Ausencias antes de imputar tipo_pagamento_principal: 1
+Corte da validacao: 2018-01-01 00:00:00
+Corte do teste: 2018-05-01 00:00:00
+Exclusao temporal - rotulo_futuro_treino: 2439
+Exclusao temporal - rotulo_futuro_validacao: 2565
+treino: 41173 pedidos; atrasados observados: 1765 (4.29%); matriz (41173, 159)
+treino: aprovacoes de 2016-09-15 12:16:38 a 2017-12-28 12:31:55
+validacao: 24667 pedidos; atrasados observados: 2494 (10.11%); matriz (24667, 159)
+validacao: aprovacoes de 2018-01-01 02:30:25 a 2018-04-27 13:15:24
+teste: 25550 pedidos; atrasados observados: 1124 (4.40%); matriz (25550, 159)
+teste: aprovacoes de 2018-05-01 01:56:05 a 2018-08-29 15:10:26
+Pedidos de validacao cujo cliente tambem aparece no treino: 367 (IDs fora das entradas)
+Pedidos de teste cujo cliente tambem aparece no treino: 290 (IDs fora das entradas)
+Total de pedidos no CSV preparado: 91390
+Entradas originais: 29; atributos transformados: 159
+Imputacao, escala e categorias ajustadas SOMENTE no treino.
+CSV: valores numericos nas unidades originais, ausencias imputadas e indicadores faltante_*; categorias ainda legiveis.
+Joblib: matrizes codificadas e padronizadas prontas para estimadores, alvos e preprocessador reutilizavel.
+Nao houve balanceamento artificial, remocao de valores extremos validos, treinamento preditivo ou metricas de modelo.
+Limites: coorte retrospectiva de entregues; purga temporal pode alterar a representatividade de entregas demoradas.
+Pontos dentro do retangulo geografico ainda podem estar incorretos; distancias por CEP sao aproximacoes.
+A disponibilidade historica de cadastros, pagamentos e promessa na aprovacao permanece uma hipotese.
+Teste final reservado; nao usar para escolher modelos, limiares ou tratamentos.
+Referencias: https://scikit-learn.org/stable/common_pitfalls.html
+https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html
+https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html
+IBGE (limites usados para retangulo conservador, incluindo ilhas): https://anuario.ibge.gov.br/images/aeb/2024/s1/2_pdf/s1t1101.pdf
+HASHES DOS ARQUIVOS DE ENTRADA:
+Dados\pedidos_consolidados_teste.csv: d9358143c89395d511effbd99da8dae454fe5824577072916b9a13628bd3e180
+Dados\Brazilian Logistic\olist_geolocation_dataset.csv: 3b7cf4f504ce3fbb3e63693f48d20ac4a4925619720e2ed46aba2f9801260876
+Dados\Brazilian Logistic\olist_sellers_dataset.csv: c877ee451aadbec30ddc58542c12b87685703f9c8a2ba410fb3087336ac65d4a
+Dados\Brazilian Logistic\olist_order_items_dataset.csv: 14e321c489a729b088f26f73262b506577e2b7fcb19cf04cd70fa6276d16ff65
+SHA-256 do CSV preparado: 66c941ea32c5d14a0df4bf7fa6eae41ef38a93eac1815567924aa2b37abb74a6
+SHA-256 do pacote: 304e00889222cdc52db7e7a2b6973e77bb7a31f81a9a3617d7b54f230fd3b320
