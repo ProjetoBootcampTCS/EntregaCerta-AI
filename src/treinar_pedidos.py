@@ -59,7 +59,7 @@ def main():
 
     # Classificação: estratifica os folds e reporta o efeito dos falsos positivos/negativos.
     y = treino.atrasou.astype(int)
-    clf = HistGradientBoostingClassifier(max_iter=120, learning_rate=0.08, max_leaf_nodes=31, l2_regularization=1.0, class_weight="balanced", random_state=42)
+    clf = HistGradientBoostingClassifier(max_iter=200, learning_rate=0.05, max_leaf_nodes=50, l2_regularization=5.0, class_weight="balanced", random_state=42)
     print(f"Validação cruzada de classificação ({args.folds} folds)...", flush=True)
     cv = cross_validate(criar_pipeline(X, clf), X, y,
         cv=StratifiedKFold(args.folds, shuffle=True, random_state=42),
