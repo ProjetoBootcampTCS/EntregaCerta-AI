@@ -122,10 +122,10 @@ def resumir_itens(itens, produtos, vendedores, geo, pedidos):
 
     # Cada vendedor aparece uma vez por pedido para nao ponderar a distancia
     # acidentalmente pela quantidade de itens vendidos.
+    # AVALIAR SE REALMENTE É NECESSÁRIO
     origens = itens[["order_id", "seller_id"]].drop_duplicates()
     origens = origens.merge(vendedores, on="seller_id", how="left", validate="many_to_one")
-    origens = origens.merge(
-        geo.rename(columns={"geolocation_zip_code_prefix": "seller_zip_code_prefix",
+    origens = origens.merge(geo.rename(columns={"geolocation_zip_code_prefix": "seller_zip_code_prefix",
                             "latitude": "seller_latitude", "longitude": "seller_longitude"}),
         on="seller_zip_code_prefix", how="left", validate="many_to_one")
     origens = origens.merge(pedidos[["order_id", "customer_latitude", "customer_longitude"]],
@@ -139,7 +139,7 @@ def resumir_itens(itens, produtos, vendedores, geo, pedidos):
         quantidade_ufs_origem=("seller_state", "nunique"),
         uf_origem=("seller_state", "first"),
         vendedores_sem_uf=("sem_uf", "sum"),
-        distancia_media_vendedores_km=("distancia_km", "mean"),
+        distancia_media_vendedores_km=("distancia_km", "mean"), # É REALMENTE NECESSÁRIO?
         distancia_max_vendedores_km=("distancia_km", "max"),
         vendedores_sem_distancia=("sem_distancia", "sum"),
         vendedores_ids=("seller_id", lambda s: "|".join(sorted(s))),
