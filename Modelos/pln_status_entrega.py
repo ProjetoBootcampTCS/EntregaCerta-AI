@@ -7,6 +7,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import re, unicodedata
+
+def remover_acentos_mantendo_simbolos(texto): return unicodedata.normalize("NFC", re.sub(r"[\u0300-\u036f]", "", unicodedata.normalize("NFD", texto))) if isinstance(texto, str) else texto
+
 
 RANDOM_STATE = 42
 np.random.seed(RANDOM_STATE)
@@ -17,6 +21,7 @@ df = pd.read_csv(csv_path, usecols=["review_comment_title", "review_comment_mess
 # Remove linhas apenas quando título e mensagem estão ambos nulos.
 df = df.dropna(subset=["review_comment_title", "review_comment_message"], how="all").copy()
 df["comentario"] = df[["review_comment_title", "review_comment_message"]].fillna("").agg(" ".join, axis=1).str.lower().str.strip()
+df["comentario"] = df["comentario"].apply(remover_acentos_mantendo_simbolos)
 df = df[df["comentario"].str.len() > 0]
 
 parametros_atraso = [
@@ -31,6 +36,7 @@ parametros_atraso = [
     "entrega demorou",
     "atraso na entrega",
     "demora na entrega",
+    "passou do prazo"
 ]
 
 parametros_no_prazo = [
@@ -40,6 +46,7 @@ parametros_no_prazo = [
     "dentro do prazo",
     "chegou antes do prazo",
     "entregue antes do prazo",
+    "nao passou do prazo"
 ]
 
 tem_atraso = df["comentario"].apply(lambda texto: any(frase in texto for frase in parametros_atraso))
