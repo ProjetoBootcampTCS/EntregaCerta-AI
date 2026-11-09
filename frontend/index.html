@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EntregaCerta AI</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="etiqueta">DEMONSTRAÇÃO HISTÓRICA · OLIST</p>
+      <h1>EntregaCerta AI</h1>
+      <p>Priorize a análise de pedidos com maior score de risco de atraso.</p>
+    </header>
+
+    <button id="carregar" type="button">Gerar fila de prioridade</button>
+    <p id="mensagem" role="status">Clique no botão para analisar os pedidos.</p>
+
+    <section id="resultado" hidden>
+      <div class="indicadores">
+        <article>
+          <span>Pedidos avaliados</span>
+          <strong id="total">—</strong>
+        </article>
+
+        <article>
+          <span>Pedidos na fila</span>
+          <strong id="prioritarios">—</strong>
+        </article>
+      </div>
+
+      <p id="observacao"></p>
+
+      <h2>Fila de análise</h2>
+      <p>Pedidos ordenados do maior para o menor score.</p>
+
+      <div class="tabela-container">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Identificador do pedido</th>
+              <th scope="col">Score de atraso · 0 a 1</th>
+            </tr>
+          </thead>
+          <tbody id="pedidos"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
