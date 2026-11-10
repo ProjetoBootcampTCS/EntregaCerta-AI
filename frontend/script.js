@@ -142,6 +142,7 @@ async function carregarFila() {
     elementos.conexao.textContent = "Consulta concluída";
     elementos.conexao.dataset.state = "success";
     elementos.mensagem.textContent = "Análise concluída. Explore a fila ou abra um pedido para consultar seu score.";
+    document.dispatchEvent(new Event("ec:data-ready"));
   } catch (erro) {
     console.error("Não foi possível atualizar a fila:", erro);
     const explicacao = erro.name === "AbortError"
@@ -265,6 +266,7 @@ function renderizarTabela() {
   elementos.paginaInfo.textContent = `Página ${quantidade ? estado.pagina : 0} de ${quantidade ? paginas : 0}`;
   elementos.anterior.disabled = !quantidade || estado.pagina <= 1;
   elementos.proxima.disabled = !quantidade || estado.pagina >= paginas;
+  document.dispatchEvent(new Event("ec:table-rendered"));
 }
 
 // Distribuição dos scores recebidos: não é uma métrica de desempenho do modelo.
@@ -350,6 +352,7 @@ function configurarMovimento() {
   const preferencia = window.matchMedia("(prefers-reduced-motion: reduce)");
   const ponteiroPreciso = window.matchMedia("(hover: hover) and (pointer: fine)");
   const botao = document.getElementById("motion-toggle");
+  const botoesMovimento = [botao, ...document.querySelectorAll("[data-motion-toggle]")];
   const cena = document.querySelector(".parcel-scene");
   let pausaManual = false;
   try { pausaManual = localStorage.getItem("entregacerta-motion-paused") === "true"; } catch { /* Preferência vale só nesta visita. */ }
@@ -357,25 +360,33 @@ function configurarMovimento() {
   function atualizarMovimento() {
     const pausado = preferencia.matches || pausaManual;
     document.documentElement.classList.toggle("motion-paused", pausado);
-    botao.setAttribute("aria-pressed", String(pausado));
-    botao.disabled = preferencia.matches;
-    document.getElementById("motion-label").textContent = preferencia.matches ? "Movimento reduzido" : pausado ? "Ativar movimento" : "Pausar movimento";
+    const rotulo = preferencia.matches ? "Movimento reduzido" : pausado ? "Ativar movimento" : "Pausar movimento";
+    botoesMovimento.forEach((controle) => {
+      controle.setAttribute("aria-pressed", String(pausado));
+      controle.setAttribute("aria-label", rotulo);
+      controle.title = rotulo;
+      controle.disabled = preferencia.matches;
+      const icone = controle.querySelector(".motion-icon, [aria-hidden]");
+      if (icone) icone.textContent = pausado ? "▷" : "Ⅱ";
+    });
+    document.getElementById("motion-label").textContent = rotulo;
     if (cena && pausado) {
       cena.style.setProperty("--tilt-x", "0deg");
       cena.style.setProperty("--tilt-y", "0deg");
     }
+    window.EntregaCertaMotion?.setPaused(pausado);
   }
-  botao.addEventListener("click", () => {
+  botoesMovimento.forEach((controle) => controle.addEventListener("click", () => {
     pausaManual = !pausaManual;
     try { localStorage.setItem("entregacerta-motion-paused", String(pausaManual)); } catch { /* Armazenamento pode estar bloqueado. */ }
     atualizarMovimento();
-  });
+  }));
   preferencia.addEventListener("change", atualizarMovimento);
   atualizarMovimento();
 
   if (cena) {
     cena.addEventListener("pointermove", (evento) => {
-      if (!ponteiroPreciso.matches || document.documentElement.classList.contains("motion-paused")) return;
+      if (window.EntregaCertaMotion || !ponteiroPreciso.matches || document.documentElement.classList.contains("motion-paused")) return;
       const limites = cena.getBoundingClientRect();
       cena.style.setProperty("--tilt-x", `${-(evento.clientY - limites.top - limites.height / 2) / limites.height * 5}deg`);
       cena.style.setProperty("--tilt-y", `${(evento.clientX - limites.left - limites.width / 2) / limites.width * 6}deg`);
@@ -386,17 +397,18 @@ function configurarMovimento() {
     });
   }
 
-  if ("IntersectionObserver" in window && !document.documentElement.classList.contains("motion-paused")) {
+  if (!window.EntregaCertaMotion && "IntersectionObserver" in window && !document.documentElement.classList.contains("motion-paused")) {
     // O conteúdo só fica oculto depois que o observador está disponível.
     // Sem JavaScript ou com movimento reduzido, tudo permanece legível.
     const observador = new IntersectionObserver((entradas) => {
       for (const entrada of entradas) {
         if (entrada.isIntersecting) {
           entrada.target.classList.add("is-visible");
-          observador.unobserve(entrada.target);
+        } else if (!entrada.target.contains(document.activeElement)) {
+          entrada.target.classList.remove("is-visible");
         }
       }
-    }, { threshold: 0.08, rootMargin: "0px 0px -32px 0px" });
+    }, { threshold: 0 });
     document.querySelectorAll(".reveal").forEach((item) => {
       item.classList.add("reveal-pending");
       observador.observe(item);
@@ -406,7 +418,6 @@ function configurarMovimento() {
       const bloco = evento.target.closest(".reveal-pending");
       if (bloco) {
         bloco.classList.add("is-visible");
-        observador.unobserve(bloco);
       }
     });
   }
@@ -466,6 +477,7 @@ function configurarAssistente() {
     painel.showModal();
     document.documentElement.classList.add("assistant-open");
     abrir.setAttribute("aria-expanded", "true");
+    document.dispatchEvent(new Event("ec:assistant-open"));
   });
   document.getElementById("fechar-assistente").addEventListener("click", fecharPainel);
   painel.addEventListener("cancel", (evento) => {
