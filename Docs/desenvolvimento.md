@@ -46,7 +46,7 @@ Para implementar com orientação: **Nos guie pela etapa N, para implementarmos.
 
 ## Regras de avaliação e confiabilidade
 
-- Treino e avaliação usam somente dados reais. Testes técnicos isolados não são evidência de desempenho.
+- Protocolo original: treino e avaliação somente reais. Em 11/11/2026, a equipe autorizou um experimento separado com CTGAN no treino; validação e teste permanecem reais. Não promover os sintéticos à base operacional nem apresentá-los como registros observados.
 - Dividir pelo tempo, respeitar quando os rótulos eram conhecidos e ajustar transformações somente no treino. Reservar o teste final.
 - Comparar baseline e modelos; avaliar Precision, Recall, F1, matriz de confusão, Average Precision/curva PR e qualidade da fila. Examinar falsos positivos e negativos.
 - Definir a política de prioridade no desenvolvimento; os 10% inicialmente propostos são hipótese acadêmica de capacidade, não limiar empresarial comprovado.
@@ -215,3 +215,78 @@ Validações executadas: `nbformat.validate`, execução com `nbclient` em kerne
 Instalados no `.venv`: Matplotlib 3.11.2, nbformat 5.11.1, nbclient 0.11.0 e nbconvert 7.17.2, com dependências. As três ferramentas de notebook foram acrescentadas ao `requirements.txt`; Matplotlib já estava previsto. A stack completa ainda não foi instalada ou validada. O README recebeu o acesso ao notebook e a atualização do estado dos dados.
 
 Nenhum modelo preditivo foi treinado, nem houve carga PostgreSQL ou novas métricas de desempenho. Continuam válidas as limitações de representatividade, purga temporal, disponibilidade histórica dos atributos e distância aproximada. O próximo trabalho de ML é a comparação de baseline e modelos; a equipe pode primeiro estudar e explicar cada saída do notebook.
+
+
+## Experimento CTGAN autorizado — 11/11/2026
+
+A equipe solicitou testar aumento artificial do treino, alterando para este experimento
+isolado a preferência anterior de treinar somente com dados reais. O modelo operacional
+não é substituído. O notebook 02 permanece intacto; o notebook enviado foi copiado para
+`Notebooks/olist_comparacao_otimizada_gmm_treino_teste.ipynb` e a adaptação está em
+`Notebooks/olist_comparacao_otimizada_ctgan_postgresql.ipynb`.
+
+A fonte é a consulta PostgreSQL da view `public.vw_pedidos_inferencia` com o alvo em
+`public.pedidos`. Contagens conferidas: treino 41.173/1.765 atrasos, validação
+24.667/2.494 e teste 25.550/1.124. Preservados os cortes de 01/01/2018 e 01/05/2018,
+o alvo por dia e a coorte atual. A revisão proposta da disponibilidade do rótulo
+não foi aplicada aqui, para não misturar mudanças no mesmo experimento.
+
+CTGAN recebe apenas atributos dos atrasos reais de treino; o rótulo dos gerados é
+condicionante sintético, não observado. Contadores e ausências são representados em
+conjunto, contínuas usam log1p, candidatos fora dos intervalos de treino são rejeitados,
+a distância média é igualada à máxima para um vendedor, e duplicatas exatas são removidas.
+Essas verificações não garantem realismo multivariado nem privacidade diferencial.
+Não são inventadas datas de entrega ou dias finais de atraso.
+
+A persistência é isolada em `experimentos_ctgan.execucoes` e `experimentos_ctgan.pedidos`,
+com checksum, metadados, teto de 10.000 por experimento e repetição idempotente.
+`Dados/pedidos_tratados_e_injetados.csv` reúne reais e sintéticos identificados; os
+sintéticos são exclusivamente de treino. Usar somente `COLUNAS_PREVISAO` como entradas.
+Não carregar esse CSV com o script que recria as tabelas operacionais.
+
+Comparação: Logística, Random Forest, Extra Trees, HGB e RF com um GMM de distância/frete,
+cada um com treino real versus real + CTGAN. Adicionada Logística com pesos como controle.
+O GMM e o pré-processador aprendem só no treino real e são compartilhados entre cenários.
+Limiar e vencedor são escolhidos por F1 da classe 1 na validação (desempate AP).
+Também são medidos accuracy, precision, recall, matriz, AP e fila de 10%.
+O teste é apenas descritivo: já foi examinado em outros experimentos deste projeto.
+Não usar seus resultados para escolher quantidade sintética, epochs ou hiperparâmetros.
+
+O notebook de referência usa previsão após postagem, split por percentuais e atraso
+por timestamp; sua definição não é diretamente comparável ao problema na aprovação.
+A adaptação usa o contrato de 29 atributos do projeto e atraso por dia. Não foram
+importados atributos futuros nem resultados gráficos antigos como evidência nova.
+
+Dependências do experimento em `requirements-ctgan.txt`, ambiente `.venv-ctgan`
+(Pandas 2.3.3, CTGAN 0.13.0, RDT 2.1.0). A `.venv` original foi preservada com Pandas
+3.1.0. Notebook, versões, hashes, métricas e gráficos documentam a execução;
+resultados definitivos devem ser lidos nas saídas executadas, sem prometer melhora.
+
+### Resultado medido do CTGAN — execução ecc4ac30a3df7383
+
+CTGAN executado por 300 épocas, seed 42, somente 1.765 atrasos reais de treino.
+13.398 candidatos amostrados, 10.000 sintéticos finais. CSV com 101.390 linhas.
+Conferidos atributos/rótulos/partições de todos os 91.390 pedidos reais exportados,
+leitura de retorno dos 10.000 sintéticos no banco, ausência de cópias exatas de atributos
+reais, IDs únicos e repetição da carga sem duplicação. Nenhuma data de entrega/aprovação
+histórica foi inventada para os sintéticos. Seis testes unitários de isolamento passaram.
+
+Os cinco pares tiveram F1 menor com CTGAN, tanto na validação quanto no teste descritivo.
+Na regressão logística (família escolhida pela validação), F1 validação foi 0,269723
+com reais versus 0,238583 com CTGAN; no teste, 0,149395 versus 0,129632.
+AP teste: 0,096260 versus 0,075173. Accuracy teste aumentou de 0,683562 para 0,747202,
+enquanto recall caiu de 0,631673 para 0,427936: o aumento de accuracy não representa
+melhor identificação de atrasos. Nenhum desses modelos substituiu a rede da aplicação.
+
+O peso mediano dos sintéticos foi 562,505 g versus 1.000 g nos atrasos reais de treino
+(KS=0,180). Há distorções de distribuição apesar das regras de plausibilidade.
+Não concluir que dados sintéticos são sempre inúteis, nem que novas gerações resolverão
+o problema. Esta execução não justificou adotar o aumento de treino avaliado.
+
+Notebook executado de ponta a ponta (12 células de código, sem erros de célula), quatro
+figuras inspecionadas e resultados completos persistidos na pasta do experimento.
+Ocorreram avisos de depreciação/CSV e encerramento de workers no Windows; a chamada no
+notebook foi ajustada para usar threads em futuras gerações. Arquivo original copiado
+byte a byte; notebook 02, dados operacionais, API e modelos atuais não foram alterados.
+
+Teste técnico adicional: CTGAN com threads ajustado por uma época nos mesmos atrasos reais de treino e amostragem de dez linhas, sem persistência ou métricas de desempenho. Execução aprovada. Esse teste verifica a compatibilidade no Windows, não a qualidade do modelo. As métricas publicadas são da geração de 300 épocas.
