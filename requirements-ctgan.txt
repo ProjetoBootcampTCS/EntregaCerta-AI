@@ -1,0 +1,5 @@
+# Instalar em ambiente separado: veja o notebook CTGAN.
+-r requirements.txt
+ctgan==0.13.0
+rdt==2.1.0
+pandas==2.3.3
