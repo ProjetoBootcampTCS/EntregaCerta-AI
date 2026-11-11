@@ -8,10 +8,61 @@
   <meta name="interface-version" content="V2">
   <title>EntregaCerta AI — Um passo à frente</title>
   <link rel="icon" type="image/svg+xml" href="/static/logo.svg?v=2">
-  <link rel="stylesheet" href="/static/style.css?v=2.1">
-  <script src="/static/script.js?v=2.1" defer></script>
+  <link rel="stylesheet" href="/static/style.css?v=2.10">
+  <script src="/static/script.js?v=2.10" defer></script>
 </head>
 <body>
+  <svg id="intro-vignette" class="intro-vignette" aria-hidden="true" focusable="false" hidden>
+    <defs>
+      <radialGradient id="intro-depth-gradient" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#000" stop-opacity="0"/>
+        <stop offset="35%" stop-color="#000" stop-opacity=".02"/>
+        <stop offset="65%" stop-color="#000" stop-opacity=".28"/>
+        <stop offset="85%" stop-color="#000" stop-opacity=".75"/>
+        <stop offset="100%" stop-color="#000" stop-opacity=".98"/>
+      </radialGradient>
+    </defs>
+    <polygon class="intro-inner-wall" fill="#293521"/>
+    <polygon class="intro-inner-wall" fill="#131d10"/>
+    <polygon class="intro-inner-wall" fill="#0c140a"/>
+    <polygon class="intro-inner-wall" fill="#1d2a17"/>
+    <polygon id="intro-vignette-shape" fill="url(#intro-depth-gradient)"/>
+  </svg>
+  <dialog id="abertura-site" class="site-intro" aria-label="Abertura do EntregaCerta AI">
+    <div class="intro-backdrop" aria-hidden="true"></div>
+    <div class="intro-brand" aria-hidden="true"><img src="/static/logo.svg?v=2" width="34" height="34" alt=""><span>entregacerta<span class="intro-brand-ai">AI</span></span></div>
+    <div class="intro-stage" aria-hidden="true">
+      <div class="intro-orbit intro-orbit-outer"></div>
+      <div class="intro-orbit intro-orbit-inner"></div>
+      <span class="intro-spark intro-spark-one">✳</span><span class="intro-spark intro-spark-two">+</span>
+      <div class="intro-shadow"></div>
+      <div class="intro-zoom">
+        <div class="intro-camera">
+          <div class="intro-float">
+            <div class="intro-box">
+              <div class="intro-face intro-face-back"></div>
+              <div class="intro-face intro-face-left"></div>
+              <div class="intro-floor"></div>
+              <div class="intro-face intro-face-right"><span class="intro-box-lines"></span></div>
+              <div class="intro-face intro-face-front"><svg class="intro-box-check" viewBox="0 0 64 64" fill="none"><path d="m14 32 12 12 25-25"/></svg><span class="intro-box-label">EC / AI</span></div>
+              <div class="intro-mouth"><span class="intro-corner corner-tl"></span><span class="intro-corner corner-tr"></span><span class="intro-corner corner-br"></span><span class="intro-corner corner-bl"></span></div>
+              <div class="intro-depth-plane"><span class="intro-depth-corner corner-tl"></span><span class="intro-depth-corner corner-tr"></span><span class="intro-depth-corner corner-br"></span><span class="intro-depth-corner corner-bl"></span></div>
+              <div class="intro-page-plane"><span class="intro-page-corner corner-tl"></span><span class="intro-page-corner corner-tr"></span><span class="intro-page-corner corner-br"></span><span class="intro-page-corner corner-bl"></span></div>
+              <div class="intro-lid">
+                <div class="intro-flap intro-flap-left"></div>
+                <div class="intro-flap intro-flap-right"></div>
+                <div class="intro-flap intro-flap-back"></div>
+                <div class="intro-flap intro-flap-front"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="intro-caption" aria-hidden="true"><span>DO DADO À DECISÃO</span><p>Um passo à frente.</p><div class="intro-progress"><span></span></div></div>
+    <button id="pular-abertura" class="intro-skip" type="button" autofocus>Pular abertura <span aria-hidden="true">↗</span></button>
+  </dialog>
+  <div id="site-content">
   <a class="skip-link" href="#resultado">Ir para a fila de análise</a>
   <header class="site-header" id="site-header">
     <div class="header-inner">
@@ -28,7 +79,7 @@
       <div class="hero-grid page-width">
         <div class="hero-copy">
           <p class="eyebrow hero-eyebrow"><span class="small-cross" aria-hidden="true">✳</span> INTELIGÊNCIA EM CADA ENTREGA</p>
-          <h1 id="hero-title"><span>UM PASSO</span><span class="headline-accent">À FRENTE<span class="headline-dot">.</span></span></h1>
+          <h1 id="hero-title" tabindex="-1"><span>UM PASSO</span><span class="headline-accent">À FRENTE<span class="headline-dot">.</span></span></h1>
           <p class="hero-description">Transforme sinais de risco em uma fila de ação. Mais clareza para decidir quais pedidos merecem atenção primeiro.</p>
           <div class="hero-actions"><button class="button button-lime" type="button" id="carregar" data-load><span data-load-label>Gerar análise</span><span class="button-arrow" aria-hidden="true">↗</span></button><a class="text-link" href="#como-funciona">Entenda o processo <span aria-hidden="true">↓</span></a></div>
           <div class="hero-caption"><span class="status-dot" aria-hidden="true"></span> DADOS REAIS OLIST <span class="caption-divider">/</span> VALIDAÇÃO HISTÓRICA</div>
@@ -136,28 +187,36 @@
   </main>
   <footer class="site-footer"><div class="page-width footer-inner"><a class="brand" href="#inicio" aria-label="Voltar ao início"><img class="brand-mark" src="/static/logo.svg?v=2" width="40" height="40" alt=""><span>entregacerta<span class="brand-ai">AI</span></span></a><p>Inteligência aplicada. Decisão humana.<span>Projeto integrador · Bootcamp TCS <span class="version-badge">Interface V2</span></span></p><button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false"><span class="motion-icon" aria-hidden="true">Ⅱ</span><span id="motion-label">Pausar animações</span></button></div></footer>
 
-  <button id="abrir-assistente" class="assistant-launcher" type="button" aria-label="Abrir painel da futura GenAI" aria-haspopup="dialog" aria-controls="assistente-dialog" aria-expanded="false" hidden>
+  <button id="abrir-assistente" class="assistant-launcher" type="button" aria-label="Abrir assistente de IA" aria-haspopup="dialog" aria-controls="assistente-dialog" aria-expanded="false" hidden>
     <span class="launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M20 10.5v4a4 4 0 0 1-4 4H9l-5 3v-6a4 4 0 0 1-1-2.5v-6a4 4 0 0 1 4-4h6"/><path d="m19 2 1.2 2.8L23 6l-2.8 1.2L19 10l-1.2-2.8L15 6l2.8-1.2Z"/></svg></span>
-    <span class="launcher-copy">Assistente <strong>AI</strong><small>Em breve, uma nova conversa</small></span><span class="launcher-arrow" aria-hidden="true">↗</span>
+    <span class="launcher-copy">Assistente <strong>AI</strong><small>Pergunte sobre a análise</small></span><span class="launcher-arrow" aria-hidden="true">↗</span>
   </button>
 
+  </div>
   <dialog id="assistente-dialog" class="assistant-drawer" aria-labelledby="assistente-titulo" aria-describedby="assistente-descricao">
     <header class="assistant-header">
       <img src="/static/logo.svg?v=2" width="40" height="40" alt="">
       <div><p class="eyebrow">SEU PRÓXIMO PONTO DE VISTA</p><h2 id="assistente-titulo">Assistente EntregaCerta</h2></div>
-      <button id="fechar-assistente" class="assistant-close" type="button" aria-label="Fechar assistente" autofocus>×</button>
+      <button id="fechar-assistente" class="assistant-close" type="button" aria-label="Fechar assistente" autofocus><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
     </header>
-    <div class="assistant-content">
-      <span class="assistant-status"><span aria-hidden="true"></span> GenAI em preparação</span>
-      <div class="assistant-intro"><span class="assistant-orbit" aria-hidden="true">✳</span><h3>Boas perguntas.<br><em>Novas perspectivas.</em></h3><p id="assistente-descricao">Este é o espaço da nossa futura IA para conversar sobre a análise. A integração ainda não está disponível.</p></div>
-      <section class="assistant-context" aria-labelledby="assistant-context-title"><div class="assistant-context-heading"><h4 id="assistant-context-title">Contexto do painel</h4><span aria-hidden="true">↗</span></div><p id="assistente-contexto">Gere uma análise para consultar aqui o resumo do lote.</p><p class="assistant-context-note">Dados da aplicação. Este resumo não é uma resposta gerada por IA.</p></section>
-      <div class="assistant-suggestions"><p>Prepare uma pergunta</p><button type="button" data-prompt="Como interpretar o score de atraso dos pedidos?">Como interpretar o score? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Como funciona a seleção dos pedidos para a fila de análise?">Como a fila é formada? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Quais limitações devo considerar ao usar esta análise histórica?">Quais são os limites da análise? <span aria-hidden="true">↗</span></button></div>
+    <div id="assistente-conteudo" class="assistant-content">
+      <div id="assistente-boas-vindas">
+        <span class="assistant-status"><span aria-hidden="true"></span> Assistente com IA</span>
+        <div class="assistant-intro"><span class="assistant-orbit" aria-hidden="true">✳</span><h3>Boas perguntas.<br><em>Novas perspectivas.</em></h3><p id="assistente-descricao">Tire dúvidas sobre a análise ou faça uma pergunta geral.</p></div>
+        <div class="assistant-suggestions"><p>Escolha uma pergunta para começar</p><button type="button" data-prompt="Como interpretar o score de atraso dos pedidos?">Como interpretar o score? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Como funciona a seleção dos pedidos para a fila de análise?">Como a fila é formada? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Quais limitações devo considerar ao usar esta análise histórica?">Quais são os limites da análise? <span aria-hidden="true">↗</span></button></div>
+      </div>
+      <details class="assistant-context assistant-context-details">
+        <summary>Contexto do painel</summary>
+        <p id="assistente-contexto">Gere uma análise para consultar aqui o resumo do lote.</p><p class="assistant-context-note">Dados da aplicação. Este resumo não é uma resposta gerada por IA. Sua pergunta e o resumo da fila são enviados à IA. Confira as respostas antes de tomar decisões.</p>
+      </details>
+      <div id="assistente-historico" class="assistant-conversation" role="log" aria-label="Conversa com o assistente" aria-live="polite" aria-relevant="additions text" hidden></div>
     </div>
     <form id="assistente-form" class="assistant-composer">
-      <div class="composer-label"><label for="assistente-pergunta">Sua pergunta · rascunho</label><span id="assistente-contagem">0 / 1000</span></div>
-      <textarea id="assistente-pergunta" rows="3" maxlength="1000" placeholder="Escreva ou escolha uma pergunta acima…" aria-describedby="assistente-aviso"></textarea>
-      <div class="composer-actions"><button id="copiar-pergunta" class="text-button" type="button" disabled>Copiar pergunta</button><button class="assistant-send" type="submit" disabled><span aria-hidden="true">↗</span> Envio indisponível</button></div>
-      <p id="assistente-aviso">A GenAI ainda não está conectada. Seu rascunho fica apenas nesta página; nada é enviado.</p>
+      <div class="composer-label"><label for="assistente-pergunta">Mensagem</label><span id="assistente-contagem">0 / 1000</span></div>
+      <textarea id="assistente-pergunta" rows="2" maxlength="1000" placeholder="Pergunte ao EntregaCerta…" aria-describedby="assistente-aviso assistente-atalhos"></textarea>
+      <div class="composer-actions"><button id="copiar-pergunta" class="text-button" type="button" disabled>Copiar pergunta</button><button id="enviar-pergunta" class="assistant-send" type="submit" disabled><span aria-hidden="true">↗</span> <span id="enviar-pergunta-texto">Enviar pergunta</span></button></div>
+      <p id="assistente-atalhos" class="composer-shortcuts">Enter envia · Shift + Enter quebra a linha</p>
+      <p id="assistente-aviso">Histórico enquanto a página estiver aberta. A IA recebe uma pergunta por vez.</p>
       <p id="assistente-feedback" class="assistant-feedback" role="status" aria-live="polite"></p>
     </form>
   </dialog>

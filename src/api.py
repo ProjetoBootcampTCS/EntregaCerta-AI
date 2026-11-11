@@ -1,6 +1,7 @@
 # Iniciar a API = .\.venv\Scripts\python.exe -m uvicorn src.api:app --reload --host 127.0.0.1 --port 8000
 
-
+from pydantic import BaseModel, Field
+from .assistente_genai import responder
 import logging
 from functools import lru_cache
 from pathlib import Path
@@ -82,3 +83,37 @@ def consultar_prioridades():
             status_code=500,
             detail="Nao foi possivel gerar a fila de pedidos.",
         ) from None
+
+class PerguntaAssistente(BaseModel):
+    pergunta: str = Field(min_length=1, max_length=1000)
+
+
+@app.post("/api/assistente")
+def conversar_assistente(mensagem: PerguntaAssistente):
+    pergunta = mensagem.pergunta.strip() 
+
+    if not pergunta:
+        raise HTTPException(
+            status_code=400,
+            detail="Digite uma pergunta."
+        )
+
+    # Reutiliza a consulta e a previsão existentes.
+    dados = consultar_prioridades()
+
+    # Envia somente o resumo necessário para a GenAI.
+    contexto = {
+        "contexto": dados["contexto"],
+        "pedidos_avaliados": dados["pedidos_avaliados"],
+        "pedidos_na_fila": dados["pedidos_na_fila"],
+        "percentual_configurado_da_fila": (
+            100 * dados["fracao_fila"]
+        ),
+        "observacao": dados["observacao"],
+        "regra": (
+            "A fila prioriza os pedidos "
+            "com maiores scores do modelo."
+        )
+    }
+
+    return responder(pergunta, contexto)
