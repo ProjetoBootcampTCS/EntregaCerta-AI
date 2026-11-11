@@ -1,5 +1,28 @@
 # 🚚 EntregaCerta AI
 
+## Experimento CTGAN — 11/11/2026
+
+Notebook: [comparação CTGAN com PostgreSQL](Notebooks/olist_comparacao_otimizada_ctgan_postgresql.ipynb).
+A cópia original enviada pela equipe também está em `Notebooks/olist_comparacao_otimizada_gmm_treino_teste.ipynb`.
+
+Selecione no VS Code o kernel `.venv-ctgan/Scripts/python.exe`, mantenha o PostgreSQL ligado
+e execute o notebook em ordem. Para instalar em outra máquina, use um ambiente separado:
+
+```powershell
+python -m venv .venv-ctgan
+.\.venv-ctgan\Scripts\python.exe -m pip install -r requirements-ctgan.txt
+```
+
+O experimento aprende com atrasos reais de treino e gera até 10.000 exemplos sintéticos,
+identificados como `origem_dado=sintetico_ctgan` e `rotulo_observado=False`.
+Eles entram exclusivamente no treino; validação e teste continuam reais. A carga escreve
+somente no schema `experimentos_ctgan`, sem modificar os pedidos usados pela aplicação.
+O CSV combinado fica em `Dados/pedidos_tratados_e_injetados.csv`.
+Métricas, gráficos, cache e modelos experimentais ficam em `Modelos/experimento_ctgan/`.
+Nenhum ganho é presumido: compare as saídas executadas do notebook.
+
+**As seções antigas abaixo descrevem o estado em 05/11/2026**, não o estado completo atual.
+
 **Inteligência Artificial aplicada à previsão de atrasos e à priorização de pedidos no e-commerce.**
 
 O **EntregaCerta AI** é um projeto de apoio à decisão logística que propõe integrar **Machine Learning (ML), análise de dados e Inteligência Artificial Generativa (GenAI)** para identificar pedidos com maior risco de atraso e auxiliar analistas na definição de prioridades operacionais.
