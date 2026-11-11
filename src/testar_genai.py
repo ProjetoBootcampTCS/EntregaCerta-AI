@@ -2,7 +2,7 @@ import json
 
 import httpx
 
-from .assistente_genai import responder
+from assistente_genai import responder
 
 # Consulta os resultados reais da aplicação.
 resposta_api = httpx.get(
