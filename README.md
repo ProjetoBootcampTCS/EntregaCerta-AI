@@ -1,5 +1,26 @@
 # 🚚 EntregaCerta AI
 
+## Comparação de doses CTGAN e repetição — 11/11/2026
+
+Notebook: [doses de dados sintéticos e repetição de atrasos](Notebooks/04_testes_doses_ctgan.ipynb).
+Compara 500, 1.000 e 2.000 exemplos adicionais com três sementes, mantendo a regressão
+logística e a avaliação em pedidos reais. Inclui CTGAN nos positivos e CTGAN condicional
+ajustada no treino completo. Resultados e caches em `Modelos/experimento_ctgan/doses_20261111/`.
+
+Para reproduzir, use o ambiente CTGAN descrito abaixo e execute na raiz:
+
+```powershell
+.\.venv-ctgan\Scripts\python.exe -m src.testar_doses_ctgan
+```
+
+A consulta ao PostgreSQL é somente leitura. O notebook lê as evidências da execução;
+as três sementes medem variação experimental, não substituem validação temporal independente.
+O modelo da aplicação, o notebook 02 e o CSV combinado do primeiro experimento são preservados.
+Esta rodada reaproveita o gerador e uma amostra do lote anterior da seed 42. Para reproduzir
+os mesmos lotes do zero, execute primeiro o notebook CTGAN de 10.000 exemplos e depois
+o script de doses, usando as versões registradas no protocolo. Sem esse cache anterior,
+o script treina a seed 42 e faz uma nova amostragem, cujos números podem diferir desta rodada.
+
 ## Experimento CTGAN — 11/11/2026
 
 Notebook: [comparação CTGAN com PostgreSQL](Notebooks/olist_comparacao_otimizada_ctgan_postgresql.ipynb).

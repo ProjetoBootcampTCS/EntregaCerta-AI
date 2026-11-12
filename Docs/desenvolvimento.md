@@ -290,3 +290,110 @@ notebook foi ajustada para usar threads em futuras gerações. Arquivo original 
 byte a byte; notebook 02, dados operacionais, API e modelos atuais não foram alterados.
 
 Teste técnico adicional: CTGAN com threads ajustado por uma época nos mesmos atrasos reais de treino e amostragem de dez linhas, sem persistência ou métricas de desempenho. Execução aprovada. Esse teste verifica a compatibilidade no Windows, não a qualidade do modelo. As métricas publicadas são da geração de 300 épocas.
+
+## Comparação controlada de doses — protocolo de 11/11/2026
+
+Execução solicitada pela equipe para testar a recomendação anterior. Script
+`src/testar_doses_ctgan.py` e notebook `Notebooks/04_testes_doses_ctgan.ipynb`.
+O banco é somente lido; as tabelas reais, o primeiro CSV combinado e os modelos
+operacionais não são substituídos. Resultados em `Modelos/experimento_ctgan/doses_20261111/`.
+
+Comparações pré-definidas: nenhum acréscimo; repetição aleatória de positivos com
+reposição; CTGAN aprendendo só positivos; CTGAN aprendendo ambas as classes e
+amostrando condicionalmente `atrasou=1`. Doses de 500, 1.000 e 2.000, sementes
+7, 42 e 123. Cada dose é prefixo do mesmo lote de 2.000 daquela estratégia/semente.
+Os lotes nunca são somados em um único treino. O gerador positivo seed 42 é o
+cache anterior; os outros cinco geradores são treinados nesta rodada.
+
+Mantidos fonte PostgreSQL, partições e 29 atributos na aprovação. Pré-processador
+ajustado só no treino real, compartilhado. Regressão logística com C=1, liblinear,
+max_iter=1500, random_state=42 e sem pesos, igual ao baseline anterior. Sementes
+variam o gerador/amostragem, não a divisão temporal ou hiperparâmetros do classificador.
+São 28 ajustes de classificação: um baseline e 27 cenários com acréscimo.
+
+Orçamento da GAN definido antes dos resultados: lote 500, redes (128,128), pac=10,
+300 épocas/900 atualizações no gerador positivo e 11 épocas/902 atualizações no
+gerador condicional (41.173 registros). Igualar épocas faria o segundo executar
+cerca de 27 vezes mais atualizações. Esse orçamento limitado não representa
+busca de convergência ou ajuste exaustivo da CTGAN condicional. Não escolher épocas
+pela avaliação do teste. A condição de geração favorece y=1 mas não o garante:
+exemplos gerados com y diferente de 1 são rejeitados, nunca relabelados.
+
+Critério: média de F1 na validação, desempate por AP. Limiar de cada ajuste escolhido
+na validação. Registrar também accuracy, balanced accuracy, precision, recall,
+matriz, AP e fila fixa de 10%. A seleção agregada é persistida antes de avaliar o
+teste, cujo uso permanece descritivo. Intervalos mínimo–máximo e desvio padrão
+das três sementes medem variação experimental, não incerteza de generalização.
+
+Qualidade: limites e categorias aprendidos só no treino, estruturas de contagens,
+distâncias, duplicatas e procedência, KS numérico, distribuição de categorias,
+ausências e correlações. A relação entre valor pago e produtos+frete é auditada
+separadamente, sem usar o resultado para selecionar lotes ou alterar o protocolo.
+Os sintéticos não contêm datas de entrega fabricadas e seu alvo não é observado.
+
+
+### Resultados medidos da rodada de doses
+
+
+**Melhor média de F1 na validação: Somente reais, com 0 exemplos adicionais.**
+F1 = **0.2697**, AP = **0.1986**.
+São 28 ajustes de regressão logística; nove configurações com acréscimo avaliadas em três sementes
+e um baseline fixo. O notebook 02 e o modelo da aplicação permanecem preservados.
+
+A melhor configuração CTGAN pela validação foi **CTGAN condicional +500**:
+F1 médio **0.2640**, mínimo–máximo **0.2638–0.2644**,
+AP médio **0.1873**. Baseline: F1 **0.2697** e AP **0.1986**.
+O desempenho pertence ao orçamento de aproximadamente 900 atualizações por GAN;
+não é uma conclusão sobre todas as configurações possíveis dessa arquitetura.
+
+**A rodada não justificou adotar CTGAN no treinamento principal.**
+
+Validação real: 24.667 pedidos, 2.494 atrasos. Médias de três sementes nos acréscimos; baseline único.
+
+| Método | Adicionados | Accuracy | Precision | Recall | F1 | AP | Atrasos na fila |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| CTGAN condicional | 500 | 78.86% | 20.39% | 37.50% | 26.40% | 0.1873 | 583.3 |
+| CTGAN condicional | 1000 | 74.12% | 18.11% | 43.69% | 25.49% | 0.1736 | 538.0 |
+| CTGAN condicional | 2000 | 66.98% | 15.25% | 49.39% | 23.26% | 0.1506 | 450.0 |
+| CTGAN positivos | 500 | 77.63% | 19.64% | 39.08% | 26.11% | 0.1860 | 576.7 |
+| CTGAN positivos | 1000 | 76.99% | 19.03% | 39.20% | 25.61% | 0.1794 | 556.3 |
+| CTGAN positivos | 2000 | 75.80% | 18.33% | 39.47% | 24.85% | 0.1694 | 523.0 |
+| Somente reais | 0 | 81.27% | 22.27% | 34.20% | 26.97% | 0.1986 | 619.0 |
+| Repetição | 500 | 80.36% | 21.77% | 35.86% | 26.97% | 0.1979 | 615.7 |
+| Repetição | 1000 | 80.32% | 21.54% | 35.78% | 26.87% | 0.1967 | 613.3 |
+| Repetição | 2000 | 78.56% | 20.29% | 38.28% | 26.52% | 0.1941 | 603.7 |
+
+Teste real descritivo: 25.550 pedidos, 1.124 atrasos; mesmos modelos e limiares congelados.
+
+| Método | Adicionados | Accuracy | Precision | Recall | F1 | AP | Atrasos na fila |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| CTGAN condicional | 500 | 67.93% | 8.09% | 60.68% | 14.27% | 0.0860 | 266.3 |
+| CTGAN condicional | 1000 | 63.80% | 7.20% | 60.50% | 12.86% | 0.0742 | 225.0 |
+| CTGAN condicional | 2000 | 58.50% | 5.87% | 55.81% | 10.62% | 0.0601 | 180.0 |
+| CTGAN positivos | 500 | 65.56% | 8.09% | 65.87% | 14.41% | 0.0925 | 280.7 |
+| CTGAN positivos | 1000 | 66.29% | 8.04% | 63.67% | 14.27% | 0.0901 | 278.3 |
+| CTGAN positivos | 2000 | 66.96% | 7.95% | 61.27% | 14.06% | 0.0847 | 255.3 |
+| Somente reais | 0 | 68.36% | 8.47% | 63.17% | 14.94% | 0.0963 | 288.0 |
+| Repetição | 500 | 67.34% | 8.33% | 63.97% | 14.73% | 0.0950 | 285.3 |
+| Repetição | 1000 | 67.00% | 8.31% | 64.77% | 14.73% | 0.0939 | 283.7 |
+| Repetição | 2000 | 64.60% | 7.94% | 66.55% | 14.19% | 0.0921 | 280.0 |
+
+Os intervalos entre sementes não são intervalos de confiança. A fila tem 2.466 pedidos na validação e 2.555 no teste.
+F1/precision/recall/accuracy usam os limiares ajustados na validação; a fila de 10% é uma política separada.
+
+Diagnóstico monetário (pagamento diferente de produtos+frete por mais de 1%):
+
+- Atrasos reais de treino: 0.11%, n=1764.
+- CTGAN: positivos: 99.44%, n=5932.
+- CTGAN: condicional: 99.25%, n=5999.
+
+Essa diferença evidencia uma limitação de coerência da geração, sem provar causalidade sobre a piora de F1.
+
+Verificação: 56 avaliações e seus scores reproduzidos a partir dos modelos salvos; seis lotes de 2.000 sintéticos isolados, sem alteração dos pedidos reais. Métricas completas, protocolos, hashes, modelos, lotes e gráficos estão na pasta da rodada.
+
+Verificação final concluída: notebook executado integralmente, sem erros de célula;
+três figuras inspecionadas e prévia HTML aberta no navegador para conferir resumo,
+tabelas e apresentação. Os 11 testes técnicos distintos (seis anteriores e cinco
+da rodada) passaram. Nova consulta PostgreSQL confirmou o hash dos 91.390 pedidos
+reais e os 10.000 sintéticos do experimento anterior intactos. O novo experimento
+não gravou no banco. O servidor local usado apenas na revisão visual foi encerrado.
