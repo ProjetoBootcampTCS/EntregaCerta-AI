@@ -1,0 +1,44 @@
+{
+  "run_id": "perfis_referencias_v2",
+  "artifacts_dir": "artifacts/ctgan_perfis_referencias",
+  "seed": 142,
+  "seed_population_per_profile": 2000,
+  "num_samples": 10000,
+  "date_start": "2016-01-01",
+  "date_end_exclusive": "2019-01-01",
+  "ctgan": {"epochs": 10, "batch_size": 500, "threads": 4, "enable_gpu": false, "verbose": true},
+  "max_resample_attempts": 50,
+  "ml": {"seed": 145, "holdout_fraction": 0.2, "C": 1.0},
+  "evaluation_real": "artifacts/olist_single_seller/validacao_tecnica_20261113/datasets/pedidos_ml_limpo_enriquecido.parquet",
+  "references": [
+    {"url": "https://www.correios.com.br/enviar/encomendas/nacional/nacional", "supports": "Precos dependem de peso, dimensoes e CEPs; prazo e definido pelo servico e percurso.", "does_not_support": "Probabilidades de atraso, faixas numericas, distribuicoes ou condicoes comerciais de 2016-2018."},
+    {"url": "https://www2.correios.com.br/sistemas/precosPrazos/default.cfm", "supports": "Prazos variam conforme localidades de origem/destino.", "does_not_support": "Distancia em linha reta determina atraso; frete baixo causa atraso."},
+    {"url": "https://github.com/sdv-dev/CTGAN", "supports": "CTGAN aprende uma tabela via fit e gera linhas via sample.", "does_not_support": "CTGAN consulta referencias textuais ou cria probabilidades logisticas por conta propria."}
+  ],
+  "assumptions": "TODOS os numeros abaixo sao hipoteses didaticas, nao estimativas Olist nem taxas publicadas. Nao foram ajustados pelos resultados reais. Datas uniformes 2016-2018, sem afirmar sazonalidade historica. Historicos sao resumos hipoteticos anteriores, nao reviews reais. Estados/rotas sao exemplos, nao amostra representativa do Brasil.",
+  "categories": ["cama_mesa_banho", "beleza_saude", "esporte_lazer", "moveis_decoracao", "informatica_acessorios", "utilidades_domesticas", "livros_interesse_geral", "brinquedos"],
+  "routes": [
+    {"seller_state": "SP", "customer_state": "SP", "distance_km": [10, 500]},
+    {"seller_state": "SP", "customer_state": "RJ", "distance_km": [250, 800]},
+    {"seller_state": "SP", "customer_state": "MG", "distance_km": [250, 1300]},
+    {"seller_state": "SP", "customer_state": "BA", "distance_km": [900, 2200]},
+    {"seller_state": "SP", "customer_state": "AM", "distance_km": [2400, 4000]}
+  ],
+  "profiles": [
+    {"name": "baixo", "share": 0.6, "delay_probability": 0.05,
+     "description": "Prazo folgado, volumes menores e historico favoravel; hipotese, nao garantia.",
+     "route_weights": [0.45, 0.25, 0.2, 0.08, 0.02], "item_probabilities": [0.85, 0.1, 0.04, 0.01],
+     "ranges": {"prazo_prometido_dias": [20, 45], "unit_price": [20, 400], "unit_weight_g": [100, 3000], "unit_volume_cm3": [200, 15000], "freight_ratio": [0.08, 0.35]},
+     "review_count": [10, 300], "no_history_probability": 0.05, "review_score_probabilities": [0.01, 0.02, 0.07, 0.3, 0.6]},
+    {"name": "medio", "share": 0.3, "delay_probability": 0.2,
+     "description": "Folga intermediaria e maior variacao de carga/historico.",
+     "route_weights": [0.2, 0.2, 0.25, 0.25, 0.1], "item_probabilities": [0.7, 0.2, 0.08, 0.02],
+     "ranges": {"prazo_prometido_dias": [10, 25], "unit_price": [20, 700], "unit_weight_g": [200, 6000], "unit_volume_cm3": [500, 30000], "freight_ratio": [0.05, 0.25]},
+     "review_count": [5, 200], "no_history_probability": 0.1, "review_score_probabilities": [0.08, 0.12, 0.2, 0.35, 0.25]},
+    {"name": "alto", "share": 0.1, "delay_probability": 0.6,
+     "description": "Prazo apertado, maior carga e historico menos favoravel; sem interpretar causalidade.",
+     "route_weights": [0.1, 0.1, 0.15, 0.35, 0.3], "item_probabilities": [0.55, 0.25, 0.15, 0.05],
+     "ranges": {"prazo_prometido_dias": [2, 12], "unit_price": [20, 1200], "unit_weight_g": [500, 10000], "unit_volume_cm3": [1000, 60000], "freight_ratio": [0.02, 0.18]},
+     "review_count": [1, 100], "no_history_probability": 0.2, "review_score_probabilities": [0.25, 0.25, 0.25, 0.15, 0.1]}
+  ]
+}

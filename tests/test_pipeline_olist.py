@@ -254,14 +254,14 @@ class TestSimulacaoML(unittest.TestCase):
         b, q, _ = sim.simular(candidato)
         pd.testing.assert_frame_equal(a, b)
         pd.testing.assert_frame_equal(p, q)
-        self.assertAlmostEqual(report["probabilidade_media"], 1 / 6, places=12)
+        self.assertAlmostEqual(report["probabilidade_media"], config["target_delay_rate"], places=12)
         self.assertNotIn("p_atraso_simulada", a)
         pd.testing.assert_frame_equal(real, copia)
         with self.assertRaises(ValueError):
             sim.simular(real)
         config["exact_count"] = True
         a, _, _ = SimuladorAtrasos(config).fit(real).simular(candidato)
-        self.assertEqual(a.atrasou.sum(), 5)
+        self.assertEqual(a.atrasou.sum(), round(len(a) * config["target_delay_rate"]))
 
     def test_ml_isolamento_e_selecao_sem_teste(self):
         real = base_tecnica(60)

@@ -1,5 +1,20 @@
 # 🚚 EntregaCerta AI
 
+## CTGAN sem aprender com a Olist — perfis de referência
+
+Novo modo independente: populações artificiais de baixo/médio/alto risco
+definidas em JSON, CTGAN treinada apenas nessas populações, preditor treinado
+somente em sintéticos e Olist enriquecida usada exclusivamente na avaliação.
+Mantém as mesmas colunas e gera IDs e datas de 2016 a 2018.
+Os parâmetros são hipóteses explícitas, não taxas publicadas nem estimadas na Olist.
+
+```powershell
+.\.venv-pipeline\Scripts\python.exe -m src.ctgan_perfis_referencias --step all
+```
+
+Configuração: [perfis JSON](config/ctgan_perfis_referencias.json).
+Referências, limitações e comandos: [documentação](Docs/ctgan_perfis_referencias.md).
+
 ## Pipeline Olist com um vendedor — 13/11/2026
 
 O fluxo de contratos A/C=23, B=15 e D=23 (18 features de ML) está disponível
