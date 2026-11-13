@@ -164,7 +164,7 @@ def resumir_pagamentos(pagamentos: pd.DataFrame) -> pd.DataFrame:
     return resumo.merge(principal, on="order_id", how="left", validate="one_to_one")
 
 
-def adicionar_tempos_e_alvos(base: pd.DataFrame) -> pd.DataFrame:
+def adicionar_tempos_e_alvos(base: pd.DataFrame, *, comparar_timestamp=False) -> pd.DataFrame:
     base = base.copy()
     compra = base["order_purchase_timestamp"]
     aprovacao = base["order_approved_at"]
@@ -183,7 +183,9 @@ def adicionar_tempos_e_alvos(base: pd.DataFrame) -> pd.DataFrame:
     diferenca = (entrega.dt.normalize() - promessa.dt.normalize()).dt.days
     base["diferenca_entrega_prazo_dias"] = diferenca.where(observado).astype("Int64")
     base["dias_atraso"] = diferenca.clip(lower=0).where(observado).astype("Int64")
-    base["atrasou"] = diferenca.gt(0).where(observado).astype("Int64")
+    # O contrato novo compara timestamps; o padrão preserva os notebooks legados.
+    atraso = entrega.gt(promessa) if comparar_timestamp else diferenca.gt(0)
+    base["atrasou"] = atraso.where(observado).astype("Int64")
     base["rotulo_disponivel"] = observado.astype(int)
     cronologia = (compra.notna() & aprovacao.notna() & promessa.notna()
                   & aprovacao.ge(compra)

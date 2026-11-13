@@ -1,5 +1,35 @@
 # 🚚 EntregaCerta AI
 
+## Pipeline Olist com um vendedor — 13/11/2026
+
+O fluxo de contratos A/C=23, B=15 e D=23 (18 features de ML) está disponível
+em `src/pipeline_olist.py`. Parte dos CSVs originais, preserva pedidos com
+vários itens do mesmo vendedor e usa históricos de avaliações estritamente
+anteriores à aprovação. CTGAN e simulação atuam somente no treino; seleção
+e avaliação usam pedidos reais com prevalência natural.
+
+```powershell
+# Na raiz, em um ambiente Python 3.12 com requirements-ctgan.txt instalado:
+.\.venv-pipeline\Scripts\python.exe -m src.pipeline_olist --config config/olist_ctgan.json --step all
+
+# EDA posterior, somente leitura dos datasets:
+.\.venv-pipeline\Scripts\python.exe -m src.pipeline_olist --config config/olist_ctgan.json --step eda
+
+# Testes do novo contrato, independentes dos artefatos legados:
+.\.venv-pipeline\Scripts\python.exe -m unittest discover -s tests -p test_pipeline_olist.py -v
+```
+
+Configuração, comandos por etapa, esquemas, políticas, inferência e limitações:
+[guia do pipeline](Docs/pipeline_olist.md). Inspeção anterior às mudanças:
+[auditoria](Docs/auditoria_pipeline_olist.md).
+Execução e testes: [resultados medidos](Docs/resultado_pipeline_olist.md).
+
+Os arquivos em `Dados/`, modelos da API, notebooks e experimentos SQL existentes
+continuam com seus contratos anteriores. O novo fluxo grava exclusivamente em
+`artifacts/olist_single_seller/<run_id>/`. Sua definição de atraso compara
+timestamps de entrega ao cliente e promessa; o legado compara dias. Essa
+diferença é auditada e não altera os arquivos reais anteriores.
+
 ## Comparação de doses CTGAN e repetição — 11/11/2026
 
 Notebook: [doses de dados sintéticos e repetição de atrasos](Notebooks/04_testes_doses_ctgan.ipynb).

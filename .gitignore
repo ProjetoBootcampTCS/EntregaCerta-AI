@@ -1,6 +1,9 @@
 # Ambiente e segredos locais
 .venv/
 .venv-ctgan/
+.venv-pipeline/
+.venv-legacy-check/
+artifacts/
 # Artefatos volumosos do experimento; notebooks e código continuam versionados.
 Modelos/experimento_ctgan/
 Dados/pedidos_tratados_e_injetados.csv

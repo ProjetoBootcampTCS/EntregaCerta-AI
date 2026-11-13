@@ -1,0 +1,27 @@
+{
+  "run_id": "olist_single_seller_v2",
+  "paths": {
+    "raw_dir": "Dados/Brazilian Logistic",
+    "legacy_ml": "Dados/pedidos_ml.csv",
+    "artifacts_dir": "artifacts/olist_single_seller"
+  },
+  "split": {"validation": "2018-01-01", "test": "2018-05-01"},
+  "ctgan": {"epochs": 50, "batch_size": 500, "seed": 42, "threads": 6, "hidden_dims": [128, 128], "verbose": false},
+  "synthetic": {"num_samples": 10000, "seed": 44, "max_resample_attempts": 40, "min_batch": 2000, "oversample_factor": 4},
+  "simulation": {
+    "seed": 43,
+    "target_delay_rate": 0.16666666666666666,
+    "exact_count": false,
+    "scenario_strength": 2.0,
+    "review_confidence": 10,
+    "coefficients": {
+      "distance": 0.8, "weight": 0.3, "volume": 0.3,
+      "price": 0.25, "unit_price": 0.15,
+      "freight": -0.35, "freight_ratio": -0.25,
+      "promised_days": -0.3, "seller_rating": -0.5,
+      "seller_low_review_frequency": 0.55, "order_complexity": 0.15
+    },
+    "category_adjustments": {}
+  },
+  "ml": {"seed": 45, "C": 1.0, "synthetic_to_real_ratios": [0.1, 0.2], "synthetic_weights": [0.5, 1.0]}
+}

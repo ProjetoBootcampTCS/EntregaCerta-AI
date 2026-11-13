@@ -91,11 +91,14 @@ def corrigir_distancias(base, pasta_originais, registro):
     return base
 
 
-def limpar_atributos(base):
+def limpar_atributos(base, *, colunas=None, categoricas=None):
     """Regras de dominio fixas, sem aprender estatisticas de validacao/teste."""
-    x = base[COLUNAS_PREVISAO].copy()
+    colunas = COLUNAS_PREVISAO if colunas is None else colunas
+    categoricas = CATEGORICAS if categoricas is None else categoricas
+    numericas = [c for c in colunas if c not in categoricas]
+    x = base[colunas].copy()
     alteracoes = {}
-    for coluna in NUMERICAS:
+    for coluna in numericas:
         original = x[coluna]
         valores = pd.to_numeric(original, errors="coerce").astype(float)
         validos = np.isfinite(valores) & valores.ge(0)
@@ -111,10 +114,10 @@ def limpar_atributos(base):
         if coluna.startswith("distancia_"): validos &= valores.le(np.pi * 6371.0088)
         alteracoes[coluna] = int((original.notna() & ~validos).sum())
         x[coluna] = valores.where(validos)
-    for coluna in CATEGORICAS:
+    for coluna in categoricas:
         valores = x[coluna].astype("string").str.strip()
         valores = valores.mask(valores.str.lower().isin(["", "nan", "none", "null"]))
-        if coluna in {"customer_state", "uf_origem"}:
+        if coluna in {"customer_state", "uf_origem", "seller_state"}:
             valores = valores.str.upper()
             permitidos = UFS | ({"MULTIPLAS"} if coluna == "uf_origem" else set())
             valores = valores.where(valores.isin(permitidos))
@@ -125,7 +128,7 @@ def limpar_atributos(base):
     return x, alteracoes
 
 
-def selecionar_coorte(base, registro):
+def selecionar_coorte(base, registro, *, comparar_timestamp=False):
     base = base.copy()
     n = len(base)
     base = base.drop_duplicates()
@@ -153,7 +156,9 @@ def selecionar_coorte(base, registro):
     base = base.loc[aceitos].copy()
     diferenca = (base["order_delivered_customer_date"].dt.normalize()
                  - base["order_estimated_delivery_date"].dt.normalize()).dt.days
-    exigir(base["atrasou"].eq(diferenca.gt(0).astype(int)).all(), "Rotulos existentes discordam das datas reais.")
+    esperado = (base["order_delivered_customer_date"].gt(base["order_estimated_delivery_date"])
+                if comparar_timestamp else diferenca.gt(0))
+    exigir(base["atrasou"].eq(esperado.astype(int)).all(), "Rotulos existentes discordam das datas reais.")
     exigir(base["dias_atraso"].eq(diferenca.clip(lower=0)).all(), "Dias de atraso discordam das datas reais.")
     base["atrasou"] = base["atrasou"].astype("int8")
     base["dias_atraso"] = base["dias_atraso"].astype("int32")
