@@ -1,5 +1,90 @@
 # 🚚 EntregaCerta AI
 
+
+## Área do cliente e acesso dos analistas — 12/11/2026
+
+Com o `.env` do PostgreSQL configurado, execute na raiz do projeto:
+
+```powershell
+docker compose up -d postgres
+.\.venv\Scripts\python.exe -m src.gerenciar_acessos iniciar
+.\.venv\Scripts\python.exe -m src.gerenciar_acessos criar-analista --nome "Nome do analista" --email "analista@equipe.com"
+.\.venv\Scripts\python.exe -m uvicorn src.api:app --host 127.0.0.1 --port 8000 --reload
+```
+
+O comando de criação pede uma senha de **12 a 128 caracteres** e sua confirmação,
+sem exibi-la. Não existe conta ou senha padrão. Crie uma conta por analista.
+Clientes se cadastram pela página; o cadastro público não permite escolher perfil.
+
+- **Loja e acompanhamento:** <http://127.0.0.1:8000/cliente>.
+- **Entrar / criar conta de cliente:** <http://127.0.0.1:8000/entrar>.
+- **Dashboard restrito:** <http://127.0.0.1:8000/dashboard>.
+- **Consulta histórica restrita:** <http://127.0.0.1:8000/pedidos>.
+
+A loja oferece catálogo de categorias Olist, carrinho, pedidos por conta e etapas
+atualizadas pelo analista no dashboard. Desde 13/11, inclui prazo prometido, responsável
+e histórico de alterações, preservando o prazo original. Revisões de prazo exigem
+justificativa; edições concorrentes são detectadas. O cliente acompanha seus prazos
+e etapas sem receber notas internas. É uma demonstração sem cobrança ou envio:
+os produtos são anonimizados e os valores são medianas históricas, não preços atuais.
+Novos pedidos ficam no schema `app_web`, separados dos dados usados no ML e ainda
+não recebem scores do modelo. As tabelas históricas não são modificadas. Execute novamente `src.gerenciar_acessos iniciar`
+para aplicar os novos campos em um ambiente já instalado.
+
+O botão da IA aparece nas cinco páginas, exceto durante a intro. Visitantes recebem
+o acesso ao login; clientes autenticados podem consultar orientações gerais da loja.
+O chat do cliente não consulta pedidos individuais. Analistas mantêm o contexto da fila.
+
+Sessões duram oito horas, usam cookie HttpOnly/SameSite e são revogadas ao sair.
+O backend verifica perfil, dono do pedido, origem das ações e token CSRF. Senhas
+são armazenadas com scrypt; os resultados do dashboard não ficam no armazenamento
+do navegador. Em HTTPS, configurar `ENTREGACERTA_COOKIE_SECURE=true` e informar
+as origens exatas em `ENTREGACERTA_ORIGINS`. Os valores padrão são para localhost
+na porta 8000. A implantação pública requer HTTPS e uma revisão operacional;
+recuperação de senha, verificação de e-mail e MFA ainda não fazem parte deste escopo.
+
+Para repetir os testes (PostgreSQL disponível; schema temporário criado e removido):
+
+```powershell
+$env:ENTREGACERTA_TEST_POSTGRES="1"
+.\.venv\Scripts\python.exe -m unittest tests.test_acesso_web tests.test_pedidos_web -v
+```
+
+**Validação anterior (12/11): 14 testes aprovados**: bloqueios por perfil, acesso direto às APIs/HTML,
+isolamento de pedidos, CSRF/origem, hash e cookie, tentativas de login,
+logout/expiração, transições dos pedidos e filtros históricos. O fluxo cliente →
+analista → cliente também foi conferido no navegador, assim como a fila histórica
+de 24.667 pedidos/2.466 priorizados e layouts desktop/celular. Sem a variável acima,
+os testes de integração PostgreSQL são explicitamente ignorados.
+
+**Atualização de 13/11:** os 12 testes de `test_acesso_web.py` passaram, incluindo
+prazo, atribuição, auditoria, privacidade, conflitos de edição e migração repetível.
+O fluxo foi conferido no Edge em desktop e celular; nesses testes de interface, a
+GenAI foi simulada e o ML não foi executado. A migração local do schema web foi aplicada.
+
+
+## Rótulos e históricos de vendedores — 12/11/2026
+
+Abra [05_rotulos_historicos_vendedores.ipynb](Notebooks/05_rotulos_historicos_vendedores.ipynb).
+Compara oito treinos reais, isolando revisão da disponibilidade do rótulo e inclusão
+de históricos. Na mesma validação, a regressão logística passou de 619 para 672
+atrasos encontrados na fila de 2.466 pedidos; AP de 0,1986 para 0,2168. O ganho é
+exploratório e não atinge recall de 95%. O modelo da aplicação não foi substituído.
+
+```powershell
+.\.venv-ctgan\Scripts\python.exe -m src.testar_historicos_vendedores --snapshot
+.\.venv-ctgan\Scripts\python.exe -m unittest tests.test_historicos_vendedores -v
+```
+
+Nesta execução, o PostgreSQL não respondeu: foi usada a cópia identificada da consulta
+de 11/11, confrontada com os CSVs originais. `--snapshot` requer a cópia em
+`Modelos/experimento_historicos/snapshot_postgresql.joblib`; sem essa opção o script
+consulta o banco em modo somente leitura. Para reconstruir em outro computador,
+disponibilize os CSVs originais, o consolidado e o PostgreSQL do projeto. Os artefatos
+locais ficam fora do Git em `Modelos/experimento_historicos/`; o notebook contém as
+saídas executadas. Versões, regras e limitações estão no notebook e em
+[desenvolvimento](Docs/desenvolvimento.md). Não foram usados dados sintéticos nesta rodada.
+
 ## Comparação de doses CTGAN e repetição — 11/11/2026
 
 Notebook: [doses de dados sintéticos e repetição de atrasos](Notebooks/04_testes_doses_ctgan.ipynb).
@@ -185,6 +270,6 @@ O CSV tratado tem categorias legíveis e metadados: não é uma matriz para pass
 
 Estrutura inicial simplificada em 30/10/2026. Dataset escolhido e planejamento anterior preservados no Git e em uma cópia de segurança local fora desta pasta. Em 03/11/2026, o `.venv` foi recriado para corrigir a mistura de Python 3.14 com bibliotecas compiladas para Python 3.12; o ambiente anterior ficou em backup fora desta pasta.
 
-A consolidação, o tratamento para ML e a divisão temporal estão implementados; EDA relacional, carga PostgreSQL, modelos e aplicação permanecem pendentes de desenvolvimento e validação. Ainda não há comando para abrir a aplicação web.
+Registro inicial, superado pelas etapas posteriores: a consolidação e o tratamento foram seguidos por treinamento, integração PostgreSQL e aplicação web. Consulte as atualizações no início deste README para execução e estado atual.
 
 O próximo trabalho de ML é comparar o baseline e os modelos usando as matrizes preparadas. EDA relacional e carga PostgreSQL também precisam ser concluídas. Consulte [desenvolvimento e roadmap](Docs/desenvolvimento.md). O registro de prompts está em [prompts.txt](Docs/prompts.txt).

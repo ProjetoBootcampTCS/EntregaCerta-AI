@@ -1,0 +1,110 @@
+/* Espaço do analista: mesma identidade, com navegação e leitura mais compactas. */
+.dashboard-page { background: #f3f4ed; }
+.app-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 50; width: 248px; height: 100dvh; display: flex; flex-direction: column; padding: 28px 18px 20px; overflow-y: auto; background: var(--dark); color: var(--paper); border-right: 1px solid #36412e; }
+.sidebar-brand-row { display: flex; align-items: center; justify-content: space-between; margin: 3px 8px 42px; }
+.sidebar-brand-row .brand { gap: 9px; font-size: 20px; }
+.sidebar-brand-row .brand-mark { width: 33px; height: 33px; border-radius: 9px; }
+.sidebar-brand-row .brand-ai { font-size: 9px; margin-left: 3px; }
+.sidebar-label { margin: 0 14px 12px; color: #a5b59a; font-size: 10px; font-weight: 600; letter-spacing: .14em; }
+.sidebar-label-secondary { margin-top: 35px; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 7px; }
+.sidebar-nav a { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 12px 15px; border-radius: 9px; color: #c4ceba; font-size: 13px; font-weight: 500; transition: background .2s, color .2s; }
+.sidebar-nav a:hover { color: #fff; background: #2b3627; }
+.sidebar-nav a.is-active { background: var(--lime); color: var(--dark); font-weight: 700; }
+.nav-symbol { width: 22px; text-align: center; font-size: 20px; line-height: 1; }
+.nav-arrow { margin-left: auto; font-size: 18px; }
+.sidebar-nav-secondary a { font-size: 12px; min-height: 42px; }
+.sidebar-bottom { margin-top: auto; padding: 40px 12px 0; }
+.sidebar-note { padding: 18px 0; border-top: 1px solid #3b4831; }
+.sidebar-note .eyebrow { color: #d4ff3f; font-size: 9px; letter-spacing: .06em; }
+.sidebar-note p { margin-top: 10px; font-size: 12px; color: #aebca2; line-height: 1.8; }
+.sidebar-bottom .motion-toggle { padding: 9px 0; border: 0; color: #c5d1b9; background: transparent; font-size: 11px; justify-content: flex-start; }
+.sidebar-project { margin-top: 18px; color: #9aa98e; font-size: 10px; }
+.app-sidebar :focus-visible { outline-color: var(--lime); }
+.sidebar-close, .menu-toggle { display: none; }
+.dashboard-shell { margin-left: 248px; min-height: 100dvh; }
+.dashboard-header { position: sticky; top: 0; z-index: 20; height: 76px; padding: 0 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: #f3f4edf5; border-bottom: 1px solid var(--line); }
+.dashboard-header.is-scrolled { box-shadow: 0 5px 20px #1b2b1710; }
+.dashboard-breadcrumb { display: flex; align-items: center; gap: 14px; font-size: 11px; }
+.dashboard-breadcrumb > span:first-of-type { color: var(--muted); letter-spacing: .1em; font-size: 10px; }
+.breadcrumb-slash { color: #a5af9b; }
+.historical-badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #d5deca; border-radius: 30px; padding: 7px 12px; color: #4d6340; font-size: 11px; white-space: nowrap; }
+.historical-badge > span { font-size: 17px; }
+.dashboard-content { max-width: 1500px; margin-inline: auto; padding: 37px 36px 30px; }
+.dashboard-content > .section-heading { align-items: center; margin-bottom: 22px; }
+.dashboard-content .section-heading h1 { font-size: clamp(34px, 3.3vw, 49px); line-height: 1.1; letter-spacing: -.05em; font-weight: 600; margin-top: 13px; }
+.dashboard-content .section-heading h1 em { font-family: Georgia, serif; font-weight: 400; color: var(--green); }
+#dashboard-title:focus { outline: none; }
+.dashboard-description { margin-top: 14px; font-size: 13px; color: var(--muted); }
+.dashboard-content .connection-meta { font-size: 11px; text-align: right; }
+.connection-status[data-state="cached"]::before { background: #81936e; }
+.dashboard-actions { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 22px; border-top: 1px solid var(--line); margin-bottom: 20px; }
+.dashboard-actions > p { font-size: 12px; color: var(--muted); }
+.dashboard-actions > p > span { color: #637e3b; font-size: 22px; margin-right: 10px; }
+.dashboard-actions .button { min-height: 45px; font-size: 12px; }
+.dashboard-content .status-message { font-size: 11px; margin-bottom: 22px; }
+.dashboard-content .metrics-grid { gap: 14px; margin-bottom: 25px; }
+.dashboard-content .metric { background: #fafbf6; padding: 21px 19px; }
+.dashboard-content .metric-highlight { background: var(--dark); border-color: var(--dark); color: var(--paper); }
+.dashboard-content .metric-highlight .metric-top, .dashboard-content .metric-highlight p { color: #bac9aa; }
+.dashboard-content .metric-highlight strong, .dashboard-content .metric-highlight .metric-symbol { color: var(--lime); }
+.dashboard-content .metric strong { font-size: clamp(28px, 2.8vw, 40px); }
+.dashboard-content .metric-top { font-size: 11px; }
+.dashboard-content .metric p { font-size: 11px; }
+.dashboard-content .workspace-grid { grid-template-columns: minmax(0, 1fr) 265px; gap: 20px; }
+.dashboard-content .panel-heading { padding: 23px 22px; }
+.dashboard-content .panel-heading h2 { font-size: 25px; margin-top: 7px; font-weight: 650; }
+.dashboard-content .panel-heading .eyebrow { font-size: 9px; }
+.dashboard-content .queue-toolbar { padding-inline: 22px; }
+.dashboard-content .table-scroll { max-height: 580px; }
+.dashboard-content .order-id { max-width: 230px; }
+.dashboard-content #fila-analise, .dashboard-content #leitura-risco { scroll-margin-top: 95px; }
+.dashboard-footer { display: flex; justify-content: space-between; gap: 18px; padding: 10px 36px 110px; color: var(--muted); font-size: 11px; }
+.dashboard-footer a { color: #4e663a; text-decoration: underline; text-underline-offset: 3px; }
+.dashboard-page .assistant-launcher { min-height: 54px; right: 22px; bottom: 20px; border-radius: 16px; padding-block: 8px; }
+.dashboard-page .launcher-icon { width: 34px; height: 34px; border-radius: 11px; }
+.dashboard-page .launcher-copy { font-size: 12px; }
+.dashboard-page .launcher-copy small { display: none; }
+.menu-backdrop { position: fixed; inset: 0; z-index: 55; border: 0; background: #10190f88; }
+.dashboard-menu-open { overflow: hidden; }
+@media (max-width: 1250px) {
+  .dashboard-content .workspace-grid { grid-template-columns: 1fr; }
+  .dashboard-content .insights-column { display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
+  .dashboard-content .dataset-note { grid-column: 1 / -1; justify-content: center; }
+  .dashboard-content .order-id { max-width: none; }
+  .dashboard-content .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 960px) {
+  .dashboard-shell { margin-left: 0; }
+  .app-sidebar { width: min(280px, calc(100% - 48px)); z-index: 60; transform: translateX(-100%); visibility: hidden; transition: transform .25s ease, visibility .25s; }
+  .app-sidebar.is-open { transform: none; visibility: visible; transition: transform .25s ease; }
+  .sidebar-brand-row { margin-inline: 4px; }
+  .sidebar-close { display: block; border: 0; background: transparent; color: #dce7d0; font-size: 28px; padding: 4px 8px; }
+  .menu-toggle { display: inline-grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 8px; background: #fafbf6; font-size: 19px; }
+  .dashboard-header { height: 70px; padding-inline: 24px; }
+  .dashboard-content { padding: 30px 24px; }
+  .dashboard-footer { padding-inline: 24px; }
+}
+@media (max-width: 600px) {
+  .dashboard-header { padding-inline: 18px; gap: 10px; }
+  .dashboard-breadcrumb { gap: 10px; font-size: 12px; }
+  .dashboard-breadcrumb > span { display: none; }
+  .historical-badge { font-size: 10px; padding: 5px 9px; }
+  .dashboard-content { padding: 27px 18px; }
+  .dashboard-content > .section-heading { align-items: flex-start; }
+  .dashboard-content .section-heading h1 { font-size: 36px; }
+  .dashboard-content .connection-meta { text-align: left; }
+  .dashboard-actions { align-items: stretch; flex-direction: column; gap: 13px; }
+  .dashboard-actions > p { font-size: 11px; }
+  .dashboard-actions .button { justify-content: space-between; }
+  .dashboard-content .metrics-grid { gap: 10px; }
+  .dashboard-content .metric { padding: 16px 13px; }
+  .dashboard-content .metric strong { font-size: 30px; }
+  .dashboard-content .metric-top { gap: 8px; }
+  .dashboard-content .panel-heading { padding: 20px 16px; }
+  .dashboard-content .panel-heading h2 { font-size: 23px; }
+  .dashboard-content .panel-heading .eyebrow { max-width: 135px; }
+  .dashboard-content .queue-toolbar { padding-inline: 16px; }
+  .dashboard-content .insights-column { grid-template-columns: 1fr; }
+  .dashboard-footer { padding: 0 18px 100px; flex-direction: column; gap: 8px; }
+}

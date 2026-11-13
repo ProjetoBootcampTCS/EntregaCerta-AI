@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html data-protected lang="pt-BR" data-interface-version="V2">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171b17">
+  <meta name="description" content="Explore os pedidos Olist com filtros, scores e informações logísticas reais.">
+  <title>Pedidos — EntregaCerta AI</title>
+  <link rel="icon" type="image/svg+xml" href="/static/logo.svg?v=2">
+  <link rel="stylesheet" href="/static/style.css?v=2.20">
+  <link rel="stylesheet" href="/static/dashboard.css?v=1">
+  <link rel="stylesheet" href="/static/conta.css?v=2">
+  <script src="/static/assistente.js?v=1" defer></script>
+<script src="/static/auth.js?v=2" defer></script>
+  <script src="/static/script.js?v=2.19" defer></script>
+  <link rel="stylesheet" href="/static/pedidos.css?v=1">
+  <script src="/static/pedidos.js?v=1" defer></script>
+</head>
+<body class="dashboard-page" data-page="pedidos">
+  <a class="skip-link" href="#lista-pedidos">Ir para a lista de pedidos</a>
+  <aside class="app-sidebar" id="menu-lateral" aria-label="Menu do analista">
+    <div class="sidebar-brand-row"><a class="brand" href="/#inicio" aria-label="EntregaCerta AI — início"><img class="brand-mark" src="/static/logo.svg?v=2" width="40" height="40" alt=""><span>entregacerta<span class="brand-ai">AI</span></span></a><button id="fechar-menu" class="sidebar-close" type="button" aria-label="Fechar menu">×</button></div>
+    <p class="sidebar-label">ESPAÇO DO ANALISTA</p>
+    <nav class="sidebar-nav" aria-label="Navegação principal">
+      <a href="/cliente"><span class="nav-symbol" aria-hidden="true">↗</span>Área do cliente</a>
+      <a href="/#inicio"><span class="nav-symbol" aria-hidden="true">⌂</span>Início<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="/dashboard"><span class="nav-symbol" aria-hidden="true">▦</span>Dashboard<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="/pedidos" class="is-active" aria-current="page"><span class="nav-symbol" aria-hidden="true">▤</span>Pedidos<span class="nav-arrow" aria-hidden="true">↗</span></a>
+    </nav>
+    <p class="sidebar-label sidebar-label-secondary">EXPLORE OS DADOS</p>
+    <nav class="sidebar-nav sidebar-nav-secondary" aria-label="Seções de pedidos">
+      <a href="#lista-pedidos"><span class="nav-symbol" aria-hidden="true">≡</span>Lista de pedidos</a>
+      <a href="/dashboard#leitura-risco"><span class="nav-symbol" aria-hidden="true">◔</span>Leitura de risco</a>
+      <a href="/#como-funciona"><span class="nav-symbol" aria-hidden="true">ⓘ</span>Como funciona</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="session-tools"><span data-user-name>Analista</span><button class="conta-out" type="button" data-logout>Sair</button></div><div class="sidebar-note"><span class="eyebrow">DADOS REAIS. DECISÃO HUMANA.</span><p>Demonstração histórica<br>Olist · 2016–2018</p></div><button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false"><span class="motion-icon" aria-hidden="true">Ⅱ</span><span id="motion-label">Pausar animações</span></button><p class="sidebar-project">EntregaCerta AI · Bootcamp TCS</p></div>
+  </aside>
+  <button id="menu-backdrop" class="menu-backdrop" type="button" aria-label="Fechar menu" tabindex="-1" hidden></button>
+  <div class="dashboard-shell" id="site-content">
+    <header class="dashboard-header" id="site-header"><div class="dashboard-breadcrumb"><button id="abrir-menu" class="menu-toggle" type="button" aria-label="Abrir menu de navegação" aria-controls="menu-lateral" aria-expanded="false"><span aria-hidden="true">☰</span></button><span>ESPAÇO DO ANALISTA</span><span class="breadcrumb-slash">/</span><strong>Pedidos</strong></div><span class="historical-badge"><span aria-hidden="true">◷</span> Análise histórica</span></header>
+    <main class="dashboard-content orders-content" id="catalogo-pedidos" aria-labelledby="orders-title">
+      <div class="section-heading"><div><p class="eyebrow"><span>02</span> / EXPLORADOR DE PEDIDOS</p><h1 id="orders-title">Cada pedido,<br><em>uma visão completa.</em></h1><p class="dashboard-description">Encontre, compare e entenda o que merece sua atenção.</p></div><div class="connection-meta"><span id="orders-status" class="connection-status" data-state="idle">Preparando consulta</span><span id="orders-updated">Lote histórico de validação</span></div></div>
+      <div class="dashboard-actions"><p><span aria-hidden="true">↳</span> Explore todo o lote, dentro e fora da fila.</p><button id="orders-refresh" class="button button-dark" type="button">Atualizar lote <span class="button-arrow" aria-hidden="true">↻</span></button></div>
+      <p id="orders-message" class="status-message" role="status" aria-live="polite">Consultando os pedidos e seus scores…</p>
+      <div class="metrics-grid" aria-label="Resumo do lote e dos filtros">
+        <article class="metric"><div class="metric-top"><span>Pedidos no lote</span><span class="metric-symbol" aria-hidden="true">↗</span></div><strong id="orders-total">—</strong><p>Todo o conjunto de validação</p></article>
+        <article class="metric metric-highlight"><div class="metric-top"><span>Na fila do modelo</span><span class="metric-symbol" aria-hidden="true">✳</span></div><strong id="orders-priority">—</strong><p id="orders-capacity">Seleção original por score</p></article>
+        <article class="metric"><div class="metric-top"><span>Pedidos encontrados</span><span class="metric-symbol" aria-hidden="true">⌕</span></div><strong id="orders-filtered">—</strong><p>Resultado dos filtros aplicados</p></article>
+        <article class="metric"><div class="metric-top"><span>Na fila neste recorte</span><span class="metric-symbol" aria-hidden="true">◔</span></div><strong id="orders-filtered-priority">—</strong><p>Priorizados entre os encontrados</p></article>
+      </div>
+      <section class="queue-panel orders-panel" id="lista-pedidos" aria-labelledby="orders-list-title">
+        <div class="panel-heading"><div><p class="eyebrow">DO PANORAMA AO DETALHE</p><h2 id="orders-list-title">Explore seus pedidos<span class="title-dot">.</span></h2></div><a class="orders-dashboard-link" href="/dashboard">Ver dashboard <span aria-hidden="true">↗</span></a></div>
+        <form id="orders-filters" class="orders-filters">
+          <div class="orders-main-filters">
+            <div class="search-field"><label for="orders-search">Buscar por identificador</label><div class="input-shell"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input id="orders-search" name="busca" type="search" maxlength="100" placeholder="Digite parte do ID do pedido" autocomplete="off"></div></div>
+            <div class="orders-field"><label for="orders-queue">Participação na fila</label><select id="orders-queue" name="prioridade"><option value="todos">Todos os pedidos</option><option value="1">Na fila</option><option value="0">Fora da fila</option></select></div>
+            <div class="orders-field"><label for="orders-state">UF de destino</label><select id="orders-state" name="uf"><option value="">Todas as UFs</option></select></div>
+            <div class="orders-field"><label for="orders-category">Categoria principal</label><select id="orders-category" name="categoria"><option value="">Todas as categorias</option></select></div>
+          </div>
+          <details class="orders-advanced"><summary>Mais filtros <span>Data de aprovação e faixa de score</span></summary><div class="orders-extra-filters">
+            <div class="orders-field"><label for="orders-start">Aprovado a partir de</label><input id="orders-start" name="inicio" type="date"></div>
+            <div class="orders-field"><label for="orders-end">Aprovado até</label><input id="orders-end" name="fim" type="date"></div>
+            <div class="orders-field"><label for="orders-min">Score mínimo · 0 a 1</label><input id="orders-min" name="score_min" type="number" min="0" max="1" step="any" placeholder="0"></div>
+            <div class="orders-field"><label for="orders-max">Score máximo · 0 a 1</label><input id="orders-max" name="score_max" type="number" min="0" max="1" step="any" placeholder="1"></div>
+          </div></details>
+          <div class="orders-filter-actions"><p id="orders-filter-count">Todos os pedidos do lote</p><button id="orders-reset" class="clear-button" type="button">Limpar filtros</button><button class="button button-dark button-small" type="submit">Aplicar filtros <span aria-hidden="true">↗</span></button></div>
+        </form>
+        <div class="orders-results-heading"><p id="orders-count" role="status" aria-live="polite">Aguardando consulta…</p><div class="orders-sort"><label for="orders-sort">Ordenar por</label><select id="orders-sort"><option value="score-desc">Maior score</option><option value="score-asc">Menor score</option><option value="data-desc">Aprovação mais recente</option><option value="data-asc">Aprovação mais antiga</option><option value="valor-desc">Maior valor pago</option></select></div></div>
+        <div id="orders-empty" class="empty-state" hidden><span class="orders-empty-icon" aria-hidden="true">⌕</span><h4>Nenhum pedido encontrado.</h4><p>Experimente outro identificador ou amplie os filtros.</p><button class="button button-outline button-small" id="orders-empty-reset" type="button">Limpar filtros</button></div>
+        <div class="table-scroll" id="orders-table-scroll" tabindex="0" role="region" aria-label="Lista de pedidos com rolagem horizontal"><table class="orders-table"><caption class="sr-only">Pedidos reais do lote de validação. O score representa risco relativo, não uma probabilidade calibrada.</caption><thead><tr><th scope="col">PEDIDO / APROVAÇÃO</th><th scope="col">ROTA / CATEGORIA</th><th scope="col">VALOR PAGO</th><th scope="col">SCORE / 0 A 1</th><th scope="col">FILA</th><th scope="col"><span class="sr-only">Detalhes</span></th></tr></thead><tbody id="orders-rows"></tbody></table></div>
+        <div class="pagination" id="orders-pagination"><div class="page-size"><label for="orders-size">Por página</label><select id="orders-size"><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></div><div class="page-controls"><button id="orders-prev" type="button" aria-label="Página anterior" disabled>←</button><span id="orders-page" aria-live="polite">Página 1</span><button id="orders-next" type="button" aria-label="Próxima página" disabled>→</button></div></div>
+        <div class="queue-footnote"><span aria-hidden="true">ⓘ</span><p>Os filtros não alteram a fila do modelo. Estar fora da fila não significa que o pedido chegará no prazo.</p></div>
+      </section>
+      <div class="orders-context-strip"><span aria-hidden="true">✳</span><p><strong>Dados reais. Leitura responsável.</strong> O score indica risco relativo. Esta consulta não estima dias de atraso nem comprova a causa do risco.</p><a href="/#como-funciona">Entenda a análise ↗</a></div>
+      <p id="pedidos-contexto" class="sr-only">Consulta histórica de pedidos Olist.</p>
+    </main>
+    <footer class="dashboard-footer"><p>Inteligência aplicada. Decisão humana.</p><a href="/#como-funciona">Entenda os dados e os limites da análise <span aria-hidden="true">↗</span></a></footer>
+  <button id="abrir-assistente" class="assistant-launcher" type="button" aria-label="Abrir assistente de IA" aria-haspopup="dialog" aria-controls="assistente-dialog" aria-expanded="false" hidden>
+    <span class="launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M20 10.5v4a4 4 0 0 1-4 4H9l-5 3v-6a4 4 0 0 1-1-2.5v-6a4 4 0 0 1 4-4h6"/><path d="m19 2 1.2 2.8L23 6l-2.8 1.2L19 10l-1.2-2.8L15 6l2.8-1.2Z"/></svg></span>
+    <span class="launcher-copy">Assistente <strong>AI</strong><small>Pergunte sobre a análise</small></span><span class="launcher-arrow" aria-hidden="true">↗</span>
+  </button>
+
+  </div>
+  <dialog id="assistente-dialog" class="assistant-drawer" aria-labelledby="assistente-titulo" aria-describedby="assistente-descricao">
+    <header class="assistant-header">
+      <img src="/static/logo.svg?v=2" width="40" height="40" alt="">
+      <div><p class="eyebrow">SEU PRÓXIMO PONTO DE VISTA</p><h2 id="assistente-titulo">Assistente EntregaCerta</h2></div>
+      <button id="fechar-assistente" class="assistant-close" type="button" aria-label="Fechar assistente" autofocus><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div id="assistente-conteudo" class="assistant-content">
+      <div id="assistente-boas-vindas">
+        <span class="assistant-status"><span aria-hidden="true"></span> Assistente com IA</span>
+        <div class="assistant-intro"><span class="assistant-orbit" aria-hidden="true">✳</span><h3>Boas perguntas.<br><em>Novas perspectivas.</em></h3><p id="assistente-descricao">Tire dúvidas sobre a análise ou faça uma pergunta geral.</p></div>
+        <div class="assistant-suggestions"><p>Escolha uma pergunta para começar</p><button type="button" data-prompt="Como interpretar o score de atraso dos pedidos?">Como interpretar o score? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Como funciona a seleção dos pedidos para a fila de análise?">Como a fila é formada? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Quais limitações devo considerar ao usar esta análise histórica?">Quais são os limites da análise? <span aria-hidden="true">↗</span></button></div>
+      </div>
+      <details class="assistant-context assistant-context-details">
+        <summary>Contexto do painel</summary>
+        <p id="assistente-contexto">Gere uma análise para consultar aqui o resumo do lote.</p><p class="assistant-context-note">Dados da aplicação. Este resumo não é uma resposta gerada por IA. A IA recebe sua pergunta e o resumo geral da fila. Os filtros e os detalhes desta página não são enviados automaticamente. Confira as respostas antes de tomar decisões.</p>
+      </details>
+      <div id="assistente-historico" class="assistant-conversation" role="log" aria-label="Conversa com o assistente" aria-live="polite" aria-relevant="additions text" hidden></div>
+    </div>
+    <form id="assistente-form" class="assistant-composer">
+      <div class="composer-label"><label for="assistente-pergunta">Mensagem</label><span id="assistente-contagem">0 / 1000</span></div>
+      <textarea id="assistente-pergunta" rows="2" maxlength="1000" placeholder="Pergunte ao EntregaCerta…" aria-describedby="assistente-aviso assistente-atalhos"></textarea>
+      <div class="composer-actions"><button id="copiar-pergunta" class="text-button" type="button" disabled>Copiar pergunta</button><button id="enviar-pergunta" class="assistant-send" type="submit" disabled><span aria-hidden="true">↗</span> <span id="enviar-pergunta-texto">Enviar pergunta</span></button></div>
+      <p id="assistente-atalhos" class="composer-shortcuts">Enter envia · Shift + Enter quebra a linha</p>
+      <p id="assistente-aviso">Histórico enquanto a página estiver aberta. A IA recebe uma pergunta por vez.</p>
+      <p id="assistente-feedback" class="assistant-feedback" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <dialog id="orders-dialog" class="order-dialog orders-detail" aria-labelledby="orders-detail-title" aria-describedby="orders-detail-description">
+    <div class="dialog-top"><p class="eyebrow">UM PEDIDO, MAIS CONTEXTO</p><button id="orders-close" class="icon-button" type="button" aria-label="Fechar detalhes" autofocus>×</button></div>
+    <h2 id="orders-detail-title">Os detalhes<br><em>fazem a diferença.</em></h2><p id="orders-detail-description" class="dialog-description">Dados disponíveis na consulta histórica de validação.</p>
+    <div class="detail-id-box"><span>IDENTIFICADOR DO PEDIDO</span><code id="orders-detail-id"></code><button id="orders-copy" class="text-button" type="button">Copiar identificador <span aria-hidden="true">↗</span></button></div>
+    <div class="orders-detail-score"><div><span>SCORE DE ATRASO</span><strong id="orders-detail-score">—</strong><small>Risco relativo · escala de 0 a 1</small></div><span id="orders-detail-queue" class="orders-badge"></span></div>
+    <div id="orders-detail-fields"></div>
+    <div class="detail-caution"><span aria-hidden="true">ⓘ</span><p>Dados ausentes aparecem como “Não informado”. A distância é geográfica aproximada, não o trajeto da transportadora. Os campos ajudam na análise; não comprovam a causa do risco.</p></div>
+    <p id="orders-copy-status" class="detail-feedback" role="status" aria-live="polite"></p>
+  </dialog>
+  <noscript><p class="noscript-message">Ative o JavaScript para consultar a fila e visualizar os resultados do modelo.</p></noscript>
+</body>
+</html>

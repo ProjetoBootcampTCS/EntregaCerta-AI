@@ -1,0 +1,33 @@
+{
+  "nome": "logistica_simulada_v1",
+  "filtro_vendedores": "unico",
+  "taxa_atraso_alvo": 0.1666666667,
+  "intensidade_sinal": 2.5,
+  "ruido_logit": 0.25,
+  "vinculo_transportadora": "vendedor",
+  "seed_transportadoras": 42,
+  "seed_simulacao": 123,
+  "seed_modelo": 7,
+  "influencias": {
+    "distancia_vendedor_cliente_km": 1.2,
+    "peso_total_g": 0.6,
+    "volume_total_cm3": 0.5,
+    "altura_max_item_cm": 0.3,
+    "valor_itens": 0.2,
+    "frete_relativo": -0.9,
+    "nota_historica_vendedor": -0.3,
+    "nota_historica_transportadora": -0.5,
+    "prazo_prometido_dias": -0.6,
+    "quantidade_itens": 0.1,
+    "parcelas_maximas": 0.03,
+    "mes_aprovacao": 0.02
+  },
+  "efeitos_categoria": {"moveis_decoracao": 0.15, "informatica_acessorios": 0.05},
+  "efeitos_uf": {},
+  "transportadoras": {
+    "SIM_A": {"efeito": -0.5, "distancia": 0.1, "nota_media": 4.5},
+    "SIM_B": {"efeito": 0.0, "distancia": 0.3, "nota_media": 3.6},
+    "SIM_C": {"efeito": 0.7, "distancia": 0.7, "nota_media": 2.8}
+  },
+  "limites_risco": {"medio": 0.2, "alto": 0.6}
+}

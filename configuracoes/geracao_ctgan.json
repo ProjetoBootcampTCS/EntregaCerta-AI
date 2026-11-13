@@ -1,0 +1,9 @@
+{
+  "treino": 30000,
+  "validacao": 0,
+  "teste": 0,
+  "epocas": 100,
+  "seed_ctgan": 42,
+  "batch_size": 500,
+  "limite_por_particao": 30000
+}

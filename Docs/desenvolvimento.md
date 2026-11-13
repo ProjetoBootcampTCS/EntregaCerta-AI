@@ -397,3 +397,180 @@ tabelas e apresentação. Os 11 testes técnicos distintos (seis anteriores e ci
 da rodada) passaram. Nova consulta PostgreSQL confirmou o hash dos 91.390 pedidos
 reais e os 10.000 sintéticos do experimento anterior intactos. O novo experimento
 não gravou no banco. O servidor local usado apenas na revisão visual foi encerrado.
+
+## Revisão de rótulos e históricos de vendedores — 12/11/2026
+
+Objetivo: verificar se a disponibilidade dos rótulos e novas informações históricas
+melhoram a previsão na aprovação. Implementação isolada em
+`src/testar_historicos_vendedores.py`, com notebook executado
+`Notebooks/05_rotulos_historicos_vendedores.ipynb`. Não substitui o modelo operacional.
+
+### Fontes e auditoria
+
+O PostgreSQL local não respondeu à conexão nesta execução. Foi usada a cópia da
+consulta de 11/11 em `Modelos/experimento_ctgan/doses_20261111/snapshot_postgresql.joblib`,
+copiada para a pasta do novo experimento. O hash da base é
+`304a56814526d2aeccf9df0d72a71fe070b3f61b7c7f4a33b73a332c2a01af8b`.
+O SQL está na constante `CONSULTA` de `src/experimento_ctgan.py`. Nenhuma escrita no banco.
+
+Os 99.441 IDs, status e cinco timestamps do consolidado coincidem com
+`olist_orders_dataset.csv`. A coorte elegível tem 96.394 pedidos. Nenhuma divergência
+entre os alvos existentes e a comparação dos dias reais de entrega e promessa.
+Continuam excluídos cancelados/sem desfecho e cronologias inválidas. A amostra não
+representa todos os pedidos originalmente aprovados; permanece viés de seleção.
+
+A revisão mantém o alvo: entrega em dia posterior à promessa = atraso. Altera somente
+o instante em que o rótulo pode ser conhecido. Para positivos, considera meia-noite
+do dia seguinte à promessa; para pontuais, a entrega real. Isso pressupõe promessa
+estável e monitoramento sem latência da ausência de entrega. Olist não contém
+snapshots operacionais que comprovem essa hipótese. Mantida disponibilidade
+estritamente anterior ao corte, inclusive para eventos exatamente à meia-noite.
+
+| Coorte | Treino / atrasos | Validação / atrasos |
+|---|---:|---:|
+| Original | 41.173 / 1.765 | 24.667 / 2.494 |
+| Revisada | 41.504 / 2.096 | 24.901 / 2.728 |
+
+Recuperados 331 positivos no treino e 234 na validação, sem mudar rótulos. Teste
+permanece com 25.550 pedidos e não foi avaliado nesta rodada. Continua havendo
+desfechos ainda desconhecidos nos cortes que não entram nas coortes.
+
+### Construção dos históricos
+
+Um par pedido-vendedor por associação, deduplicando itens. São 14 novos atributos:
+suporte histórico (média/mínimo), taxas de atraso geral e em 90 dias (média/máximo),
+fração de vendedores sem desfechos conhecidos, dias de postagem e entrega
+(média/máximo), volume aprovado em 30 dias (média/máximo) e folga da promessa frente
+ao tempo histórico de entrega. Nas taxas, suavização fixa de força 20 com prior
+global calculado apenas com entregas anteriores. Sem desfechos globais anteriores,
+taxa ausente, imputada depois apenas com estatísticas do treino.
+
+As datas de eventos usadas precisam ser estritamente anteriores à aprovação.
+Histórico de atrasos é atualizado conservadoramente na entrega real, não pela nova
+regra de vencimento da promessa. Tempo de postagem entra na passagem real à
+transportadora. Volume conta aprovações, incluindo pedidos posteriormente não
+entregues; não utiliza status final como filtro. Janelas são [aprovação-dias, aprovação).
+IDs, status, entrega atual e instante de disponibilidade do alvo não entram no modelo.
+
+Na validação, eventos já observados atualizam históricos de pedidos posteriores,
+sem retreinar o classificador. Esse protocolo simula previsão contínua e requer
+armazenamento/atualização de eventos na aplicação. Não é previsão de um lote futuro
+inteiro em 01/01. Em pedidos de vários vendedores, o desfecho compartilhado não
+permite atribuir causalidade a um vendedor. A disponibilidade histórica de cadastro,
+pagamentos, promessa e associação dos itens continua sendo hipótese do projeto.
+
+### Experimento e resultados
+
+Plano definido antes dos treinos: 2 coortes de treino × 2 conjuntos de atributos ×
+2 algoritmos, sem busca de hiperparâmetros. Regressão: C=1, liblinear, max_iter=1500,
+random_state=42, sem pesos. HGB: 200 iterações, learning_rate=0,07, 15 folhas,
+profundidade máxima 5, mínimo 40 amostras por folha, L2=1, early_stopping=False,
+random_state=42. Pré-processamento do projeto ajustado só no treino, 159 ou 182
+colunas após adicionar 14 atributos e nove indicadores de ausência.
+
+Comparação principal nos **mesmos 24.667 pedidos / 2.494 atrasos**, preservando ordem
+dos IDs. Fila global fixa de 2.466 pedidos. AP e captura da fila são as métricas
+principais; F1 abaixo usa um limiar que maximiza F1 na validação comum, separado da fila.
+
+| Algoritmo | Treino | Atributos | AP | F1 | Atrasos na fila |
+|---|---|---|---:|---:|---:|
+| Regressão | Original | Atuais | 0,1986 | 26,97% | 619 |
+| Regressão | Original | + históricos | 0,2070 | 27,30% | 630 |
+| Regressão | Revisado | Atuais | 0,2127 | 28,78% | 658 |
+| Regressão | Revisado | + históricos | 0,2168 | 28,89% | 672 |
+| HGB | Original | Atuais | 0,1497 | 21,51% | 422 |
+| HGB | Original | + históricos | 0,1598 | 22,52% | 459 |
+| HGB | Revisado | Atuais | 0,1512 | 21,79% | 419 |
+| HGB | Revisado | + históricos | 0,1649 | 23,48% | 480 |
+
+Regressão completa: 53 atrasos adicionais (+8,56% em relação a 619), recall na fila
+24,82% → 26,94% e precisão na fila 25,10% → 27,25%. Ainda distante de recall 95%.
+O efeito dos históricos varia por mês: com treino revisado, AP melhora em fevereiro
+e diminui em janeiro, março e abril. Não há alegação de significância estatística.
+
+Na população ampliada, comparação secundária com 24.901 pedidos / 2.728 atrasos:
+regressão original sem históricos AP=0,2205, F1=28,85%, 699 atrasos na fila; revisada
+com históricos AP=0,2408, F1=31,10%, 756 atrasos na fila de 2.490 pedidos. Os dois
+modelos são avaliados na mesma população ampliada. Não usar a diferença entre uma
+métrica da população original e outra da ampliada como ganho do modelo.
+
+### Evidências e reprodução
+
+`Modelos/experimento_historicos/` contém protocolo com hashes/versões, cópia de entrada,
+pedidos recuperados, CSV de atributos com históricos, auditoria por par pedido-vendedor,
+oito modelos, métricas comuns/ampliadas/mensais e figuras. Dados reais apenas.
+O notebook reabre os artefatos e reproduz 16 conjuntos de scores/métricas sem retreinar.
+Para refazer os treinos: `python -m src.testar_historicos_vendedores --snapshot`.
+
+Nove testes passaram: limites de datas/janelas, exclusão do próprio desfecho e de
+eventos futuros/simultâneos, itens duplicados, múltiplos vendedores, vendedor novo,
+confronto com fontes reais, amostra de 100 históricos calculados por filtro direto,
+scores persistidos e igualdade do baseline com a execução CTGAN anterior.
+Fixtures artificiais existem apenas nos testes técnicos isolados, não no treinamento.
+
+Próximo passo recomendado: confirmar o ganho em outra janela temporal e avaliar
+capacidade diária de revisão antes de integrar atualização de históricos e modelo
+na API. A validação foi reutilizada e o teste já foi visto em experimentos anteriores;
+os resultados atuais são exploratórios, não uma validação externa independente.
+
+Referências técnicas: [vazamento e pré-processamento](https://scikit-learn.org/stable/common_pitfalls.html)
+e [semântica de consultas temporais](https://pandas.pydata.org/docs/reference/api/pandas.merge_asof.html).
+
+
+## Área do cliente e autenticação por perfil — 12/11/2026
+
+**Objetivo:** permitir compras demonstrativas e acompanhamento individual, mantendo
+as análises históricas acessíveis somente à equipe. Não altera o pipeline de ML.
+
+**Implementação:** `src/acesso_web.py` centraliza sessões, senhas, cadastro e política
+de acesso; `src/gerenciar_acessos.py` cria analistas localmente com senha solicitada
+via terminal. A dependência global da FastAPI exige analista por padrão; a lista de
+rotas públicas é explícita. As rotas `/api/cliente/` exigem cliente. Documentação da
+API está desativada; a rota estática só serve assets, nunca HTML/ZIPs que poderiam
+contornar a proteção das páginas. Erros de validação não devolvem valores enviados.
+
+**Persistência:** schema aditivo `app_web`, criado por `src/esquema_web.sql`, com
+`usuarios`, `sessoes`, `limites_acesso` e `pedidos_demo`. Consultas usam parâmetros SQL
+com filtro de proprietário no servidor. O cookie contém um token aleatório; apenas
+seu hash é salvo. Expiração em oito horas, revogação no logout e checagem de usuário
+ativo. Ações exigem origem autorizada e CSRF (login/cadastro verificam a origem).
+Tentativas de login e cadastro têm limites persistidos no PostgreSQL.
+
+**Loja:** `src/loja_web.py` seleciona um produto de cada uma de seis categorias da
+base Olist e calcula a mediana histórica dos preços registrados. Nomes de categoria
+e ícones representam os produtos anonimizados, sem inventar marcas ou fotografias.
+O servidor calcula os valores e valida quantidades; a chave de idempotência evita
+pedidos duplicados em repetições da mesma confirmação. O analista avança somente
+para a próxima etapa: recebido → em preparação → despachado → entregue. A linha do
+tempo exibe os instantes registrados dessas ações demonstrativas. Não há pagamento,
+envio real ou previsão de entrega fabricada. O modelo atual ainda não é aplicado a
+esses pedidos, que não contêm todas as entradas históricas necessárias.
+
+**Interface:** `cliente.html/js`, `entrar.html/js`, `auth.js`, `conta.css` e
+`operacao.js`; componentes de sessão adicionados ao dashboard e à consulta histórica.
+Sessão/CSRF só ficam em memória/cookie; cache antigo de resultados é removido.
+Carrinho armazena apenas IDs e quantidades no navegador. Formulários têm rótulos,
+estados de erro e foco; o diálogo prende o foco e pode ser fechado com Escape.
+Layouts adaptam-se a telas menores e respeitam preferência por movimento reduzido.
+
+**Validação executada:** 14 testes passaram, incluindo nove cenários de integração
+em schema PostgreSQL temporário e cinco testes de filtros/HTTP históricos. Não há
+substituição da autenticação nos testes de segurança; o teste antigo de filtros
+usa override limitado a ele. Contas e pedidos artificiais são fixtures de teste,
+sem uso em treinamento ou evidência de desempenho do modelo. Compilação Python e
+checagem sintática dos seis JavaScripts também foram executadas.
+
+**Operação:** criar contas de analista com o comando no README. Não há credencial
+padrão. Para publicar, HTTPS, cookie Secure e origens exatas devem ser configurados.
+Recuperação de senha, verificação de e-mail e MFA ficam fora desta entrega.
+Referências para as escolhas: [senhas OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+e [sessões OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html).
+
+**Conferência no navegador:** cadastro de cliente → carrinho → pedido salvo → logout
+→ login do analista → atualização para preparação → consulta do cliente mostrando
+essa atualização. O dashboard autenticado consultou PostgreSQL e pontuou 24.667
+pedidos históricos, formando a fila de 2.466. Após logout, abrir `/dashboard`
+redirecionou ao login. Layouts conferidos em 1280 e 390 pixels, sem transbordamento
+horizontal no cliente. Captura: `Docs/imagens/area_cliente.jpg`. A prévia usou contas
+isoladas, removidas ao concluir a conferência. A integração GenAI externa não foi
+acionada neste teste; sua rota recebeu o mesmo controle de perfil e CSRF.

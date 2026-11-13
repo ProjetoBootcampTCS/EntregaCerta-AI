@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html data-protected lang="pt-BR" data-interface-version="V2">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171b17">
+  <meta name="description" content="Dashboard do analista EntregaCerta AI: indicadores, fila de prioridade e consulta dos scores de pedidos.">
+  <title>Dashboard do analista — EntregaCerta AI</title>
+  <link rel="icon" type="image/svg+xml" href="/static/logo.svg?v=2">
+  <link rel="stylesheet" href="/static/style.css?v=2.20">
+  <link rel="stylesheet" href="/static/dashboard.css?v=1">
+  <link rel="stylesheet" href="/static/conta.css?v=2">
+  <script src="/static/assistente.js?v=1" defer></script>
+<script src="/static/auth.js?v=2" defer></script>
+  <script src="/static/script.js?v=2.19" defer></script>
+<script src="/static/operacao.js?v=2" defer></script>
+</head>
+<body class="dashboard-page" data-page="dashboard">
+  <a class="skip-link" href="#fila-analise">Ir para a fila de análise</a>
+  <aside class="app-sidebar" id="menu-lateral" aria-label="Menu do analista">
+    <div class="sidebar-brand-row"><a class="brand" href="/#inicio" aria-label="EntregaCerta AI — início"><img class="brand-mark" src="/static/logo.svg?v=2" width="40" height="40" alt=""><span>entregacerta<span class="brand-ai">AI</span></span></a><button id="fechar-menu" class="sidebar-close" type="button" aria-label="Fechar menu">×</button></div>
+    <p class="sidebar-label">ESPAÇO DO ANALISTA</p>
+    <nav class="sidebar-nav" aria-label="Navegação principal">
+      <a href="/cliente"><span class="nav-symbol" aria-hidden="true">↗</span>Área do cliente</a>
+      <a href="/#inicio"><span class="nav-symbol" aria-hidden="true">⌂</span>Início<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="/dashboard" class="is-active" aria-current="page"><span class="nav-symbol" aria-hidden="true">▦</span>Dashboard<span class="nav-arrow" aria-hidden="true">↗</span></a>
+      <a href="/pedidos"><span class="nav-symbol" aria-hidden="true">▤</span>Pedidos<span class="nav-arrow" aria-hidden="true">↗</span></a>
+    </nav>
+    <p class="sidebar-label sidebar-label-secondary">NESTE PAINEL</p>
+    <nav class="sidebar-nav sidebar-nav-secondary" aria-label="Seções do dashboard">
+      <a href="#fila-analise"><span class="nav-symbol" aria-hidden="true">≡</span>Fila de análise</a>
+      <a href="#leitura-risco"><span class="nav-symbol" aria-hidden="true">◔</span>Leitura de risco</a>
+      <a href="/#como-funciona"><span class="nav-symbol" aria-hidden="true">ⓘ</span>Como funciona</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="session-tools"><span data-user-name>Analista</span><button class="conta-out" type="button" data-logout>Sair</button></div><div class="sidebar-note"><span class="eyebrow">DADOS REAIS. DECISÃO HUMANA.</span><p>Demonstração histórica<br>Olist · 2016–2018</p></div><button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false"><span class="motion-icon" aria-hidden="true">Ⅱ</span><span id="motion-label">Pausar animações</span></button><p class="sidebar-project">EntregaCerta AI · Bootcamp TCS</p></div>
+  </aside>
+  <button id="menu-backdrop" class="menu-backdrop" type="button" aria-label="Fechar menu" tabindex="-1" hidden></button>
+  <div class="dashboard-shell" id="site-content">
+    <header class="dashboard-header" id="site-header"><div class="dashboard-breadcrumb"><button id="abrir-menu" class="menu-toggle" type="button" aria-label="Abrir menu de navegação" aria-controls="menu-lateral" aria-expanded="false"><span aria-hidden="true">☰</span></button><span>ESPAÇO DO ANALISTA</span><span class="breadcrumb-slash">/</span><strong>Dashboard</strong></div><span class="historical-badge"><span aria-hidden="true">◷</span> Análise histórica</span></header>
+    <main>
+<section class="dashboard dashboard-content" id="resultado" data-state="idle" aria-labelledby="dashboard-title">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span>01</span> / CENTRO DE ANÁLISE</p><h1 id="dashboard-title" tabindex="-1">Seu próximo passo,<br><em>bem direcionado.</em></h1><p class="dashboard-description">Uma visão do lote. Uma fila para agir.</p></div>
+        <div class="connection-meta"><span id="connection-status" class="connection-status" data-state="idle">Aguardando análise</span><span id="updated-at">Nenhuma consulta realizada</span></div>
+      </div>
+      <div class="dashboard-actions"><p><span aria-hidden="true">↳</span> Priorize a revisão com os resultados do modelo.</p><button id="carregar" class="button button-dark" type="button" data-load><span data-load-label>Gerar fila de prioridade</span><span class="button-arrow" aria-hidden="true">↗</span></button></div>
+      <p id="mensagem" class="status-message" role="status" aria-live="polite">Gere uma análise para consultar os pedidos e formar sua fila de revisão.</p>
+      <div class="metrics-grid" aria-label="Indicadores da análise">
+        <article class="metric"><div class="metric-top"><span>Pedidos avaliados</span><span class="metric-symbol" aria-hidden="true">↗</span></div><strong id="total">—</strong><p>Pedidos consultados no lote</p></article>
+        <article class="metric metric-highlight" style="--reveal-delay: 70ms"><div class="metric-top"><span>Na fila de análise</span><span class="metric-symbol" aria-hidden="true">✳</span></div><strong id="prioritarios">—</strong><p>Selecionados para revisão humana</p></article>
+        <article class="metric" style="--reveal-delay: 140ms"><div class="metric-top"><span>Capacidade da fila</span><span class="metric-symbol" aria-hidden="true">◔</span></div><strong id="capacidade">—</strong><p>Fração configurada do lote</p></article>
+        <article class="metric" style="--reveal-delay: 210ms"><div class="metric-top"><span>Maior score da fila</span><span class="metric-symbol" aria-hidden="true">↗</span></div><strong id="maior-score">—</strong><p>Escala de 0 a 1 · risco relativo</p></article>
+      </div>
+
+      <div class="workspace-grid">
+        <section class="queue-panel" id="fila-analise" aria-labelledby="queue-title">
+          <div class="panel-heading"><div><p class="eyebrow">OLHE PRIMEIRO PARA O QUE IMPORTA</p><h2 id="queue-title">Sua fila de análise<span class="title-dot">.</span></h2></div><button class="button button-outline button-small" id="exportar-csv" type="button" disabled><span aria-hidden="true">↓</span> Exportar CSV</button></div>
+          <div class="queue-toolbar">
+            <div class="search-field"><label for="busca-pedido">Buscar pedido na fila</label><div class="input-shell"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input id="busca-pedido" type="search" placeholder="Digite parte do identificador" autocomplete="off" disabled></div></div>
+            <div class="sort-field"><label for="ordem">Ordenar por</label><select id="ordem" disabled><option value="score-desc">Maior score</option><option value="score-asc">Menor score</option><option value="id-asc">Identificador A–Z</option></select></div>
+            <button class="clear-button" id="limpar-filtros" type="button" disabled>Limpar</button>
+          </div>
+          <div class="queue-caption"><p id="resultado-contagem" aria-live="polite">Os resultados aparecerão após a análise.</p><span id="fila-status">REVISÃO HUMANA</span></div>
+          <div class="empty-state" id="empty-state">
+            <div class="empty-orbit" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="m19 29 21-12 21 12-21 12zM19 29v23l21 12 21-12V29M40 41v23M30 23l21 12v11"/><path class="empty-arrow" d="M57 14h14v14m0-14L56 29"/></svg></div>
+            <h4 id="empty-title">O próximo passo começa nos dados.</h4>
+            <p id="empty-description">Gere sua análise para encontrar os pedidos que merecem atenção primeiro.</p>
+            <button class="button button-dark" type="button" data-load><span data-load-label>Gerar análise</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+          </div>
+          <div id="table-area" hidden>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Pedidos priorizados, tabela com rolagem horizontal">
+              <table><caption class="sr-only">Pedidos da fila de análise. A posição é a ordem original por score; os filtros não alteram a seleção do modelo.</caption><thead><tr><th scope="col">POSIÇÃO</th><th scope="col">PEDIDO</th><th scope="col">SCORE <span class="th-unit">/ 0 A 1</span></th><th scope="col"><span class="sr-only">Detalhes do pedido</span></th></tr></thead><tbody id="pedidos"></tbody></table>
+            </div>
+            <div class="pagination"><div class="page-size"><label for="tamanho-pagina">Por página</label><select id="tamanho-pagina" disabled><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></div><div class="page-controls"><button type="button" id="pagina-anterior" aria-label="Página anterior" disabled>←</button><span id="pagina-info" aria-live="polite">Página 1</span><button type="button" id="pagina-proxima" aria-label="Próxima página" disabled>→</button></div></div>
+          </div>
+          <div class="queue-footnote"><span aria-hidden="true">ⓘ</span><p>Busca e ordenação alteram apenas a visualização. A seleção do modelo permanece a mesma.</p></div>
+        </section>
+        <aside class="insights-column" id="leitura-risco" aria-label="Contexto dos resultados">
+          <section class="distribution-panel"><div class="aside-heading"><span class="eyebrow">LEITURA DA FILA</span><span aria-hidden="true">↗</span></div><h3>O risco em<br> perspectiva.</h3><p class="aside-description">Distribuição dos scores dos pedidos selecionados.</p><div id="score-distribution" class="score-distribution"><p class="distribution-placeholder">A distribuição será calculada com os resultados da análise.</p></div><p id="distribution-caption" class="distribution-caption">Somente a fila priorizada. Este gráfico não mede acurácia.</p></section>
+          <section class="interpretation-panel"><span class="interpretation-icon" aria-hidden="true">i</span><h3>Score não é certeza.</h3><p id="observacao">O score ordena o risco relativo. Um valor de 0,8 não significa 80% de chance de atraso.</p><a href="/#como-funciona">Entenda a leitura <span aria-hidden="true">↗</span></a></section>
+          <div class="dataset-note"><span class="tiny-cross" aria-hidden="true">+</span><p id="contexto">Olist · demonstração histórica de validação</p><span class="tiny-cross" aria-hidden="true">+</span></div>
+        </aside>
+      </div>
+    </section>
+    <section class="demo-operations" id="pedidos-loja" aria-labelledby="demo-title"><div class="store-heading"><div><p class="eyebrow">OPERAÇÃO DEMONSTRATIVA</p><h2 id="demo-title">Pedidos da área do cliente</h2></div><button class="button button-dark button-small" type="button" id="demo-refresh">Consultar pedidos ↻</button></div><p class="conta-muted">Defina prazo e responsável, avance as etapas e acompanhe o histórico de cada pedido. Estes registros não entram no lote Olist, nas métricas ou na fila do modelo. Não representam entregas reais.</p><p id="demo-message" class="form-message" role="status">Consulte os pedidos criados na loja.</p><div id="demo-orders" class="operation-list"></div></section>
+    </main>
+    <footer class="dashboard-footer"><p>Inteligência aplicada. Decisão humana.</p><a href="/#como-funciona">Entenda os dados e os limites da análise <span aria-hidden="true">↗</span></a></footer>
+  <button id="abrir-assistente" class="assistant-launcher" type="button" aria-label="Abrir assistente de IA" aria-haspopup="dialog" aria-controls="assistente-dialog" aria-expanded="false" hidden>
+    <span class="launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M20 10.5v4a4 4 0 0 1-4 4H9l-5 3v-6a4 4 0 0 1-1-2.5v-6a4 4 0 0 1 4-4h6"/><path d="m19 2 1.2 2.8L23 6l-2.8 1.2L19 10l-1.2-2.8L15 6l2.8-1.2Z"/></svg></span>
+    <span class="launcher-copy">Assistente <strong>AI</strong><small>Pergunte sobre a análise</small></span><span class="launcher-arrow" aria-hidden="true">↗</span>
+  </button>
+
+  </div>
+  <dialog id="assistente-dialog" class="assistant-drawer" aria-labelledby="assistente-titulo" aria-describedby="assistente-descricao">
+    <header class="assistant-header">
+      <img src="/static/logo.svg?v=2" width="40" height="40" alt="">
+      <div><p class="eyebrow">SEU PRÓXIMO PONTO DE VISTA</p><h2 id="assistente-titulo">Assistente EntregaCerta</h2></div>
+      <button id="fechar-assistente" class="assistant-close" type="button" aria-label="Fechar assistente" autofocus><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    </header>
+    <div id="assistente-conteudo" class="assistant-content">
+      <div id="assistente-boas-vindas">
+        <span class="assistant-status"><span aria-hidden="true"></span> Assistente com IA</span>
+        <div class="assistant-intro"><span class="assistant-orbit" aria-hidden="true">✳</span><h3>Boas perguntas.<br><em>Novas perspectivas.</em></h3><p id="assistente-descricao">Tire dúvidas sobre a análise ou faça uma pergunta geral.</p></div>
+        <div class="assistant-suggestions"><p>Escolha uma pergunta para começar</p><button type="button" data-prompt="Como interpretar o score de atraso dos pedidos?">Como interpretar o score? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Como funciona a seleção dos pedidos para a fila de análise?">Como a fila é formada? <span aria-hidden="true">↗</span></button><button type="button" data-prompt="Quais limitações devo considerar ao usar esta análise histórica?">Quais são os limites da análise? <span aria-hidden="true">↗</span></button></div>
+      </div>
+      <details class="assistant-context assistant-context-details">
+        <summary>Contexto do painel</summary>
+        <p id="assistente-contexto">Gere uma análise para consultar aqui o resumo do lote.</p><p class="assistant-context-note">Dados da aplicação. Este resumo não é uma resposta gerada por IA. Sua pergunta e o resumo da fila são enviados à IA. Confira as respostas antes de tomar decisões.</p>
+      </details>
+      <div id="assistente-historico" class="assistant-conversation" role="log" aria-label="Conversa com o assistente" aria-live="polite" aria-relevant="additions text" hidden></div>
+    </div>
+    <form id="assistente-form" class="assistant-composer">
+      <div class="composer-label"><label for="assistente-pergunta">Mensagem</label><span id="assistente-contagem">0 / 1000</span></div>
+      <textarea id="assistente-pergunta" rows="2" maxlength="1000" placeholder="Pergunte ao EntregaCerta…" aria-describedby="assistente-aviso assistente-atalhos"></textarea>
+      <div class="composer-actions"><button id="copiar-pergunta" class="text-button" type="button" disabled>Copiar pergunta</button><button id="enviar-pergunta" class="assistant-send" type="submit" disabled><span aria-hidden="true">↗</span> <span id="enviar-pergunta-texto">Enviar pergunta</span></button></div>
+      <p id="assistente-atalhos" class="composer-shortcuts">Enter envia · Shift + Enter quebra a linha</p>
+      <p id="assistente-aviso">Histórico enquanto a página estiver aberta. A IA recebe uma pergunta por vez.</p>
+      <p id="assistente-feedback" class="assistant-feedback" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <dialog id="pedido-dialog" class="order-dialog" aria-labelledby="detail-title" aria-describedby="detail-description">
+    <div class="dialog-top"><p class="eyebrow">LEITURA INDIVIDUAL</p><button id="fechar-detalhe" class="icon-button" type="button" aria-label="Fechar detalhes">×</button></div>
+    <h2 id="detail-title">Um pedido.<br><em>Mais contexto.</em></h2>
+    <p id="detail-description" class="dialog-description">Informações do pedido na fila consultada.</p>
+    <div class="detail-id-box"><span>IDENTIFICADOR DO PEDIDO</span><code id="detalhe-id"></code><button id="copiar-id" class="text-button" type="button">Copiar identificador <span aria-hidden="true">↗</span></button></div>
+    <div class="detail-metrics"><div><span>Score de atraso</span><strong id="detalhe-score">—</strong><small>Risco relativo · 0 a 1</small></div><div><span>Posição na fila</span><strong id="detalhe-posicao">—</strong><small>de <span id="detalhe-total">—</span> pedidos priorizados</small></div></div>
+    <p class="detail-capacity">Capacidade configurada: <strong id="detalhe-capacidade">—</strong> do lote.</p>
+    <div class="detail-caution"><span aria-hidden="true">ⓘ</span><p>Este score ajuda a priorizar a revisão. Ele não informa a causa do risco, a quantidade de dias de atraso ou uma probabilidade calibrada.</p></div>
+    <p id="detalhe-feedback" class="detail-feedback" role="status" aria-live="polite"></p>
+  </dialog>
+  <noscript><p class="noscript-message">Ative o JavaScript para consultar a fila e visualizar os resultados do modelo.</p></noscript>
+</body>
+</html>

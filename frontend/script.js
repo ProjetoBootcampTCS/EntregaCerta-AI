@@ -58,6 +58,20 @@ const estado = {
   gatilhoDetalhe: null,
 };
 
+const chaveVisualizacao = "entregacerta-dashboard-filtros-v1";
+
+function salvarVisualizacao() {
+  if (!elementos.resultado || !estado.dados) return;
+  try {
+    sessionStorage.setItem(chaveVisualizacao, JSON.stringify({
+      busca: elementos.busca.value, ordem: elementos.ordem.value,
+      tamanho: elementos.tamanhoPagina.value, pagina: estado.pagina,
+    }));
+  } catch { /* O painel funciona mesmo com armazenamento bloqueado. */ }
+}
+
+// Resultados privados permanecem apenas na memória desta página.
+
 function compararId(a, b) {
   return a.order_id < b.order_id ? -1 : a.order_id > b.order_id ? 1 : 0;
 }
@@ -125,7 +139,7 @@ async function carregarFila() {
   const controlador = new AbortController();
   const timeout = window.setTimeout(() => controlador.abort(), 60000);
   try {
-    const resposta = await fetch("/api/prioridades", {
+    const resposta = await window.ecFetch("/api/prioridades", {
       signal: controlador.signal,
       cache: "no-store",
       headers: { Accept: "application/json" },
@@ -265,6 +279,7 @@ function renderizarTabela() {
   elementos.paginaInfo.textContent = `Página ${quantidade ? estado.pagina : 0} de ${quantidade ? paginas : 0}`;
   elementos.anterior.disabled = !quantidade || estado.pagina <= 1;
   elementos.proxima.disabled = !quantidade || estado.pagina >= paginas;
+  salvarVisualizacao();
 }
 
 // Distribuição dos scores recebidos: não é uma métrica de desempenho do modelo.
@@ -364,7 +379,11 @@ function projetarPagina(pontos, largura, altura) {
 
 // Abertura decorativa: não depende da API nem bloqueia o site se houver falha.
 function configurarAbertura() {
+  // Links de retorno e de ajuda levam diretamente ao conteúdo da página inicial.
+  if (window.location.hash === "#inicio" || window.location.hash === "#como-funciona") return;
   const abertura = document.getElementById("abertura-site");
+  const abrir = document.getElementById("abrir-caixa");
+  const slogan = document.getElementById("intro-slogan");
   const pular = document.getElementById("pular-abertura");
   const pagina = document.getElementById("site-content");
   const vinheta = document.getElementById("intro-vignette");
@@ -374,13 +393,26 @@ function configurarAbertura() {
   const cantosPagina = abertura?.querySelectorAll(".intro-page-corner");
   const paredes = vinheta?.querySelectorAll(".intro-inner-wall");
   const preferencia = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (!abertura || !pular || !pagina || !vinheta || !sombra || cantos.length !== 4
-      || cantosFundo.length !== 4 || cantosPagina.length !== 4 || paredes.length !== 4 || typeof abertura.showModal !== "function"
-      || preferencia.matches || document.documentElement.classList.contains("motion-paused")) return;
+  const ponteiroPreciso = window.matchMedia("(hover: hover) and (pointer: fine)");
+  if (!abertura || !abrir || !slogan || !pular || !pagina || !vinheta || !sombra || cantos.length !== 4
+      || cantosFundo.length !== 4 || cantosPagina.length !== 4 || paredes.length !== 4 || typeof abertura.showModal !== "function") return;
 
+  // A próxima frase só é registrada quando a caixa é aberta. Não repete até
+  // completar as cinco opções neste navegador; funciona também sem armazenamento.
+  const frases = [
+    "Um passo à frente.",
+    "Do dado à decisão.",
+    "Risco em foco.",
+    "Clareza para agir.",
+    "Priorize melhor.",
+  ];
   const temporizadores = [];
   let concluida = false;
+  let iniciada = false;
   let quadro = 0;
+  let quadroInclinacao = 0;
+  let inclinacaoX = 0;
+  let inclinacaoY = 0;
   let inicioJanela = 0;
   let inicioZoom = null;
   let enquadramento = null;
@@ -391,6 +423,31 @@ function configurarAbertura() {
     });
   }
   function suavizar(valor) { return valor * valor * (3 - 2 * valor); }
+
+  // A rotação fica na caixa; a flutuação continua independente no elemento pai.
+  function inclinarCaixa(evento) {
+    if (concluida || iniciada || evento.pointerType !== "mouse" || !ponteiroPreciso.matches
+        || preferencia.matches || document.documentElement.classList.contains("motion-paused")) return;
+    const x = Math.max(-1, Math.min(1, evento.clientX / window.innerWidth * 2 - 1));
+    const y = Math.max(-1, Math.min(1, evento.clientY / window.innerHeight * 2 - 1));
+    inclinacaoX = -y * 6;
+    inclinacaoY = x * 9;
+    if (quadroInclinacao) return;
+    quadroInclinacao = window.requestAnimationFrame(() => {
+      abertura.style.setProperty("--intro-tilt-x", `${inclinacaoX.toFixed(2)}deg`);
+      abertura.style.setProperty("--intro-tilt-y", `${inclinacaoY.toFixed(2)}deg`);
+      quadroInclinacao = 0;
+    });
+  }
+  function centralizarCaixa() {
+    window.cancelAnimationFrame(quadroInclinacao);
+    quadroInclinacao = 0;
+    abertura.style.removeProperty("--intro-tilt-x");
+    abertura.style.removeProperty("--intro-tilt-y");
+  }
+  function sairDaCaixa() {
+    if (!iniciada) centralizarCaixa();
+  }
 
   function revelarPagina(agora) {
     if (concluida || !abertura.open) return;
@@ -447,6 +504,9 @@ function configurarAbertura() {
     concluida = true;
     temporizadores.forEach(window.clearTimeout);
     window.cancelAnimationFrame(quadro);
+    centralizarCaixa();
+    abertura.removeEventListener("pointermove", inclinarCaixa);
+    abertura.removeEventListener("pointerleave", sairDaCaixa);
     vinheta.setAttribute("hidden", "");
     vinheta.style.removeProperty("opacity");
     pagina.style.removeProperty("transform");
@@ -461,13 +521,73 @@ function configurarAbertura() {
     if (devolverFoco) document.getElementById("hero-title").focus({ preventScroll: true });
   }
   function verificarPreferencia() {
-    if (preferencia.matches) finalizar();
+    if (preferencia.matches) {
+      centralizarCaixa();
+      if (iniciada) finalizar(true);
+    }
   }
   function verificarVisibilidade() {
-    if (document.hidden) finalizar();
+    if (iniciada && document.hidden) finalizar(true);
   }
-  function verificarTamanho() { finalizar(); }
+  function dimensionar() {
+    abertura.style.setProperty("--intro-zoom", String(Math.max(window.innerWidth, window.innerHeight) / 180 + 10));
+    const tamanhoCaixa = parseFloat(getComputedStyle(abertura).getPropertyValue("--intro-box-size"));
+    const larguraPlano = tamanhoCaixa * 2.5;
+    abertura.style.setProperty("--intro-page-width", `${larguraPlano}px`);
+    abertura.style.setProperty("--intro-page-height", `${larguraPlano * window.innerHeight / window.innerWidth}px`);
+  }
+  function verificarTamanho() {
+    if (iniciada) finalizar(true);
+    else dimensionar();
+  }
 
+  function iniciarAbertura() {
+    if (iniciada || concluida) return;
+    iniciada = true;
+    window.cancelAnimationFrame(quadroInclinacao);
+    quadroInclinacao = 0;
+    abrir.setAttribute("aria-disabled", "true");
+    let indice = Math.floor(Math.random() * frases.length);
+    try {
+      const salvo = localStorage.getItem("entregacerta-proxima-frase");
+      const proximo = Number(salvo);
+      if (salvo !== null && Number.isInteger(proximo) && proximo >= 0 && proximo < frases.length) indice = proximo;
+      localStorage.setItem("entregacerta-proxima-frase", String((indice + 1) % frases.length));
+    } catch { /* Sem armazenamento, escolhe uma frase apenas para esta visita. */ }
+    slogan.textContent = frases[indice];
+    // A interação permanece disponível com movimento reduzido, sem o zoom.
+    if (preferencia.matches || document.documentElement.classList.contains("motion-paused")) {
+      finalizar(true);
+      return;
+    }
+    abertura.classList.add("is-started", "is-opening");
+    abertura.dataset.phase = "opening";
+    // Estes tempos apenas coreografam a animação já iniciada pelo usuário.
+    temporizadores.push(window.setTimeout(() => finalizar(true), 5500));
+    const etapas = [
+      [250, "is-portal", "preview"],
+      [2100, "is-diving", "diving"],
+      [3400, "is-revealing", "revealing"],
+    ];
+    etapas.forEach(([atraso, classe, fase]) => {
+      temporizadores.push(window.setTimeout(() => {
+        abertura.classList.add(classe);
+        abertura.dataset.phase = fase;
+        if (classe === "is-diving") inicioZoom = performance.now();
+        if (classe === "is-portal") quadro = window.requestAnimationFrame(revelarPagina);
+      }, atraso));
+    });
+    temporizadores.push(window.setTimeout(() => finalizar(true), 3900));
+  }
+
+  abrir.addEventListener("click", iniciarAbertura);
+  abertura.addEventListener("pointermove", inclinarCaixa, { passive: true });
+  abertura.addEventListener("pointerleave", sairDaCaixa);
+  // O autofocus não desenha um contorno na chegada; Tab mantém foco visível.
+  abertura.addEventListener("keydown", (evento) => {
+    if (["Tab", "Enter", " "].includes(evento.key)) abertura.classList.add("is-keyboard");
+  });
+  abertura.addEventListener("pointerdown", () => abertura.classList.remove("is-keyboard"));
   pular.addEventListener("click", () => finalizar(true));
   abertura.addEventListener("cancel", (evento) => {
     evento.preventDefault();
@@ -479,33 +599,11 @@ function configurarAbertura() {
   window.addEventListener("resize", verificarTamanho);
 
   try {
-    // Escala suficiente para atravessar a abertura também em telas grandes.
-    abertura.style.setProperty("--intro-zoom", String(Math.max(window.innerWidth, window.innerHeight) / 180 + 10));
-    const tamanhoCaixa = parseFloat(getComputedStyle(abertura).getPropertyValue("--intro-box-size"));
-    const larguraPlano = tamanhoCaixa * 2.5;
-    abertura.style.setProperty("--intro-page-width", `${larguraPlano}px`);
-    abertura.style.setProperty("--intro-page-height", `${larguraPlano * window.innerHeight / window.innerWidth}px`);
-    abertura.dataset.phase = "floating";
+    dimensionar();
+    abertura.dataset.phase = "waiting";
     document.documentElement.classList.add("intro-active");
     pagina.style.transformOrigin = `0 ${window.scrollY}px`;
     abertura.showModal();
-    // Garantia independente de eventos de animação: a tela sempre é liberada.
-    temporizadores.push(window.setTimeout(() => finalizar(), 6500));
-    const etapas = [
-      [2000, "is-opening", "opening"],
-      [2250, "is-portal", "preview"],
-      [3050, "is-diving", "diving"],
-      [4350, "is-revealing", "revealing"],
-    ];
-    etapas.forEach(([atraso, classe, fase]) => {
-      temporizadores.push(window.setTimeout(() => {
-        abertura.classList.add(classe);
-        abertura.dataset.phase = fase;
-        if (classe === "is-diving") inicioZoom = performance.now();
-        if (classe === "is-portal") quadro = window.requestAnimationFrame(revelarPagina);
-      }, atraso));
-    });
-    temporizadores.push(window.setTimeout(() => finalizar(), 4850));
   } catch {
     finalizar();
   }
@@ -514,9 +612,7 @@ function configurarAbertura() {
 // Movimento é opcional e respeita a preferência de acessibilidade do sistema.
 function configurarMovimento() {
   const preferencia = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const ponteiroPreciso = window.matchMedia("(hover: hover) and (pointer: fine)");
   const botao = document.getElementById("motion-toggle");
-  const cena = document.querySelector(".parcel-scene");
   let pausaManual = false;
   try { pausaManual = localStorage.getItem("entregacerta-motion-paused") === "true"; } catch { /* Preferência vale só nesta visita. */ }
 
@@ -526,10 +622,6 @@ function configurarMovimento() {
     botao.setAttribute("aria-pressed", String(pausado));
     botao.disabled = preferencia.matches;
     document.getElementById("motion-label").textContent = preferencia.matches ? "Movimento reduzido" : pausado ? "Ativar movimento" : "Pausar movimento";
-    if (cena && pausado) {
-      cena.style.setProperty("--tilt-x", "0deg");
-      cena.style.setProperty("--tilt-y", "0deg");
-    }
   }
   botao.addEventListener("click", () => {
     pausaManual = !pausaManual;
@@ -538,19 +630,6 @@ function configurarMovimento() {
   });
   preferencia.addEventListener("change", atualizarMovimento);
   atualizarMovimento();
-
-  if (cena) {
-    cena.addEventListener("pointermove", (evento) => {
-      if (!ponteiroPreciso.matches || document.documentElement.classList.contains("motion-paused")) return;
-      const limites = cena.getBoundingClientRect();
-      cena.style.setProperty("--tilt-x", `${-(evento.clientY - limites.top - limites.height / 2) / limites.height * 5}deg`);
-      cena.style.setProperty("--tilt-y", `${(evento.clientX - limites.left - limites.width / 2) / limites.width * 6}deg`);
-    });
-    cena.addEventListener("pointerleave", () => {
-      cena.style.setProperty("--tilt-x", "0deg");
-      cena.style.setProperty("--tilt-y", "0deg");
-    });
-  }
 
   if ("IntersectionObserver" in window && !document.documentElement.classList.contains("motion-paused")) {
     // O conteúdo só fica oculto depois que o observador está disponível.
@@ -582,360 +661,118 @@ function configurarMovimento() {
   atualizarCabecalho();
 }
 
-// Resumo determinístico dos dados já recebidos; nenhuma chamada a uma LLM.
-function atualizarContextoAssistente() {
-  const resumo = document.getElementById("assistente-contexto");
-  if (!estado.dados) {
-    resumo.textContent = estado.carregando
-      ? "Análise em andamento. O resumo aparecerá quando a consulta for concluída."
-      : "Gere uma análise para consultar aqui o resumo do lote.";
-    return;
-  }
-  const dados = estado.dados;
-  resumo.textContent = `${formatoInteiro.format(dados.pedidos_avaliados)} pedidos avaliados, `
-    + `${formatoInteiro.format(dados.pedidos_na_fila)} na fila e capacidade de ${formatoPercentual.format(dados.fracao_fila)}. `
-    + `${dados.contexto}. Última consulta concluída: ${formatoHorario.format(estado.atualizadoEm)}.`
-    + (elementos.resultado.dataset.state === "error" ? " A atualização falhou; este é o último resultado válido." : "");
-}
+function configurarMenuLateral() {
+  const menu = document.getElementById("menu-lateral");
+  if (!menu) return;
+  const abrir = document.getElementById("abrir-menu");
+  const fechar = document.getElementById("fechar-menu");
+  const fundo = document.getElementById("menu-backdrop");
+  const conteudo = document.getElementById("site-content");
+  const compacto = window.matchMedia("(max-width: 960px)");
+  let aberto = false;
 
-// Markdown básico com elementos permitidos. O texto da IA nunca vira HTML bruto.
-function formatarTextoAssistente(destino, texto) {
-  function adicionarTrecho(elemento, trecho, nivel = 0) {
-    if (nivel > 8) {
-      elemento.append(document.createTextNode(trecho));
-      return;
-    }
-    const marcadores = /\\([\\`*_])|`([^`\n]+)`|\*\*\*([^\n]+?)\*\*\*|\*\*([^\n]+?)\*\*|(?<!\w)__([^\n]+?)__(?!\w)|\*([^*\n]+?)\*|(?<!\w)_([^_\n]+?)_(?!\w)/g;
-    let inicio = 0;
-    for (const parte of trecho.matchAll(marcadores)) {
-      elemento.append(document.createTextNode(trecho.slice(inicio, parte.index)));
-      if (parte[1] !== undefined) {
-        elemento.append(document.createTextNode(parte[1]));
-      } else if (parte[2] !== undefined) {
-        const codigo = document.createElement("code");
-        codigo.textContent = parte[2];
-        elemento.append(codigo);
-      } else {
-        const negrito = parte[3] ?? parte[4] ?? parte[5];
-        const destaque = document.createElement(negrito !== undefined ? "strong" : "em");
-        if (parte[3] !== undefined) {
-          const italico = document.createElement("em");
-          adicionarTrecho(italico, parte[3], nivel + 1);
-          destaque.append(italico);
-        } else {
-          adicionarTrecho(destaque, negrito ?? parte[6] ?? parte[7], nivel + 1);
-        }
-        elemento.append(destaque);
-      }
-      inicio = parte.index + parte[0].length;
-    }
-    elemento.append(document.createTextNode(trecho.slice(inicio)));
-  }
-
-  destino.replaceChildren();
-  destino.classList.add("chat-markdown");
-  let paragrafo = [];
-  let lista = null;
-  let blocoCodigo = null;
-  function concluirParagrafo() {
-    if (!paragrafo.length) return;
-    const elemento = document.createElement("p");
-    adicionarTrecho(elemento, paragrafo.join("\n"));
-    destino.append(elemento);
-    paragrafo = [];
-  }
-  function concluirCodigo() {
-    const pre = document.createElement("pre");
-    const codigo = document.createElement("code");
-    codigo.textContent = blocoCodigo.join("\n");
-    pre.append(codigo);
-    destino.append(pre);
-    blocoCodigo = null;
-  }
-
-  for (const linha of texto.replace(/\r\n?/g, "\n").split("\n")) {
-    if (/^\s{0,3}```/.test(linha)) {
-      concluirParagrafo();
-      lista = null;
-      if (blocoCodigo !== null) concluirCodigo();
-      else blocoCodigo = [];
-      continue;
-    }
-    if (blocoCodigo !== null) {
-      blocoCodigo.push(linha);
-      continue;
-    }
-    const titulo = linha.match(/^\s{0,3}(#{1,6})\s+(.+?)(?:\s+#+)?\s*$/);
-    const item = linha.match(/^\s*(?:([-+*])\s+|(\d+)[.)]\s+)(.+)$/);
-    if (!linha.trim() || titulo || item) concluirParagrafo();
-    if (titulo) {
-      lista = null;
-      // O painel já tem h2; os títulos das respostas começam em h3.
-      const elemento = document.createElement(`h${Math.min(6, titulo[1].length + 2)}`);
-      adicionarTrecho(elemento, titulo[2]);
-      destino.append(elemento);
-    } else if (item) {
-      const tipo = item[1] ? "ul" : "ol";
-      if (!lista || lista.tagName.toLowerCase() !== tipo) {
-        lista = document.createElement(tipo);
-        if (tipo === "ol") lista.setAttribute("start", String(Number(item[2])));
-        destino.append(lista);
-      }
-      const elemento = document.createElement("li");
-      adicionarTrecho(elemento, item[3]);
-      lista.append(elemento);
+  function atualizar() {
+    const modal = compacto.matches && aberto;
+    menu.classList.toggle("is-open", modal);
+    menu.inert = compacto.matches && !modal;
+    conteudo.inert = modal;
+    fundo.hidden = !modal;
+    abrir.setAttribute("aria-expanded", String(modal));
+    document.documentElement.classList.toggle("dashboard-menu-open", modal);
+    if (modal) {
+      menu.setAttribute("role", "dialog");
+      menu.setAttribute("aria-modal", "true");
     } else {
-      lista = null;
-      if (linha.trim()) paragrafo.push(linha);
+      menu.removeAttribute("role");
+      menu.removeAttribute("aria-modal");
     }
   }
-  concluirParagrafo();
-  if (blocoCodigo !== null) concluirCodigo();
-}
-
-function configurarAssistente() {
-  const abrir = document.getElementById("abrir-assistente");
-  const painel = document.getElementById("assistente-dialog");
-  const pergunta = document.getElementById("assistente-pergunta");
-  const copiar = document.getElementById("copiar-pergunta");
-  const feedback = document.getElementById("assistente-feedback");
-  const formulario = document.getElementById("assistente-form");
-  const enviar = document.getElementById("enviar-pergunta");
-  const rotuloEnviar = document.getElementById("enviar-pergunta-texto");
-  const conteudo = document.getElementById("assistente-conteudo");
-  const historico = document.getElementById("assistente-historico");
-  const boasVindas = document.getElementById("assistente-boas-vindas");
-  const sugestoes = [...painel.querySelectorAll("[data-prompt]")];
-  let fechamentoPendente = null;
-  let consultando = false;
-
-  function atualizarRascunho() {
-    document.getElementById("assistente-contagem").textContent = `${pergunta.value.length} / 1000`;
-    copiar.disabled = consultando || !pergunta.value.trim();
-    enviar.disabled = consultando || !pergunta.value.trim();
-    if (!consultando) feedback.textContent = "";
+  function fecharMenu() {
+    aberto = false;
+    atualizar();
+    if (compacto.matches) abrir.focus();
   }
-
-  function atualizarConsulta(emAndamento) {
-    consultando = emAndamento;
-    pergunta.readOnly = emAndamento;
-    formulario.setAttribute("aria-busy", String(emAndamento));
-    sugestoes.forEach((botao) => { botao.disabled = emAndamento; });
-    rotuloEnviar.textContent = emAndamento ? "Consultando..." : "Enviar pergunta";
-    atualizarRascunho();
-  }
-
-  function acompanharConversa(forcar = false) {
-    const pertoDoFim = conteudo.scrollHeight - conteudo.scrollTop - conteudo.clientHeight < 100;
-    if (painel.open && (forcar || pertoDoFim)) conteudo.scrollTop = conteudo.scrollHeight;
-  }
-
-  function adicionarMensagem(autor, texto, estadoMensagem = "ready") {
-    const elemento = document.createElement("article");
-    elemento.className = `chat-message chat-message-${autor}`;
-    elemento.dataset.state = estadoMensagem;
-    elemento.setAttribute("aria-busy", String(estadoMensagem === "loading"));
-    const rotulo = document.createElement("p");
-    rotulo.className = "chat-message-author";
-    rotulo.textContent = autor === "user" ? "Você" : "EntregaCerta AI";
-    const corpo = document.createElement("div");
-    corpo.className = "chat-message-text";
-    // Perguntas e respostas são texto não confiável, nunca HTML.
-    corpo.textContent = texto;
-    elemento.append(rotulo, corpo);
-    historico.append(elemento);
-    return { elemento, rotulo, corpo };
-  }
-
-  function mostrarResposta(mensagem, estadoResposta, texto) {
-    // Só acompanha a resposta se a pessoa não estiver lendo mensagens antigas.
-    const acompanhar = conteudo.scrollHeight - conteudo.scrollTop - conteudo.clientHeight < 100;
-    mensagem.elemento.dataset.state = estadoResposta;
-    mensagem.rotulo.textContent = estadoResposta === "ready" ? "EntregaCerta AI · resposta gerada" : "Aviso do sistema";
-    if (estadoResposta === "ready") formatarTextoAssistente(mensagem.corpo, texto);
-    else mensagem.corpo.textContent = texto;
-    mensagem.elemento.setAttribute("aria-busy", "false");
-    if (acompanhar) acompanharConversa(true);
-  }
-
-  function concluirFechamento() {
-    if (painel.open) painel.close();
-  }
-
-  function fecharPainel() {
-    if (!painel.open || painel.classList.contains("is-closing")) return;
-    if (document.documentElement.classList.contains("motion-paused")) {
-      concluirFechamento();
-      return;
-    }
-    painel.classList.add("is-closing");
-    // Também fecha se o navegador não emitir animationend.
-    fechamentoPendente = window.setTimeout(concluirFechamento, 240);
-  }
-
   abrir.addEventListener("click", () => {
-    atualizarContextoAssistente();
-    painel.showModal();
-    document.documentElement.classList.add("assistant-open");
-    abrir.setAttribute("aria-expanded", "true");
-    if (!historico.hidden) acompanharConversa(true);
-  });
-  document.getElementById("fechar-assistente").addEventListener("click", fecharPainel);
-  painel.addEventListener("cancel", (evento) => {
-    evento.preventDefault();
-    fecharPainel();
-  });
-  painel.addEventListener("keydown", (evento) => {
-    if (evento.key !== "Tab") return;
-    const controles = [...painel.querySelectorAll("button:not(:disabled), textarea, summary")]
-      .filter((controle) => controle.getClientRects().length > 0);
-    const primeiro = controles[0];
-    const ultimo = controles[controles.length - 1];
-    if (evento.shiftKey && document.activeElement === primeiro) {
-      evento.preventDefault();
-      ultimo.focus();
-    } else if (!evento.shiftKey && document.activeElement === ultimo) {
-      evento.preventDefault();
-      primeiro.focus();
-    }
-  });
-  painel.addEventListener("animationend", (evento) => {
-    if (evento.target === painel && evento.animationName === "drawer-out") concluirFechamento();
-  });
-  painel.addEventListener("click", (evento) => {
-    if (evento.target !== painel) return;
-    const limites = painel.getBoundingClientRect();
-    if (evento.clientX < limites.left || evento.clientX > limites.right || evento.clientY < limites.top || evento.clientY > limites.bottom) fecharPainel();
-  });
-  painel.addEventListener("close", () => {
-    window.clearTimeout(fechamentoPendente);
-    painel.classList.remove("is-closing");
-    document.documentElement.classList.remove("assistant-open");
-    abrir.setAttribute("aria-expanded", "false");
-    abrir.focus({ preventScroll: true });
-  });
-  pergunta.addEventListener("input", atualizarRascunho);
-  pergunta.addEventListener("keydown", (evento) => {
-    if (evento.key === "Enter" && !evento.shiftKey && !evento.isComposing) {
-      evento.preventDefault();
-      if (!consultando) formulario.requestSubmit();
-    }
-  });
-  sugestoes.forEach((botao) => {
-    botao.addEventListener("click", () => {
-      if (consultando) return;
-      pergunta.value = botao.dataset.prompt;
-      atualizarRascunho();
-      pergunta.focus();
+    aberto = true;
+    atualizar();
+    window.requestAnimationFrame(() => {
+      if (aberto && compacto.matches) fechar.focus();
     });
   });
-  copiar.addEventListener("click", async () => {
-    if (!pergunta.value.trim()) return;
-    try {
-      await navigator.clipboard.writeText(pergunta.value.trim());
-      feedback.textContent = "Pergunta copiada.";
-    } catch {
-      feedback.textContent = "Selecione a pergunta e use o comando Copiar do seu dispositivo.";
+  fechar.addEventListener("click", fecharMenu);
+  fundo.addEventListener("click", fecharMenu);
+  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+    if (compacto.matches) fecharMenu();
+  }));
+  document.addEventListener("keydown", (evento) => {
+    if (!compacto.matches || !aberto) return;
+    if (evento.key === "Escape") {
+      evento.preventDefault();
+      fecharMenu();
+    } else if (evento.key === "Tab") {
+      const controles = [...menu.querySelectorAll("a, button:not(:disabled)")].filter((item) => item.getClientRects().length);
+      const primeiro = controles[0];
+      const ultimo = controles[controles.length - 1];
+      if (evento.shiftKey && document.activeElement === primeiro) {
+        evento.preventDefault();
+        ultimo.focus();
+      } else if (!evento.shiftKey && document.activeElement === ultimo) {
+        evento.preventDefault();
+        primeiro.focus();
+      }
     }
   });
-  formulario.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-    if (consultando) return;
-
-    const texto = pergunta.value.trim();
-    if (!texto || texto.length > 1000) {
-      feedback.textContent = texto ? "Use até 1000 caracteres." : "Digite uma pergunta.";
-      pergunta.focus();
-      return;
-    }
-
-    boasVindas.hidden = true;
-    historico.hidden = false;
-    adicionarMensagem("user", texto);
-    const mensagemResposta = adicionarMensagem("assistant", "Aguardando resposta…", "loading");
-    pergunta.value = "";
-    atualizarConsulta(true);
-    acompanharConversa(true);
-    feedback.textContent = "Consultando o assistente...";
-
-    // Um prazo finito permite recuperar o formulário se a conexão não responder.
-    const controlador = new AbortController();
-    const temporizador = window.setTimeout(() => controlador.abort(), 120000);
-    let mensagemFinal = "";
-
-    try {
-      const resposta = await fetch("/api/assistente", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pergunta: texto }),
-        signal: controlador.signal,
-      });
-      if (!resposta.ok) throw new Error("Falha na consulta ao backend.");
-
-      const dados = await resposta.json();
-      if (typeof dados?.disponivel !== "boolean" || typeof dados?.resposta !== "string" || !dados.resposta.trim()) {
-        throw new Error("Resposta inesperada do backend.");
-      }
-
-      if (dados.disponivel) {
-        mostrarResposta(mensagemResposta, "ready", dados.resposta.trim());
-        mensagemFinal = "Resposta recebida.";
-      } else {
-        mostrarResposta(mensagemResposta, "unavailable", dados.resposta.trim());
-        mensagemFinal = "Assistente indisponível nesta consulta.";
-      }
-    } catch (erro) {
-      const mensagem = erro.name === "AbortError"
-        ? "O tempo de espera terminou. Tente novamente mais tarde."
-        : "Não foi possível consultar o assistente. Tente novamente mais tarde.";
-      mostrarResposta(mensagemResposta, "error", mensagem);
-      mensagemFinal = "Não foi possível concluir a consulta.";
-    } finally {
-      window.clearTimeout(temporizador);
-      atualizarConsulta(false);
-      feedback.textContent = mensagemFinal;
-    }
-  });
-  atualizarRascunho();
-  abrir.hidden = false;
+  compacto.addEventListener("change", () => { aberto = false; atualizar(); });
+  atualizar();
 }
 
-botoesCarregar.forEach((botao) => botao.addEventListener("click", () => {
-  // A ação do destaque leva ao painel para mostrar progresso e resultado.
-  if (botao.id === "carregar") {
-    elementos.resultado.scrollIntoView({
-      behavior: document.documentElement.classList.contains("motion-paused") ? "auto" : "smooth",
-      block: "start",
-    });
-  }
-  carregarFila();
-}));
-elementos.busca.addEventListener("input", aplicarFiltros);
-elementos.ordem.addEventListener("change", aplicarFiltros);
-elementos.tamanhoPagina.addEventListener("change", aplicarFiltros);
-elementos.limpar.addEventListener("click", () => {
-  elementos.busca.value = "";
-  elementos.ordem.value = "score-desc";
-  elementos.tamanhoPagina.value = "25";
-  aplicarFiltros();
-  elementos.busca.focus();
-});
-elementos.anterior.addEventListener("click", () => { estado.pagina--; renderizarTabela(); });
-elementos.proxima.addEventListener("click", () => { estado.pagina++; renderizarTabela(); });
-elementos.exportar.addEventListener("click", exportarCsv);
-document.getElementById("copiar-id").addEventListener("click", copiarIdentificador);
-document.getElementById("fechar-detalhe").addEventListener("click", () => elementos.dialogo.close());
-elementos.dialogo.addEventListener("click", (evento) => {
-  if (evento.target !== elementos.dialogo) return;
-  const limites = elementos.dialogo.getBoundingClientRect();
-  if (evento.clientX < limites.left || evento.clientX > limites.right || evento.clientY < limites.top || evento.clientY > limites.bottom) elementos.dialogo.close();
-});
-elementos.dialogo.addEventListener("close", () => {
-  estado.gatilhoDetalhe?.focus();
-  estado.pedidoAberto = null;
-});
+function configurarPainel() {
+  if (!elementos.resultado) return;
+  botoesCarregar.forEach((botao) => botao.addEventListener("click", () => {
+    carregarFila();
+  }));
+  elementos.busca.addEventListener("input", aplicarFiltros);
+  elementos.ordem.addEventListener("change", aplicarFiltros);
+  elementos.tamanhoPagina.addEventListener("change", aplicarFiltros);
+  elementos.limpar.addEventListener("click", () => {
+    elementos.busca.value = "";
+    elementos.ordem.value = "score-desc";
+    elementos.tamanhoPagina.value = "25";
+    aplicarFiltros();
+    elementos.busca.focus();
+  });
+  elementos.anterior.addEventListener("click", () => { estado.pagina--; renderizarTabela(); });
+  elementos.proxima.addEventListener("click", () => { estado.pagina++; renderizarTabela(); });
+  elementos.exportar.addEventListener("click", exportarCsv);
+  document.getElementById("copiar-id").addEventListener("click", copiarIdentificador);
+  document.getElementById("fechar-detalhe").addEventListener("click", () => elementos.dialogo.close());
+  elementos.dialogo.addEventListener("click", (evento) => {
+    if (evento.target !== elementos.dialogo) return;
+    const limites = elementos.dialogo.getBoundingClientRect();
+    if (evento.clientX < limites.left || evento.clientX > limites.right || evento.clientY < limites.top || evento.clientY > limites.bottom) elementos.dialogo.close();
+  });
+  elementos.dialogo.addEventListener("close", () => {
+    estado.gatilhoDetalhe?.focus();
+    estado.pedidoAberto = null;
+  });
 
-atualizarControles();
+  atualizarControles();
+  atualizarContextoAssistente();
+}
+
 configurarMovimento();
-configurarAssistente();
+configurarPainel();
+configurarMenuLateral();
 configurarAbertura();
+
+// Transição nativa entre documentos, sem interceptar links nem o botão Voltar.
+for (const evento of ["pageswap", "pagereveal"]) {
+  window.addEventListener(evento, (event) => {
+    // O navegador pode cancelar a transição ao mudar a preferência de movimento.
+    event.viewTransition?.ready.catch(() => {});
+    if (document.documentElement.classList.contains("motion-paused")
+      || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      event.viewTransition?.skipTransition();
+    }
+  });
+}
