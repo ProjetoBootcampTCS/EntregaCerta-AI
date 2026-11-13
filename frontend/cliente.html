@@ -1,12 +1,49 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Seu espaço — EntregaCerta AI</title><meta name="theme-color" content="#19271f"><link rel="icon" href="/static/logo.svg"><link rel="stylesheet" href="/static/style.css?v=2.20"><link rel="stylesheet" href="/static/conta.css?v=2"><script src="/static/assistente.js?v=1" defer></script>
-<script src="/static/auth.js?v=2" defer></script><script src="/static/cliente.js?v=2" defer></script></head>
+<script src="/static/auth.js?v=2" defer></script><script src="/static/cliente.js?v=2" defer></script><link rel="stylesheet" href="/static/rastreio-demo.css?v=1"><script src="/static/rastreio-demo.js?v=1" defer></script></head>
 <body class="conta-page"><a class="skip-link" href="#catalogo">Ir para o catálogo</a>
-<header class="conta-header"><a class="brand" href="/"><img class="brand-mark" src="/static/logo.svg" width="40" height="40" alt=""><span>entregacerta<span class="brand-ai">AI</span></span></a><nav class="conta-nav" aria-label="Área do cliente"><a href="#catalogo">Catálogo</a><a href="#meus-pedidos">Meus pedidos</a><a href="/entrar" data-login-link>Entrar / criar conta</a><button type="button" class="conta-out" data-logout hidden>Sair</button><button type="button" class="cart-trigger" id="abrir-carrinho" aria-haspopup="dialog">Carrinho <span id="cart-count">0</span></button></nav></header>
+<header class="conta-header"><a class="brand" href="/"><img class="brand-mark" src="/static/logo.svg" width="40" height="40" alt=""><span>entregacerta<span class="brand-ai">AI</span></span></a><nav class="conta-nav" aria-label="Área do cliente"><a href="#rastrear-compra">Rastrear compra</a><a href="#catalogo">Catálogo</a><a href="#meus-pedidos">Meus pedidos</a><a href="/entrar" data-login-link>Entrar / criar conta</a><button type="button" class="conta-out" data-logout hidden>Sair</button><button type="button" class="cart-trigger" id="abrir-carrinho" aria-haspopup="dialog">Carrinho <span id="cart-count">0</span></button></nav></header>
 <main class="store-main"><section class="store-hero"><div><span class="eyebrow">ÁREA DO CLIENTE / LOJA DEMONSTRATIVA</span><h1>Da escolha à entrega.<br><em>Acompanhe de perto.</em></h1><p>Explore o catálogo, crie um pedido de demonstração e acompanhe cada etapa atualizada pela nossa equipe.</p><a href="#catalogo" class="button button-lime" style="margin-top:28px">Explorar catálogo <span aria-hidden="true">↗</span></a></div><div class="store-art" aria-hidden="true"><img src="/static/logo.svg" width="240" height="240" alt=""></div></section>
 <p class="demo-strip">PROJETO ACADÊMICO · Sem cobrança ou envio real. Categorias e preços históricos da Olist; ilustrações simbólicas. Pedidos criados aqui ficam separados da avaliação de Machine Learning.</p>
-<section class="store-section" id="catalogo" aria-labelledby="catalog-title"><div class="store-heading"><div><p class="eyebrow">01 / ESCOLHA SEU PRÓXIMO PEDIDO</p><h2 id="catalog-title">Um pouco de cada universo.</h2></div><span class="conta-muted">Seleção a partir da base Olist</span></div><p id="catalog-message" class="form-message" role="status">Carregando catálogo…</p><div class="catalog-grid" id="catalog-grid"></div></section>
-<section class="store-section" id="meus-pedidos" aria-labelledby="orders-title"><div class="store-heading"><div><p class="eyebrow">02 / CADA ETAPA, MAIS CLAREZA</p><h2 id="orders-title">Seus pedidos, por aqui.</h2></div><button class="button button-outline button-small" type="button" id="atualizar-pedidos">Atualizar pedidos ↻</button></div><p class="conta-muted">Últimos 100 pedidos da sua conta. O acompanhamento representa o fluxo demonstrativo da loja.</p><p id="client-message" class="form-message" role="status"></p><div id="client-orders" class="client-orders"></div></section></main>
+
+<section class="store-section tracking-demo" id="rastrear-compra" aria-labelledby="tracking-demo-title">
+  <div class="store-heading">
+    <div><p class="eyebrow">01 / UMA COMPRA, CADA MOVIMENTO</p><h2 id="tracking-demo-title">Da loja até você.</h2></div>
+    <span class="tracking-demo-badge">Demonstração · dados fictícios</span>
+  </div>
+  <p class="tracking-demo-description">Experimente como será acompanhar uma compra de outra loja. Os códigos, eventos e datas abaixo são exemplos; nenhuma transportadora é consultada.</p>
+  <div class="tracking-demo-layout">
+    <div class="tracking-demo-search">
+      <span class="tracking-demo-symbol" aria-hidden="true">↗</span>
+      <h3>Um código.<br>Todo o caminho.</h3>
+      <p>Cole um código de exemplo ou escolha um dos cenários abaixo.</p>
+      <form id="tracking-demo-form">
+        <label for="tracking-demo-code">Código de rastreio demonstrativo</label>
+        <div class="tracking-demo-input"><input id="tracking-demo-code" name="codigo_demo" type="text" placeholder="Ex.: ECDEMO001" maxlength="64" required autocomplete="off" spellcheck="false" autocapitalize="characters" aria-describedby="tracking-demo-help tracking-demo-message"><button class="button button-lime" type="submit">Rastrear <span aria-hidden="true">↗</span></button></div>
+        <p id="tracking-demo-help">Use ECDEMO001, ECDEMO002 ou ECDEMO003. Códigos de compras reais ainda não são consultados.</p>
+      </form>
+      <div class="tracking-demo-examples" role="group" aria-label="Escolher cenário de rastreamento">
+        <button type="button" data-tracking-demo="ECDEMO001" aria-pressed="false" aria-controls="tracking-demo-result"><span>01</span> Em trânsito <small>ECDEMO001</small></button>
+        <button type="button" data-tracking-demo="ECDEMO002" aria-pressed="false" aria-controls="tracking-demo-result"><span>02</span> Saiu para entrega <small>ECDEMO002</small></button>
+        <button type="button" data-tracking-demo="ECDEMO003" aria-pressed="false" aria-controls="tracking-demo-result"><span>03</span> Possível atraso <small>ECDEMO003</small></button>
+      </div>
+      <p id="tracking-demo-message" class="tracking-demo-message" role="status" aria-live="polite" aria-atomic="true"></p>
+    </div>
+    <div class="tracking-demo-output">
+      <div id="tracking-demo-empty" class="tracking-demo-empty">
+        <svg viewBox="0 0 240 170" aria-hidden="true" focusable="false"><path class="tracking-demo-path" d="M22 134h54l25-25h115"/><circle cx="22" cy="134" r="7"/><circle cx="216" cy="109" r="7"/><path class="tracking-demo-box" d="m76 49 46-26 46 26v53l-46 27-46-27z"/><path d="m76 49 46 27 46-27m-46 27v53m-24-93 46 27v25m-60 0 17 10"/></svg>
+        <p class="eyebrow">PRONTO PARA EXPLORAR</p><h3>Cada etapa conta.</h3>
+        <p>Escolha um cenário para visualizar o caminho do pedido e uma estimativa ilustrativa de entrega.</p>
+        <span class="tracking-demo-empty-note">Sem API externa · sem previsão de ML</span>
+      </div>
+      <article id="tracking-demo-result" aria-labelledby="tracking-demo-result-title" hidden></article>
+    </div>
+  </div>
+  <p class="tracking-demo-footnote">Ambiente de demonstração. As estimativas são predefinidas para testar a interface e não representam previsões do EntregaCerta AI. Esses exemplos não entram no banco de pedidos, no treinamento ou nas métricas do modelo.</p>
+</section>
+
+<section class="store-section" id="catalogo" aria-labelledby="catalog-title"><div class="store-heading"><div><p class="eyebrow">02 / ESCOLHA SEU PRÓXIMO PEDIDO</p><h2 id="catalog-title">Um pouco de cada universo.</h2></div><span class="conta-muted">Seleção a partir da base Olist</span></div><p id="catalog-message" class="form-message" role="status">Carregando catálogo…</p><div class="catalog-grid" id="catalog-grid"></div></section>
+<section class="store-section" id="meus-pedidos" aria-labelledby="orders-title"><div class="store-heading"><div><p class="eyebrow">03 / CADA ETAPA, MAIS CLAREZA</p><h2 id="orders-title">Seus pedidos, por aqui.</h2></div><button class="button button-outline button-small" type="button" id="atualizar-pedidos">Atualizar pedidos ↻</button></div><p class="conta-muted">Últimos 100 pedidos da sua conta. O acompanhamento representa o fluxo demonstrativo da loja.</p><p id="client-message" class="form-message" role="status"></p><div id="client-orders" class="client-orders"></div></section></main>
 <footer class="store-footer"><span>EntregaCerta AI · Bootcamp TCS</span><a href="/entrar?destino=dashboard">Acesso da equipe ↗</a><span>Dados Olist · 2016–2018 · CC BY-NC-SA 4.0</span></footer>
 <dialog class="cart-drawer" id="cart-dialog" aria-labelledby="cart-title"><div class="cart-top"><h2 id="cart-title">Seu carrinho<span class="title-dot">.</span></h2><button class="cart-close" type="button" id="fechar-carrinho" aria-label="Fechar carrinho" autofocus>×</button></div><div id="cart-items"></div><div class="cart-sum"><span>Total demonstrativo</span><strong id="cart-total">R$ 0,00</strong></div><form class="cart-form" id="checkout"><div><label for="destino-uf">Estado de destino</label><select id="destino-uf" required><option value="">Selecione seu estado</option></select></div><p class="conta-muted">Nenhum pagamento será solicitado. O pedido será salvo na sua conta e acompanhado pela equipe.</p><button class="button button-dark" type="submit" id="confirmar-pedido">Criar pedido de demonstração ↗</button><a href="/entrar" id="cart-login" hidden>Entre ou crie uma conta de cliente para continuar ↗</a><p id="cart-message" class="form-message" role="status" aria-live="polite"></p></form></dialog>
 </body></html>

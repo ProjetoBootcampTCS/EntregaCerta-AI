@@ -108,3 +108,12 @@
   .dashboard-content .insights-column { grid-template-columns: 1fr; }
   .dashboard-footer { padding: 0 18px 100px; flex-direction: column; gap: 8px; }
 }
+
+/* Ações e feedback da exportação PDF, exclusiva do dashboard. */
+.dashboard-action-buttons { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:flex-end; }
+.report-status { font-size:12px; color:var(--muted); margin:0 0 12px; line-height:1.6; }
+.report-status[data-state=success] { color:#41642b; }
+.report-status[data-state=warning] { color:#805b22; }
+.report-status[data-state=error] { color:#a42c24; }
+#gerar-relatorio-pdf[aria-busy=true] { cursor:progress; }
+@media(max-width:700px) { .dashboard-action-buttons{width:100%;flex-direction:column;align-items:stretch;} .dashboard-action-buttons .button{justify-content:space-between;} }

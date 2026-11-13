@@ -23,6 +23,15 @@ def fixture():
 
 
 class SimulacaoTest(unittest.TestCase):
+    def test_diagnostico_pequeno_sem_atrasos(self):
+        from src.simulacao_logistica.avaliacao import metricas
+        m = metricas([0, 0], [.2, .8], .5)
+        self.assertEqual((m['tn'], m['fp'], m['fn'], m['tp']), (1, 1, 0, 0))
+        self.assertEqual(m['fila10'], 0)
+        self.assertTrue(np.isnan(m['AP']))
+        self.assertTrue(np.isnan(m['precision_top10']))
+        self.assertTrue(np.isnan(m['recall_top10']))
+
     def setUp(self):
         self.config=json.loads((RAIZ/'configuracoes/cenario_logistico.json').read_text(encoding='utf-8'))
         self.geracao=json.loads((RAIZ/'configuracoes/geracao_ctgan.json').read_text(encoding='utf-8'))

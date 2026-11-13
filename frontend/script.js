@@ -121,6 +121,9 @@ function atualizarControles() {
     controle.disabled = !estado.dados;
   }
   elementos.exportar.disabled = estado.carregando || !estado.filtrados.length;
+  document.dispatchEvent(new CustomEvent('ec:analise', {detail:{
+    analiseId:estado.dados?.analise_id || null, carregando:estado.carregando,
+  }}));
 }
 
 async function carregarFila() {

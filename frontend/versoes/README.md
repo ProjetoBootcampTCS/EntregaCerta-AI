@@ -132,3 +132,80 @@ pedidos, prazo no cliente, histórico, botão nas cinco páginas e ocultação n
 Contas e pedidos artificiais foram usados somente nesses testes técnicos, em schema
 isolado removido ao final. A resposta da GenAI foi substituída por uma resposta de
 teste; nenhuma chamada externa nem avaliação do modelo foi executada.
+
+## Rastreio demonstrativo na área do cliente — 13/11/2026
+
+Em `/cliente#rastrear-compra`, a pessoa pode colar um código de exemplo ou escolher
+um cenário: `ECDEMO001` (em trânsito), `ECDEMO002` (saiu para entrega) e `ECDEMO003`
+(possível atraso). São fixtures fictícias de interface, com data de referência
+fixa em 13/11/2026 às 10h. O prazo e a estimativa são ilustrativos e predefinidos;
+o terceiro cenário mostra uma estimativa três dias após o prazo, sem probabilidade
+e sem inferência de ML. Códigos fora da demonstração são recusados com uma
+explicação, sem preencher um rastreio fictício para uma encomenda real.
+
+Arquivos: `frontend/cliente.html`, `frontend/rastreio-demo.js` e
+`frontend/rastreio-demo.css`. O componente não faz requisições, não persiste os
+códigos e não escreve no PostgreSQL. Login, catálogo e assistente da página
+continuam com seus fluxos existentes. Intro, backend e ML foram preservados.
+
+Validação executada: sintaxe JS, IDs únicos e UTF-8; Edge em desktop, 390 px e
+320 px; três cenários, envio pelo teclado, código com espaços/letras minúsculas,
+código desconhecido, campo vazio, limpeza do resultado anterior, movimento
+reduzido e navegação ao resultado no celular. Conferidas ausência de chamadas de
+rastreamento, ausência de erros JS, visibilidade do assistente e ocultação durante
+a intro. O servidor temporário de teste usou respostas técnicas locais para sessão
+e catálogo; não houve consulta a transportadoras, GenAI ou avaliação de modelo.
+
+## Relatório PDF exclusivo do analista — 13/11/2026
+
+O Dashboard ganhou o botão **Gerar relatório em PDF**, habilitado após a análise.
+O documento de duas páginas mantém as cores do projeto e contém indicadores,
+gráfico de cobertura da fila, histograma de scores e resumo assistido. A fila
+completa determina o conteúdo; os filtros da tabela não alteram o relatório.
+
+Código: `frontend/relatorio.js`, ajustes em `dashboard.html`, `dashboard.css` e um
+evento em `script.js`; backend em `src/relatorio_pdf.py` e rota em `src/api.py`.
+Somente analistas autenticados podem gerar o PDF; a análise pertence à conta
+que a solicitou. Cache privado por até 30 minutos, máximo de 16 análises em um
+processo. O relatório reutiliza resultados, sem repetir a inferência ou treinar.
+A GenAI recebe somente agregados; falhas e respostas aparentemente interrompidas
+produzem um resumo automático identificado. Essa checagem não valida a veracidade
+do texto: a interpretação continua sujeita à revisão humana.
+
+Validação: oito testes aprovados, incluindo cálculos, histogramas, fila vazia,
+paginação do PDF, cache, expiração, propriedade, perfis, CSRF e respostas incompletas.
+O Edge conferiu o download em desktop e em 390 px, a fila completa mesmo após uma
+busca sem resultados, o cache, a contingência, a expiração e os bloqueios de acesso.
+Esses testes de interface usaram sessões e GenAI simuladas; nenhum usuário ou
+pedido foi gravado no banco. PDFs renderizados e layout conferidos visualmente.
+
+A consulta real existente retornou 24.667 pedidos e 2.466 priorizados; seus
+resultados foram usados para conferir os indicadores e gráficos. Uma chamada
+real ao Gemini, autorizada pelo usuário, retornou texto incompleto. Foi adicionada
+e testada a contingência para esse caso; o sucesso com resumo completo foi
+conferido com resposta técnica simulada. Não se presume disponibilidade da API.
+
+### Correção da geração do resumo — 13/11/2026
+
+O PDF passou a usar uma configuração específica do Gemini, com 4.096 tokens de
+saída, processamento mínimo em Gemini 3.6 Flash/3.1 Flash-Lite e `low` nas outras
+variantes Gemini 3. O limite de tokens inclui processamento interno e resposta,
+conforme a [documentação do Google](https://ai.google.dev/gemini-api/docs/generate-content/thinking?hl=en).
+Se a API devolver `MAX_TOKENS`, uma única nova geração usa até 8.192 tokens.
+Respostas com término diferente de `STOP` não entram como resumo concluído.
+Cada geração tem espera de até 45 segundos e não acumula repetições automáticas
+do SDK. O chat conserva seus parâmetros anteriores.
+
+O corte local de 190 palavras foi removido: o documento preserva todo o resumo e
+pagina automaticamente quando necessário. O prompt continua pedindo até 150
+palavras. A GenAI recebe os indicadores necessários ao texto, sem os intervalos
+do histograma, pois esses intervalos não determinam o menor score exato da fila.
+Os gráficos e os números calculados pelo sistema foram preservados.
+
+Validação: 18 testes locais aprovados, incluindo fim da geração, repetição limitada,
+tratamento de bloqueios, configuração do chat, resumo longo e permissões do PDF.
+As primeiras chamadas externas encontraram erro 504 e desconexão; após o ajuste,
+o Gemini 3.6 Flash retornou `STOP` e um PDF de duas páginas com o resumo completo,
+conferido por extração de texto. A sessão da API foi simulada somente para o teste;
+os indicadores eram agregados reais e a chamada ao Gemini foi real e autorizada.
+Nenhuma nova inferência ou escrita no banco foi feita ao exportar esse PDF.

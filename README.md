@@ -1,5 +1,57 @@
 # 🚚 EntregaCerta AI
 
+## Laboratório CTGAN — cenário simulado
+
+Abra [06_cenario_logistico_ctgan.ipynb](Notebooks/06_cenario_logistico_ctgan.ipynb)
+com o kernel `.venv-ctgan`. O [guia do experimento](Docs/guia_simulacao_ctgan.md)
+explica os dois arquivos de configuração, a origem dos dados e como reproduzir.
+Para executar o pipeline: `.\.venv-ctgan\Scripts\python.exe -m src.simulacao_logistica --etapa tudo`.
+
+O cenário acrescenta 30 mil pedidos sintéticos ao treino e compara Dummy,
+regressão logística e HGB. Transportadoras e rótulos simulados ficam identificados;
+atrasos observados são avaliados separadamente. Um resultado alto na simulação
+não comprova melhoria da previsão real. O experimento não substitui o modelo web.
+
+## Relatório PDF do analista — 13/11/2026
+
+No **Dashboard**, gere a fila e clique em **Gerar relatório em PDF**. O download
+inclui indicadores, dois gráficos e um resumo da GenAI baseado somente nos
+indicadores agregados. O documento usa a análise exibida e a fila completa,
+independentemente da busca e da paginação. Scores continuam sendo risco relativo,
+sem interpretação como probabilidade calibrada ou métricas de acerto.
+
+Somente analistas autenticados podem gerar o PDF. O servidor confere o perfil,
+o dono da análise e o token CSRF. Não são enviados nomes, e-mails ou IDs de pedidos
+à GenAI. Se ela falhar ou devolver uma resposta aparentemente interrompida, o PDF
+continua disponível com um resumo automático claramente identificado.
+
+O resumo do PDF tem configuração própria: até 4.096 tokens, processamento interno
+reduzido nos modelos Gemini 3 e uma nova geração com até 8.192 tokens somente se a
+API indicar `MAX_TOKENS`. Só uma resposta concluída (`STOP`) é aceita. O texto não
+é cortado na exportação; se necessário, o PDF acrescenta páginas. O prompt continua
+pedindo até 150 palavras, e a configuração do chat permanece a mesma.
+Cada geração do relatório espera até 45 segundos, sem acumular as repetições
+automáticas do SDK. Gemini 3.6 Flash e 3.1 Flash-Lite usam `minimal`; outras
+variantes Gemini 3 usam `low`. Os intervalos do histograma ficam no gráfico,
+mas não são enviados à IA para evitar inferências de valores exatos a partir deles.
+
+As análises ficam em memória por até 30 minutos, com limite de 16 análises no
+processo. Reiniciar a API ou remover uma análise antiga do cache exige atualizar
+a fila. Downloads repetidos da mesma análise reutilizam o PDF; para tentar outro
+resumo, atualize a análise. Esta implementação local usa um único processo da API.
+
+As dependências estão no `requirements.txt`. Para adicionar apenas o suporte a PDF
+em um ambiente já instalado, sem atualizar as bibliotecas de ML:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install "reportlab>=4,<5" "pypdf>=5,<7"
+.\.venv\Scripts\python.exe -B -m unittest tests.test_assistente_genai tests.test_relatorio_pdf -v
+```
+
+Reinicie a API depois de instalar e atualize o navegador. O módulo de geração é
+`src/relatorio_pdf.py`; o botão usa `frontend/relatorio.js`. Nenhum treinamento ou
+alteração de modelo é executado para exportar o relatório.
+
 
 ## Área do cliente e acesso dos analistas — 12/11/2026
 

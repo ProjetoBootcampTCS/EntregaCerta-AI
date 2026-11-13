@@ -8,12 +8,13 @@
   <title>Dashboard do analista — EntregaCerta AI</title>
   <link rel="icon" type="image/svg+xml" href="/static/logo.svg?v=2">
   <link rel="stylesheet" href="/static/style.css?v=2.20">
-  <link rel="stylesheet" href="/static/dashboard.css?v=1">
+  <link rel="stylesheet" href="/static/dashboard.css?v=2">
   <link rel="stylesheet" href="/static/conta.css?v=2">
   <script src="/static/assistente.js?v=1" defer></script>
 <script src="/static/auth.js?v=2" defer></script>
-  <script src="/static/script.js?v=2.19" defer></script>
+  <script src="/static/script.js?v=2.20" defer></script>
 <script src="/static/operacao.js?v=2" defer></script>
+  <script src="/static/relatorio.js?v=1" defer></script>
 </head>
 <body class="dashboard-page" data-page="dashboard">
   <a class="skip-link" href="#fila-analise">Ir para a fila de análise</a>
@@ -43,7 +44,8 @@
         <div><p class="eyebrow"><span>01</span> / CENTRO DE ANÁLISE</p><h1 id="dashboard-title" tabindex="-1">Seu próximo passo,<br><em>bem direcionado.</em></h1><p class="dashboard-description">Uma visão do lote. Uma fila para agir.</p></div>
         <div class="connection-meta"><span id="connection-status" class="connection-status" data-state="idle">Aguardando análise</span><span id="updated-at">Nenhuma consulta realizada</span></div>
       </div>
-      <div class="dashboard-actions"><p><span aria-hidden="true">↳</span> Priorize a revisão com os resultados do modelo.</p><button id="carregar" class="button button-dark" type="button" data-load><span data-load-label>Gerar fila de prioridade</span><span class="button-arrow" aria-hidden="true">↗</span></button></div>
+      <div class="dashboard-actions"><p><span aria-hidden="true">↳</span> Priorize a revisão com os resultados do modelo.</p><div class="dashboard-action-buttons"><button id="gerar-relatorio-pdf" class="button button-outline" type="button" disabled aria-describedby="relatorio-status"><span aria-hidden="true">↓</span><span id="relatorio-button-label">Gerar relatório em PDF</span></button><button id="carregar" class="button button-dark" type="button" data-load><span data-load-label>Gerar fila de prioridade</span><span class="button-arrow" aria-hidden="true">↗</span></button></div></div>
+      <p id="relatorio-status" class="report-status" role="status" aria-live="polite">Gere uma análise para habilitar o PDF da fila completa, com indicadores, gráficos e resumo assistido.</p>
       <p id="mensagem" class="status-message" role="status" aria-live="polite">Gere uma análise para consultar os pedidos e formar sua fila de revisão.</p>
       <div class="metrics-grid" aria-label="Indicadores da análise">
         <article class="metric"><div class="metric-top"><span>Pedidos avaliados</span><span class="metric-symbol" aria-hidden="true">↗</span></div><strong id="total">—</strong><p>Pedidos consultados no lote</p></article>

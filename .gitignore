@@ -5,6 +5,7 @@
 Modelos/experimento_ctgan/
 Modelos/experimento_historicos/
 Modelos/experimento_simulacao/
+Modelos/comparacao_recall95/
 Dados/simulacao_ctgan/
 Dados/pedidos_tratados_e_injetados.csv
 Dados/ctgan_sinteticos.csv

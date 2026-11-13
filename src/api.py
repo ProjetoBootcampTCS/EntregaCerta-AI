@@ -1,6 +1,6 @@
 # Iniciar a API = .\.venv\Scripts\python.exe -m uvicorn src.api:app --reload --host 127.0.0.1 --port 8000
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from .assistente_genai import responder
 import logging
 from datetime import date, datetime, timezone
@@ -11,11 +11,12 @@ from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.staticfiles import StaticFiles
 from .acesso_web import politica_acesso, router as router_acesso
 from .loja_web import router as router_loja
+from .relatorio_pdf import registrar_analise, gerar_relatorio
 
 from .consultar_postgresql import consultar_pedidos
 from .pedidos_web import montar_lote, filtrar_lote
@@ -151,7 +152,7 @@ def consultar_lista_pedidos(
 
 
 @app.get("/api/prioridades")
-def consultar_prioridades():
+def consultar_prioridades(request: Request = None):
     try:
         # 1. Busca os pedidos reais de validação.
         pedidos = consultar_pedidos("validacao")
@@ -173,7 +174,7 @@ def consultar_prioridades():
         )
 
         # 4. Devolve os dados para o frontend.
-        return {
+        dados = {
             "contexto": "Demonstracao historica — validacao Olist",
             "pedidos_avaliados": len(resultado),
             "pedidos_na_fila": len(fila),
@@ -184,6 +185,9 @@ def consultar_prioridades():
             ),
             "fila": fila.to_dict(orient="records"),
         }
+        if request is not None:
+            dados.update(registrar_analise(dados, request.state.usuario["id"]))
+        return dados
 
     except Exception:
         logging.exception("Falha ao consultar e priorizar pedidos.")
@@ -209,6 +213,7 @@ def conversar_assistente(mensagem: PerguntaAssistente, request: Request):
     if request.state.usuario["perfil"] == "cliente":
         # Orientação da loja; não consulta ML nem envia dados de outros clientes.
         return responder(pergunta, {
+            "publico": "cliente",
             "contexto": "Área do cliente — loja demonstrativa EntregaCerta AI",
             "funcionalidades": "Catálogo, carrinho, meus pedidos, prazo prometido e histórico de etapas e prazos.",
             "prazo": "Informado pela equipe; se não definido, não há uma data prometida disponível.",
@@ -234,3 +239,25 @@ def conversar_assistente(mensagem: PerguntaAssistente, request: Request):
     }
 
     return responder(pergunta, contexto)
+
+
+class PedidoRelatorio(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    analise_id: str = Field(pattern=r"^[A-Za-z0-9_-]{32}$")
+
+
+@app.post("/api/analista/relatorio-pdf")
+def baixar_relatorio(dados: PedidoRelatorio, request: Request):
+    # A política global exige analista, sessão, origem permitida e CSRF.
+    # Só aceita o identificador; números e scores vêm do snapshot privado do servidor.
+    try:
+        pdf, genai = gerar_relatorio(dados.analise_id, request.state.usuario["id"])
+    except HTTPException:
+        raise
+    except Exception:
+        logging.exception("Falha ao montar o relatório PDF.")
+        raise HTTPException(503, "Não foi possível gerar o relatório. Tente novamente.") from None
+    return Response(content=pdf, media_type="application/pdf", headers={
+        "Content-Disposition": 'attachment; filename="entregacerta-relatorio.pdf"',
+        "X-Resumo-GenAI": "incluido" if genai else "indisponivel",
+    })
