@@ -325,6 +325,8 @@ function abrirDetalhe(pedido, gatilho) {
   document.getElementById("detalhe-total").textContent = formatoInteiro.format(estado.dados.fila.length);
   document.getElementById("detalhe-capacidade").textContent = formatoPercentual.format(estado.dados.fracao_fila);
   elementos.feedbackDetalhe.textContent = "";
+  elementos.dialogo.querySelector('.assistant-order-button')?.remove();
+  elementos.feedbackDetalhe.after(botaoAssistentePedido(pedido.order_id, 'olist'));
   elementos.dialogo.showModal();
 }
 

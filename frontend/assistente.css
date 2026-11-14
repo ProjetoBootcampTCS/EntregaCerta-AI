@@ -1,0 +1,19 @@
+/* Controles do assistente; sem seletores ou animações da intro. */
+.assistant-toolbar {display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 24px; background:#19231c; border-bottom:1px solid #40513e; flex-shrink:0;}
+.assistant-toolbar span {font-size:.78rem; color:#c4d0ba; line-height:1.5; overflow-wrap:anywhere;}
+.assistant-toolbar button, .assistant-answer-actions button, .assistant-retry, .assistant-order-button {border:1px solid #647653; border-radius:10px; background:#253125; color:#eaf2dc; padding:9px 12px; font:inherit; font-size:.8rem; cursor:pointer; transition:background .18s, border-color .18s;}
+.assistant-toolbar button {white-space:nowrap;}
+.assistant-answer-actions {display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; padding-top:12px; border-top:1px solid #9bb17d4d;}
+.assistant-answer-actions button {background:#1b2a21; color:#eaf2dc; min-height:40px;}
+.assistant-answer-actions button[aria-pressed="true"] {background:#d4ff35; color:#19231c; border-color:#d4ff35;}
+.assistant-answer-actions select {width:100%; min-width:0; padding:9px; border:1px solid #647653; border-radius:8px; background:#1b2a21; color:#eaf2dc; font:inherit; font-size:.8rem;}
+.assistant-action-status {font-size:.76rem; line-height:1.5; margin:8px 0 0; color:#38516c;}
+.assistant-action-status:empty {display:none;}
+.assistant-retry {margin-top:12px;}
+.assistant-order-button {margin-top:16px; color:#d4ff35; display:inline-flex; align-items:center; min-height:42px;}
+.assistant-toolbar button:hover, .assistant-answer-actions button:hover, .assistant-retry:hover, .assistant-order-button:hover {border-color:#d4ff35; background:#35452c; color:#fff;}
+.assistant-toolbar button:focus-visible, .assistant-answer-actions :focus-visible, .assistant-retry:focus-visible, .assistant-order-button:focus-visible {outline:2px solid #d4ff35; outline-offset:3px;}
+.assistant-toolbar button:disabled, .assistant-answer-actions button:disabled, .assistant-retry:disabled {opacity:.55; cursor:wait;}
+.assistant-drawer .assistant-content {min-height:0;}
+.assistant-answer-actions [hidden] {display:none;}
+@media(max-width:520px) {.assistant-toolbar {padding:10px 16px;gap:8px;} .assistant-toolbar button {padding:9px;font-size:.75rem;} #assistente-aviso {font-size:.72rem;line-height:1.4;} .assistant-drawer .assistant-composer {padding:12px 16px;}}

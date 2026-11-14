@@ -95,7 +95,7 @@
           lista.append(item);
         });
         historico.append(lista);
-        card.append(top,el('p','conta-muted',p.itens.map(i=>i.quantidade+' × '+i.nome).join(' · ')),promessa,timeline,historico);container.append(card);
+        card.append(top,el('p','conta-muted',p.itens.map(i=>i.quantidade+' × '+i.nome).join(' · ')),promessa,timeline,historico,botaoAssistentePedido(p.id,'loja'));container.append(card);
       });mensagem('#client-message',d.pedidos.length+' pedido(s) encontrado(s).');
     }catch(e){mensagem('#client-message',e.message,true);}finally{$('#atualizar-pedidos').disabled=false;}
   }

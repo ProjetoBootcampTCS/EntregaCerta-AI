@@ -188,6 +188,7 @@
       campos.forEach(([nome, valor]) => { const par = document.createElement("div"); par.append(texto("dt", nome), texto("dd", valor)); lista.append(par); });
       secao.append(lista); destino.append(secao);
     }
+    destino.append(botaoAssistentePedido(pedido.order_id, 'olist'));
     dialog.showModal(); dialog.scrollTop = 0;
   }
   function limpar() {

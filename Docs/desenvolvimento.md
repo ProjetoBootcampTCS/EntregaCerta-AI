@@ -1,6 +1,9 @@
 # Desenvolvimento do EntregaCerta AI
 
-Atualizado em 05/11/2026. Este é o documento central de acompanhamento; o README explica a estrutura e a preparação.
+Histórico técnico acumulado desde 05/11/2026. A organização atual é o **ponto 1**,
+registrado ao final. Para executar o sistema, siga [o guia atual](instalacao_novo_pc.md).
+Os caminhos/comandos das entradas antigas documentam o estado de cada experimento;
+não são uma sequência de inicialização da versão atual.
 
 ## Problema e dados
 
@@ -574,3 +577,614 @@ redirecionou ao login. Layouts conferidos em 1280 e 390 pixels, sem transbordame
 horizontal no cliente. Captura: `Docs/imagens/area_cliente.jpg`. A prévia usou contas
 isoladas, removidas ao concluir a conferência. A integração GenAI externa não foi
 acionada neste teste; sua rota recebeu o mesmo controle de perfil e CSRF.
+
+## Comparação para recall de pelo menos 95% — 13/11/2026
+
+**Objetivo:** encaminhar o menor número de pedidos à revisão humana, encontrando
+pelo menos 95% dos atrasos observados. Recall é a proporção de atrasos encontrados;
+não é a proporção de alertas corretos nem a accuracy. Não houve novo treinamento,
+alteração de rótulos ou substituição do modelo e da política da aplicação.
+
+**Fonte e população:** snapshot já extraído do PostgreSQL em
+`Modelos/experimento_ctgan/doses_20261111/snapshot_postgresql.joblib`, com 91.390
+pedidos reais. Atraso foi conferido, pedido a pedido, contra as datas reais de
+entrega e prometida, comparadas por dia. Validação: 24.667 pedidos / 2.494 atrasos
+(janeiro a abril de 2018). Teste: 25.550 pedidos / 1.124 atrasos (maio a agosto de
+2018). Todos os candidatos usam exatamente os mesmos pedidos de avaliação,
+incluindo pedidos com vários vendedores. Isso difere da comparação anterior do
+laboratório de simulação, cuja população tinha apenas um vendedor por pedido.
+
+**Candidatos:** 48 configurações salvas, distribuídas entre regressão logística,
+Random Forest, Extra Trees, RF com atributos GMM, HGB e rede neural. Incluem
+baselines reais, pesos de classe, repetição de positivos, CTGAN e históricos dos
+vendedores. Algumas configurações repetem o mesmo baseline entre experimentos;
+48 não significa 48 algoritmos distintos. Sintéticos aparecem somente no treino
+de certos candidatos. Modelos treinados para rótulos logísticos simulados e os
+modelos de população restrita a um vendedor foram excluídos desta comparação.
+
+**Protocolo:** para cada candidato, selecionar na validação o maior corte de score
+que encontra pelo menos 95% dos atrasos. A regra inclui todos os empates no corte.
+Como existem 2.494 atrasos, são necessários pelo menos 2.370 acertos, resultando em
+95,0281% de recall. Entre cortes determinísticos `score >= limiar`, essa escolha
+minimiza a fila para aquele modelo nessa validação. Comparar modelos pelo número
+de revisões; desempatar pela AP de validação e pelo identificador. Congelar os
+cortes e a seleção em arquivo **antes** de calcular a inferência no teste.
+Não reajustar o corte nem trocar o vencedor com base no teste.
+
+Os pré-processadores e pesos dos modelos permanecem os já treinados. Históricos
+usam apenas eventos anteriores à aprovação de cada pedido, com conferência de
+igualdade dos atributos e scores da validação com os artefatos anteriores. No
+teste, históricos podem incorporar desfechos de pedidos anteriores que já seriam
+conhecidos naquele instante: é uma avaliação sequencial na aprovação, não uma
+previsão de todo o quadrimestre feita em 1º de maio.
+
+**Resultados dos representantes de cada família, escolhidos na validação:**
+
+| Modelo / ID | Revisão na validação | Recall no teste | Revisão no teste | Atrasos não encontrados no teste |
+|---|---:|---:|---:|---:|
+| Logística com históricos, base original / m42 | 20.467 (82,97%) | 98,22% | 21.681 (84,86%) | 20 |
+| HGB com históricos, base revisada / m47 | 20.985 (85,07%) | 89,86% | 17.775 (69,57%) | 114 |
+| Rede neural, artefato atual / m48 | 21.018 (85,21%) | 97,42% | 20.550 (80,43%) | 29 |
+| RF + GMM real / m09 | 22.129 (89,71%) | 98,22% | 23.101 (90,41%) | 20 |
+| Random Forest real / m03 | 22.412 (90,86%) | 98,13% | 23.320 (91,27%) | 21 |
+| Extra Trees real / m05 | 22.579 (91,54%) | 96,71% | 23.771 (93,04%) | 37 |
+
+Todas essas configurações atingiram o recall mínimo na validação. O HGB listado
+não manteve a meta no teste. A rede neural exigiu menos revisão no teste que a
+logística, mas não foi escolhida retrospectivamente como vencedora: a escolha
+estava congelada pela validação. Ela continua sendo candidata para confirmação
+em outra janela temporal.
+
+**Escolha pelo protocolo:** logística com históricos da base original (m42),
+treinada com dados reais. Corte de score: `0.01393251304995104`, específico desse
+artefato e pré-processador; não deve ser transplantado para outros modelos nem
+apresentado como probabilidade calibrada. No teste: 1.104 atrasos encontrados,
+20 não encontrados, 20.577 falsos positivos e 3.849 verdadeiros negativos.
+Recall 98,22%; precisão 5,09%; F1 9,68%; AP 0,0989; accuracy 19,39%.
+Comparado a revisar todos os 25.550 pedidos, dispensa 3.869 revisões (15,14%),
+incluindo os 20 atrasos perdidos. A política de revisar todos encontra 100% dos
+atrasos, mas não reduz trabalho. A precisão baixa indica que aproximadamente
+95% da fila escolhida seria de pedidos que terminaram no prazo. Encontrar mais
+atrasos aqui veio da ampliação da fila, não de uma melhora do treinamento.
+
+**CTGAN:** a melhor configuração com CTGAN pela validação foi a logística com
+500 positivos sintéticos, semente 7 (m22): 20.875 revisões na validação (84,63%),
+versus 20.467 da logística com históricos. No teste, m22 encontrou 98,75% dos
+atrasos, com 22.059 revisões (86,34%) e 14 atrasos perdidos. Portanto, não venceu
+o critério combinado de recall mínimo e menor revisão na validação. Não há
+evidência nesta comparação de que GAN seja necessária para atingir a meta global.
+
+**Estabilidade temporal:** o recall global não assegura 95% em cada mês.
+
+| Mês de teste | Atrasos reais | Não encontrados por m42 | Recall de m42 |
+|---|---:|---:|---:|
+| Maio/2018 | 454 | 5 | 98,90% |
+| Junho/2018 | 71 | 8 | 88,73% |
+| Julho/2018 | 193 | 7 | 96,37% |
+| Agosto/2018 | 406 | 0 | 100,00% |
+
+Na própria validação, janeiro ficou em 88,04% e fevereiro em 94,06%. A rede neural
+também ficou abaixo da meta em junho do teste (90,14%). Não se alteraram cortes
+para corrigir esses meses após ver seus resultados. O teste já foi consultado em
+experimentos anteriores e a validação foi reutilizada para comparar muitos
+candidatos; esta evidência é retrospectiva e exploratória, não uma garantia
+operacional ou avaliação externa independente. Intervalos de Wilson nos CSVs são
+descritivos e pressupõem independência, não modelam dependência temporal ou por
+vendedor. O próximo passo recomendado é validação em janelas temporais adicionais,
+com cortes escolhidos apenas em períodos anteriores, antes de mudar a aplicação.
+
+**Arquivos e reprodução:** `src/comparar_recall95.py` calcula a comparação e
+`tests/test_recall95.py` testa os cortes, empates, entradas inválidas, arredondamento
+da meta com poucos atrasos e falha possível em outro período. Na raiz do projeto:
+
+```powershell
+.\.venv-ctgan\Scripts\python.exe -m unittest tests.test_recall95 -v
+.\.venv-ctgan\Scripts\python.exe -m src.comparar_recall95
+```
+
+Usar o ambiente dos experimentos, com os artefatos locais já existentes. A pasta
+`Modelos/comparacao_recall95/`, ignorada pelo Git, contém `catalogo.csv`,
+`ranking_validacao.csv`, `resumo_por_familia.csv`, `metricas.csv`,
+`metricas_mensais.csv`, `scores.parquet`, `pedidos_avaliacao.parquet`,
+`protocolo.json` (versões e hashes SHA-256) e `selecao_antes_teste.json` (cortes
+congelados). Os JSONs são registros de reprodutibilidade, não dados fabricados.
+
+**Verificações executadas:** cinco testes automatizados passaram; inferências dos
+48 candidatos concluídas; comparação independente dos cortes com a curva
+Precision–Recall do Scikit-learn; verificação dos rótulos contra datas reais, dos
+históricos contra eventos passados e de TP/FN/tamanho da fila após gravar e reler
+os scores. Nenhuma escrita no PostgreSQL ou alteração do frontend/API foi feita.
+
+## Reavaliação com meta de recall de 90% — 13/11/2026
+
+**Pergunta:** reduzir a meta de 95% para 90% permite diminuir suficientemente a
+fila humana? Foram reutilizados os scores reais dos mesmos 48 candidatos, sem
+retreinamento, nova inferência ou mudança de dados. A regra permanece escolher
+o maior corte que atende a meta na validação e comparar pelo menor número de
+revisões. O corte e o vencedor foram registrados antes de avaliar novamente os
+scores do teste. Esse teste já foi visto; a comparação permanece exploratória.
+
+**Resultado:** a logística com históricos da base original (m42) continuou em
+primeiro lugar na validação. O corte passou de `0.01393251304995104` para o valor
+exato registrado em `metas/recall90/selecao_antes_avaliar_teste.json` (aproximadamente
+0,018384). O score não é uma probabilidade calibrada. Na validação, a fila caiu
+de 20.467 (82,97%) para 18.285 pedidos (74,13%), com recall de 90,0160%.
+
+| Política da logística com históricos | Revisões no teste | Recall no teste | Atrasos encontrados | Atrasos perdidos |
+|---|---:|---:|---:|---:|
+| Corte escolhido para 95% na validação | 21.681 (84,86%) | 98,22% | 1.104 | 20 |
+| Corte escolhido para 90% na validação | 20.151 (78,87%) | 96,09% | 1.080 | 44 |
+
+Mesmo denominador: 25.550 pedidos reais, dos quais 1.124 atrasaram. São 1.530
+revisões a menos, redução de 5,99 pontos percentuais da população ou 7,06% da
+fila anterior, ao custo de 24 atrasos adicionais não encontrados. Em relação a
+revisar todos, dispensa 5.399 revisões (21,13%). O novo corte produziu 19.071
+falsos positivos, 5.355 verdadeiros negativos, precisão 5,36%, F1 10,15%, AP
+0,0989 e accuracy 25,19%. A AP permanece igual porque os scores não mudaram.
+
+**Comparação dos representantes escolhidos na validação para a nova meta:**
+
+| Família / ID | Revisão na validação | Revisão no teste | Recall no teste | Atingiu 90% no teste completo? |
+|---|---:|---:|---:|---|
+| Logística com históricos / m42 | 74,13% | 78,87% | 96,09% | Sim |
+| HGB com históricos, base revisada / m47 | 77,60% | 60,49% | 84,43% | Não |
+| Rede neural / m48 | 76,86% | 74,65% | 94,66% | Sim |
+| RF + GMM real / m09 | 81,20% | 82,85% | 96,09% | Sim |
+| Random Forest real / m03 | 81,62% | 82,90% | 95,46% | Sim |
+| Extra Trees com CTGAN / m06 | 83,36% | 76,10% | 77,31% | Não |
+
+O representante de Extra Trees mudou em relação ao critério de 95%. A rede neural
+revisou 19.074 pedidos e perdeu 60 atrasos no teste. É uma alternativa para
+investigar em outra janela; não foi promovida com base no teste. A melhor CTGAN
+na validação foi a logística com 500 registros condicionais, semente 42 (m34):
+76,10% de revisão na validação, 80,52% no teste e recall de teste 96,98%.
+Ela não venceu a logística com históricos pelo critério definido.
+
+**Limitação temporal:** junho de 2018 ficou abaixo da meta nos dois modelos:
+81,69% de recall para a logística (13 de 71 atrasos perdidos) e 83,10% para a
+rede (12 de 71 perdidos). Na validação, janeiro e fevereiro também ficaram abaixo
+de 90% nos dois. Atingir 90% no conjunto não significa mantê-lo em cada mês.
+Não aumentamos cortes até obter 90% no teste, pois isso usaria o resultado de
+avaliação para otimizar a política.
+
+**Direção recomendada, ainda não executada:** confirmar os modelos em janelas
+temporais adicionais e experimentar uma segunda previsão durante a operação,
+após o despacho ou em instantes anteriores ao prazo. Nesse novo problema, o tempo
+até o despacho, os dias restantes e históricos de rota conhecidos no instante
+poderiam trazer informação adicional. Comparar com a previsão na aprovação e
+medir a antecedência do alerta. Ausência de despacho não pode excluir pedidos da
+avaliação; alerta emitido depois do prazo não deve contar como previsão antecipada.
+O Olist não contém rastreamento diário detalhado: qualquer novo monitoramento
+deve respeitar os eventos realmente disponíveis, sem fabricar transportadoras ou
+trajetórias. Não há resultado medido que sustente prometer 90% de recall com uma
+fila de 20% ou 30%. Apenas alterar o corte não produziu uma fila pequena aqui.
+
+**Reprodução:** o script e os testes existentes foram estendidos para aceitar
+outra meta. Os resultados de 95% foram preservados.
+
+```powershell
+.\.venv-ctgan\Scripts\python.exe -m unittest tests.test_recall95 -v
+.\.venv-ctgan\Scripts\python.exe -m src.comparar_recall95 --reavaliar-recall 0.90
+```
+
+Saídas: `Modelos/comparacao_recall95/metas/recall90/`, com ranking, métricas de
+validação/teste, métricas mensais, comparação com 95%, seleção e hashes das fontes.
+Seis testes passaram, incluindo a nova verificação de que a meta de 90% reduz a
+fila e modifica corretamente o critério de aprovação. Também foram conferidos
+IDs, rótulos reais, partições, cortes pela curva PR e redução monotônica da fila.
+A aplicação, o banco e os modelos treinados não foram alterados nesta etapa.
+
+## Previsão durante a operação e validação temporal — 13/11/2026
+
+**Objetivo:** comparar a previsão na aprovação com checagens posteriores, buscando
+reduzir pedidos únicos na fila e manter recall mínimo de 90%. O experimento usa
+os mesmos 91.390 pedidos reais; treino 41.173, calibração 24.667 e teste 25.550.
+Não houve CTGAN, balanceamento sintético ou mudança do alvo. São dois algoritmos
+(logística e HGB), três momentos e uma política combinada por algoritmo. Foram
+treinados 24 modelos: seis em cada uma de três dobras e seis na rodada final.
+
+**Instantes de previsão, definidos antes dos experimentos:**
+
+- Aprovação: baseline com os atributos e históricos de vendedores já existentes.
+- Checagem após 48h da aprovação: pode encontrar o pedido ainda em preparação ou
+  já em transporte. Para promessas curtas, antecipar a checagem para 24h antes do
+  fim do dia prometido.
+- Despacho: no timestamp observado de entrega à transportadora. Se o evento ainda
+  não ocorreu, fazer uma checagem de segurança 24h antes do fim do prazo. Isso
+  mantém pedidos sem despacho na avaliação; não se considera apenas quem saiu.
+- Combinada: emitir alerta se qualquer uma das duas checagens posteriores exceder
+  seu corte comum. O pedido conta uma vez, e a antecedência é a do primeiro alerta.
+  O máximo dos scores é apenas um resumo retrospectivo da política, não uma
+  previsão disponível na aprovação nem uma probabilidade calibrada.
+
+Todos os alertas avaliados antecedem o fim do prazo em pelo menos 24h. Pedidos já
+entregues naquele instante não recebem alerta, mas continuam no denominador. No
+teste, isso ocorreu em 1.205 pedidos na checagem de 48h e 789 na de despacho/D-1;
+todos eram pontuais. A redução da fila compara processos em momentos diferentes,
+não apenas a capacidade de discriminação de modelos no mesmo instante.
+
+**Dados adicionais e disponibilidade:** tempo decorrido desde a aprovação, dias
+restantes, fração do prazo consumida, despacho já ocorrido, tempo até o despacho,
+tempo em trânsito, prazo do vendedor para postagem, eventual excesso desse prazo
+e folga em relação ao histórico de trânsito. Um despacho futuro nunca entra nos
+atributos da checagem anterior. Entrega efetiva só define o alvo e o estado quando
+já aconteceu; não é entrada do classificador. Históricos de vendedores ficaram
+congelados na aprovação, isolando parte das mudanças em relação ao baseline.
+As entradas também foram ampliadas: o ganho não foi atribuído causalmente apenas
+à passagem do tempo ou a um atributo específico.
+
+`shipping_limit_date` foi agregado pelo menor prazo dos itens, sem multiplicar
+pedidos. Supõe-se que esse prazo e a promessa ao cliente eram conhecidos e estáveis
+desde a aprovação; o Olist não oferece versões históricas para confirmar isso.
+Supõe-se ainda atualização imediata dos eventos, sem latência. Não foram inventados
+rastreamento diário ou transportadoras. Despachos anteriores à aprovação foram
+tratados como timestamps inconsistentes e ignorados: 71 no treino, 247 na
+calibração e 806 no teste. Não foi inferido um instante correto para substituí-los.
+
+**K-fold:** o script antigo `src/treinar_pedidos.py` possui `StratifiedKFold` e
+`KFold` com embaralhamento. As comparações recentes de 95%/90% usaram uma divisão
+temporal fixa, não K-fold. Neste experimento foram executadas três dobras por
+calendário, com treino crescente, calibração separada do corte e avaliação futura:
+
+| Dobra | Treino: rótulos conhecidos antes de | Calibração | Avaliação futura | Pedidos treino / calibração / avaliação |
+|---|---|---|---|---:|
+| 1 | 01/05/2017 | Maio–junho/2017 | Julho–agosto/2017 | 6.117 / 5.660 / 8.044 |
+| 2 | 01/07/2017 | Julho–agosto/2017 | Setembro–outubro/2017 | 13.091 / 6.737 / 8.599 |
+| 3 | 01/09/2017 | Setembro–outubro/2017 | Novembro–dezembro/2017 | 20.847 / 7.117 / 10.389 |
+
+Imputação, escala e codificação foram ajustadas somente no treino de cada dobra.
+A calibração também excluiu rótulos ainda desconhecidos no início da avaliação.
+Não se embaralharam pedidos nem se colocaram snapshots do mesmo pedido em partes
+diferentes. Usou-se divisão explícita por datas, em vez de `TimeSeriesSplit` por
+quantidade de linhas, porque os pedidos não são uniformemente espaçados. A CV
+serviu para diagnosticar estabilidade; não houve busca ampla de hiperparâmetros.
+As configurações dos dois algoritmos foram fixadas antes de olhar os resultados.
+
+**Resultado final:** cada corte foi escolhido para recall mínimo de 90% na
+calibração. O vencedor e todos os cortes foram congelados antes de pontuar o teste.
+O critério foi menor fila na calibração, com desempate por AP e nome.
+
+| Política | Fila na calibração | Fila no teste | Recall no teste | Atrasos perdidos |
+|---|---:|---:|---:|---:|
+| Logística na aprovação — baseline | 74,13% | 20.151 (78,87%) | 96,09% | 44 |
+| Logística após 48h | 70,72% | 17.955 (70,27%) | 96,17% | 43 |
+| Logística no despacho/D-1 — selecionada | 68,99% | 17.574 (68,78%) | 95,55% | 50 |
+| Logística combinada | 70,75% | 18.472 (72,30%) | 96,09% | 44 |
+| HGB na aprovação | 78,98% | 16.053 (62,83%) | 87,10% | 145 |
+| HGB após 48h | 74,09% | 14.827 (58,03%) | 89,77% | 115 |
+| HGB no despacho/D-1 | 75,36% | 14.143 (55,35%) | 89,86% | 114 |
+| HGB combinado | 74,67% | 14.919 (58,39%) | 90,21% | 110 |
+
+O baseline da logística reproduziu os scores do modelo anterior, pedido a pedido.
+A logística no despacho/D-1 poupou 2.577 revisões frente ao baseline (12,79% da
+fila anterior, ou 10,09 pontos percentuais da população), perdendo seis atrasos a
+mais. No teste foram 1.074 TP, 16.500 FP, 50 FN e 7.926 TN. Precisão 6,11%, F1
+11,49%, AP 0,4249 e accuracy 35,23%. Seu corte é `0.013853735514043702`, específico
+deste modelo e momento, não intercambiável com os cortes da aprovação.
+
+A mediana da antecedência dos verdadeiros positivos foi de 8,50 dias para o
+despacho/D-1, contra 15,38 dias na aprovação e 13,47 dias após 48h. O percentil 10
+no despacho/D-1 foi um dia. Há troca entre informação disponível e tempo para agir.
+O HGB combinado alcançou a meta no total do teste com fila menor, mas não venceu
+na calibração e não foi promovido após ver o teste. As variantes HGB após 48h e
+no despacho ficaram abaixo de 90%, mesmo arredondando para perto desse valor.
+
+Para situar a rede neural salva da aplicação: na comparação anterior com corte
+calibrado para 90%, ela revisou 19.074 pedidos (74,65%) com recall de 94,66%.
+Essa rede não foi retreinada nesta rodada, e a fila de produção não foi alterada.
+
+**A meta ainda não é estável:**
+
+| Período | Recall logística na aprovação | Recall logística despacho/D-1 | Recall HGB combinado |
+|---|---:|---:|---:|
+| Dobra 1: julho–agosto/2017 | 35,09% | 51,75% | 81,14% |
+| Dobra 2: setembro–outubro/2017 | 85,67% | 87,88% | 96,42% |
+| Dobra 3: novembro–dezembro/2017 | 54,73% | 60,41% | 74,29% |
+| Junho/2018, dentro do teste final | 81,69% | 78,87% | 67,61% |
+
+Esses números usam cortes escolhidos em calibrações anteriores, nunca no próprio
+período avaliado. Os demais meses do teste final tiveram recalls de 94,27%, 95,85%
+e 99,75% para a logística no despacho/D-1 (maio, julho e agosto). As dobras revelam
+instabilidade relevante, não evidência de recall consistentemente acima de 90%.
+O K-fold temporal melhora a avaliação da generalização; não acrescenta informação
+ao dataset nem garante melhoria automática do modelo.
+
+**Limitações:** coorte retrospectiva restrita a entregues elegíveis; exclusão de
+rótulos desconhecidos nas fronteiras pode produzir viés de maturidade; validação e
+teste já reutilizados em vários experimentos; sem validação externa. As diferentes
+dobras têm volumes, prevalências e quantidade de treino diferentes. Não atribuímos
+a instabilidade a uma causa específica sem investigá-la. O próximo experimento
+recomendado é atualização periódica com calibração em coortes maduras e avaliação
+cronológica, antes de adotar a política como garantia operacional de 90%.
+
+**Arquivos e reprodução:** `src/testar_previsao_operacional.py`,
+`tests/test_previsao_operacional.py` e pasta ignorada pelo Git
+`Modelos/experimento_operacional/`. Esta contém protocolo/hashes, auditoria de
+eventos, fronteiras das dobras, seleções congeladas, métricas por rodada e mês,
+snapshots, modelos e previsões por pedido. Executar na raiz:
+
+```powershell
+.\.venv-ctgan\Scripts\python.exe -m unittest tests.test_previsao_operacional tests.test_recall95 -v
+.\.venv-ctgan\Scripts\python.exe -m src.testar_previsao_operacional
+```
+
+**Conferências executadas:** 12 testes técnicos passaram, incluindo invisibilidade
+de eventos futuros, entrega já conhecida, timestamp inconsistente, expurgo de
+rótulos futuros, antecedência mínima e contagem única da política combinada. Após
+gravar e reler, os seis modelos finais reproduziram exatamente seus scores; o
+baseline também reproduziu os scores anteriores. As 16 linhas de métricas finais
+foram recalculadas a partir das previsões persistidas, mantendo todos os pedidos.
+Foram auditados adicionalmente 200 snapshots por etapa (600 ao todo), e os hashes
+das fontes foram reconferidos. Não houve alteração do banco, API ou frontend.
+
+Referência: [validação temporal no Scikit-learn](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-of-time-series-data).
+
+
+# Registro das funcionalidades web — preservado do README no ponto 0
+
+Os comandos deste registro são históricos. Para iniciar a versão organizada, use o guia `instalacao_novo_pc.md`.
+
+## Assistente: conversa, pedidos e avaliações — 13/11/2026
+
+- **Memória:** as últimas 6 trocas concluídas acompanham a próxima pergunta.
+  Cada conversa pertence à sessão autenticada e a um único contexto. O histórico
+  visível dura enquanto a página estiver aberta; no servidor expira após 30 minutos
+  sem atividade. Reiniciar a API também apaga essa memória. Limites: 20 perguntas
+  por conversa e 100 conversas por processo; usar um único worker nesta versão local.
+- **Pedido selecionado:** use **Conversar sobre pedido** em Meus pedidos, na operação
+  da loja ou nos detalhes históricos do analista. O servidor verifica o acesso e
+  consulta os dados novamente a cada pergunta. Trocar de pedido inicia outra conversa.
+  O cliente só acessa pedidos próprios. Pedidos demonstrativos continuam sem previsão
+  de ML; o score histórico continua sendo risco relativo, não probabilidade calibrada.
+  Nomes, e-mails, IDs e justificativas internas do pedido não compõem o contexto enviado.
+- **Controles:** copiar a resposta, repetir uma pergunta que falhou e iniciar nova
+  conversa. Repetir uma requisição concluída reutiliza sua resposta sem duplicar a
+  memória. Respostas truncadas não são guardadas como concluídas.
+- **Avaliações:** 👍 salva uma avaliação positiva; 👎 permite escolher informação
+  incorreta, resposta confusa, pergunta não respondida ou outro motivo. A pergunta e
+  a resposta avaliadas ficam em `app_web.assistente_feedback`, para revisão da equipe.
+  Isso não modifica nem retreina o modelo. Nova conversa limpa a memória, mas não
+  remove avaliações já enviadas. Não envie informações sensíveis no chat.
+
+A migração local de feedback já foi aplicada. Em outra instalação, execute:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.gerenciar_acessos iniciar
+$env:ENTREGACERTA_TEST_POSTGRES="1"
+.\.venv\Scripts\python.exe -B -m unittest tests.test_conversas_assistente tests.test_assistente_genai tests.test_relatorio_pdf tests.test_acesso_web -v
+```
+
+O comando de testes usa schemas temporários; respostas simuladas são fixtures
+técnicas, sem constituir evidência de desempenho do ML. Para verificar os motivos
+das avaliações com acesso administrativo ao banco:
+
+```sql
+SELECT avaliacao, categoria, COUNT(*) AS quantidade
+FROM app_web.assistente_feedback
+GROUP BY avaliacao, categoria;
+```
+
+Validação de 13/11: 38 casos automatizados aprovados, incluindo a reexecução
+da fixture corrigida para o retorno HTTP 201 de criação de pedido. Conferidos no
+Edge: fluxos de cliente/analista, troca de pedido, cópia, avaliação, recuperação de
+falha sem duplicação, nova conversa, logout, teclado e tela de 390 px. A interface
+foi testada com respostas técnicas simuladas em schema temporário. Duas chamadas
+ao Gemini configurado também concluíram com `STOP`, mantendo o contexto da
+pergunta anterior em um exemplo fictício de contagem de caixas. O ML não foi
+treinado ou alterado; a intro e suas animações foram preservadas.
+
+## Relatório PDF do analista — 13/11/2026
+
+No **Dashboard**, gere a fila e clique em **Gerar relatório em PDF**. O download
+inclui indicadores, dois gráficos e um resumo da GenAI baseado somente nos
+indicadores agregados. O documento usa a análise exibida e a fila completa,
+independentemente da busca e da paginação. Scores continuam sendo risco relativo,
+sem interpretação como probabilidade calibrada ou métricas de acerto.
+
+Somente analistas autenticados podem gerar o PDF. O servidor confere o perfil,
+o dono da análise e o token CSRF. Não são enviados nomes, e-mails ou IDs de pedidos
+à GenAI. Se ela falhar ou devolver uma resposta aparentemente interrompida, o PDF
+continua disponível com um resumo automático claramente identificado.
+
+O resumo do PDF tem configuração própria: até 4.096 tokens, processamento interno
+reduzido nos modelos Gemini 3 e uma nova geração com até 8.192 tokens somente se a
+API indicar `MAX_TOKENS`. Só uma resposta concluída (`STOP`) é aceita. O texto não
+é cortado na exportação; se necessário, o PDF acrescenta páginas. O prompt continua
+pedindo até 150 palavras, e a configuração do chat permanece a mesma.
+Cada geração do relatório espera até 45 segundos, sem acumular as repetições
+automáticas do SDK. Gemini 3.6 Flash e 3.1 Flash-Lite usam `minimal`; outras
+variantes Gemini 3 usam `low`. Os intervalos do histograma ficam no gráfico,
+mas não são enviados à IA para evitar inferências de valores exatos a partir deles.
+
+As análises ficam em memória por até 30 minutos, com limite de 16 análises no
+processo. Reiniciar a API ou remover uma análise antiga do cache exige atualizar
+a fila. Downloads repetidos da mesma análise reutilizam o PDF; para tentar outro
+resumo, atualize a análise. Esta implementação local usa um único processo da API.
+
+As dependências estão no `requirements.txt`. Para adicionar apenas o suporte a PDF
+em um ambiente já instalado, sem atualizar as bibliotecas de ML:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install "reportlab>=4,<5" "pypdf>=5,<7"
+.\.venv\Scripts\python.exe -B -m unittest tests.test_assistente_genai tests.test_relatorio_pdf -v
+```
+
+Reinicie a API depois de instalar e atualize o navegador. O módulo de geração é
+`src/relatorio_pdf.py`; o botão usa `frontend/relatorio.js`. Nenhum treinamento ou
+alteração de modelo é executado para exportar o relatório.
+
+
+## Área do cliente e acesso dos analistas — 12/11/2026
+
+Com o `.env` do PostgreSQL configurado, execute na raiz do projeto:
+
+```powershell
+docker compose up -d postgres
+.\.venv\Scripts\python.exe -m src.gerenciar_acessos iniciar
+.\.venv\Scripts\python.exe -m src.gerenciar_acessos criar-analista --nome "Nome do analista" --email "analista@equipe.com"
+.\.venv\Scripts\python.exe -m uvicorn src.api:app --host 127.0.0.1 --port 8000 --reload
+```
+
+O comando de criação pede uma senha de **12 a 128 caracteres** e sua confirmação,
+sem exibi-la. Não existe conta ou senha padrão. Crie uma conta por analista.
+Clientes se cadastram pela página; o cadastro público não permite escolher perfil.
+
+- **Loja e acompanhamento:** <http://127.0.0.1:8000/cliente>.
+- **Entrar / criar conta de cliente:** <http://127.0.0.1:8000/entrar>.
+- **Dashboard restrito:** <http://127.0.0.1:8000/dashboard>.
+- **Consulta histórica restrita:** <http://127.0.0.1:8000/pedidos>.
+
+A loja oferece catálogo de categorias Olist, carrinho, pedidos por conta e etapas
+atualizadas pelo analista no dashboard. Desde 13/11, inclui prazo prometido, responsável
+e histórico de alterações, preservando o prazo original. Revisões de prazo exigem
+justificativa; edições concorrentes são detectadas. O cliente acompanha seus prazos
+e etapas sem receber notas internas. É uma demonstração sem cobrança ou envio:
+os produtos são anonimizados e os valores são medianas históricas, não preços atuais.
+Novos pedidos ficam no schema `app_web`, separados dos dados usados no ML e ainda
+não recebem scores do modelo. As tabelas históricas não são modificadas. Execute novamente `src.gerenciar_acessos iniciar`
+para aplicar os novos campos em um ambiente já instalado.
+
+O botão da IA aparece nas cinco páginas, exceto durante a intro. Visitantes recebem
+o acesso ao login; clientes autenticados podem consultar orientações gerais da loja
+e selecionar seus próprios pedidos. Analistas podem conversar sobre a fila ou um pedido selecionado.
+O contexto do cliente orienta respostas curtas e diretas sobre a loja, os prazos e
+as etapas. Explicações sobre score ficam reservadas às perguntas sobre a pontuação
+ou a priorização, sem acrescentar avisos de ML a dúvidas comuns de acompanhamento.
+
+Sessões duram oito horas, usam cookie HttpOnly/SameSite e são revogadas ao sair.
+O backend verifica perfil, dono do pedido, origem das ações e token CSRF. Senhas
+são armazenadas com scrypt; os resultados do dashboard não ficam no armazenamento
+do navegador. Em HTTPS, configurar `ENTREGACERTA_COOKIE_SECURE=true` e informar
+as origens exatas em `ENTREGACERTA_ORIGINS`. Os valores padrão são para localhost
+na porta 8000. A implantação pública requer HTTPS e uma revisão operacional;
+recuperação de senha, verificação de e-mail e MFA ainda não fazem parte deste escopo.
+
+Para repetir os testes (PostgreSQL disponível; schema temporário criado e removido):
+
+```powershell
+$env:ENTREGACERTA_TEST_POSTGRES="1"
+.\.venv\Scripts\python.exe -m unittest tests.test_acesso_web tests.test_pedidos_web -v
+```
+
+**Validação anterior (12/11): 14 testes aprovados**: bloqueios por perfil, acesso direto às APIs/HTML,
+isolamento de pedidos, CSRF/origem, hash e cookie, tentativas de login,
+logout/expiração, transições dos pedidos e filtros históricos. O fluxo cliente →
+analista → cliente também foi conferido no navegador, assim como a fila histórica
+de 24.667 pedidos/2.466 priorizados e layouts desktop/celular. Sem a variável acima,
+os testes de integração PostgreSQL são explicitamente ignorados.
+
+**Atualização de 13/11:** os 12 testes de `test_acesso_web.py` passaram, incluindo
+prazo, atribuição, auditoria, privacidade, conflitos de edição e migração repetível.
+O fluxo foi conferido no Edge em desktop e celular; nesses testes de interface, a
+GenAI foi simulada e o ML não foi executado. A migração local do schema web foi aplicada.
+
+
+
+## Organização do projeto — ponto 1 (13/11/2026)
+
+Objetivo: separar o uso diário da aplicação dos estudos de ML e diminuir a
+quantidade de arquivos sem perder a evidência necessária ao artigo.
+
+### O que mudou
+
+- Ponto 0 guardado antes de mover/remover arquivos: 995 arquivos, 1.464.715.215
+  bytes originais, com leitura integral do ZIP e comparação SHA-256.
+- main.py reúne iniciar, preparar-banco, criar-analista, verificar e testar.
+  Não é necessário executar uma lista de módulos internos para abrir a aplicação.
+- Carga e consulta do PostgreSQL foram reunidas em src/banco.py. O comando de
+  analistas passou para main.py; imports foram atualizados.
+- A pasta src passou de 29 arquivos de código/SQL para 15, contando a pequena
+  compatibilidade necessária aos Joblib antigos. Dados/modelos não são retreinados
+  nem substituídos ao iniciar a aplicação.
+- Scripts de GAN, doses, históricos, recall e previsão operacional, suas configurações
+  e seus testes foram agrupados em experimentos/. Os notebooks correspondentes
+  ficaram em Notebooks/experimentos/. Os notebooks principais 01 e 02 ficam à vista.
+- HGB antigo e o estudo PLN foram separados em experimentos/legado; os resultados
+  HGB ficaram em Modelos/legado_hgb. Os notebooks antigos ficaram em Notebooks/legado.
+- O guia CTGAN foi integrado ao índice experimentos/README.md. O README principal
+  foi reduzido; as funcionalidades recentes do assistente/loja/PDF foram preservadas
+  no registro histórico acima. Docs/instalacao_novo_pc.md é o guia atual de execução.
+- Saíram da pasta ativa os rascunhos Notebooks/testes (inclusive CSV derivado),
+  a página de heatmap sem referência na aplicação, o teste antigo de GenAI sem
+  autenticação, a nota PostgreSQL com nome antigo do contêiner, a pasta vazia
+  DataSet Emocoes, placeholders desnecessários e caches Python.
+- Os ZIPs visuais V1/V2 saíram de frontend/versoes e permanecem no ponto 0.
+  Os arquivos ativos do frontend, o .env e as saídas científicas dos notebooks
+  foram comparados com o backup e preservados.
+- Corrigido um erro preexistente no notebook 02: "7import pandas as pd" virou
+  "import pandas as pd". Não houve treinamento nem alteração de suas saídas.
+- O código exato das execuções anteriores está em
+  experimentos/legado/codigo_execucoes_ponto0.zip. Hashes históricos não foram
+  substituídos pelos hashes do código reorganizado. O notebook 05 verifica a cópia
+  histórica; um módulo pequeno de compatibilidade abre a classe Cenario dos Joblib.
+- Doses/históricos aceitam --saida para novas rodadas, e um protocolo divergente
+  agora é recusado antes de regravar o snapshot. Os resultados antigos ficam separados.
+- .env.example foi simplificado para as variáveis utilizadas pelo código atual.
+  Nenhuma chave real foi alterada, exibida ou incluída na documentação.
+
+### Conferências executadas
+
+- 57 testes de aplicação/dados passaram com integração PostgreSQL habilitada:
+  autenticação, permissões, CSRF, pedidos, assistente, PDF, tratamento e inicialização.
+  Os testes de banco usam schemas temporários; a GenAI usa fixtures técnicas.
+- 40 testes dos experimentos passaram, mais 2 novos testes para compatibilidade
+  de serialização e preservação de snapshots: 99 testes aprovados no total.
+- main.py verificar consultou 91.390 pedidos, realizou inferência sobre os 24.667
+  da validação e formou a fila de 2.466.
+- O código original do ponto 0 foi carregado para comparação com o ponto 1:
+  mesmos pedidos, scores iguais bit a bit e prioridades idênticas via PostgreSQL.
+- 215 arquivos de dados/modelos/métricas mantêm os hashes do ponto 0 (incluindo
+  os resultados HGB movidos). O modelo web e sua política de 10% não foram alterados.
+- main.py iniciar foi exercitado com Docker e servidor real numa porta local livre,
+  para não interromper um servidor da equipe: páginas/assets responderam 200 e
+  /api/prioridades retornou 401 sem autenticação. O servidor de teste foi encerrado.
+- Sintaxe Python e estrutura/código dos 8 notebooks conferidos. As células de
+  leitura/imports dos notebooks 04/05 foram executadas; o notebook 06 foi executado
+  em memória, conferindo artefatos, métricas e scores, com treino/regravação desligados.
+- O restaurador foi testado em um projeto temporário: recuperou o arquivo da versão
+  escolhida e preservou tanto o ambiente quanto a pasta substituída.
+
+### Divergência preexistente e limites
+
+Dados/previsoes_demo_validacao.csv é uma exportação histórica que não corresponde
+ao modelo atualmente salvo. Essa diferença já existia no ponto 0: todos os seus
+24.667 scores diferem da execução atual (diferença absoluta máxima de aproximadamente
+0,2869). O CSV foi preservado como evidência, sem regravar uma rodada antiga.
+Para validar a aplicação atual, use main.py verificar e a comparação ponto 0/1
+registrada acima; não use esse CSV como referência dos scores atuais.
+
+Não foram retreinados os modelos nem executados integralmente os notebooks 01/02
+e o CTGAN inicial. Não houve nova chamada à API externa de GenAI. As verificações
+de HTTP não substituem uma nova revisão visual em navegador. A carga inicial inteira
+do banco não foi repetida; sua proteção foi testada e os fluxos de aplicação usam o
+banco já existente. Alertas de depreciação do NumPy/Pandas e de IDs ausentes em
+notebooks antigos não impediram as verificações; versões dos ambientes foram preservadas.
+
+### Restauração
+
+A pasta irmã EntregaCertaAI_Pontos guarda ponto_0.zip, ponto_1.zip e os manifestos
+de integridade. O restaurador confere os arquivos antes de trocar pastas e preserva
+a versão substituída com data/hora. Ver Docs/instalacao_novo_pc.md.
+
+Os ZIPs incluem o estado local do Git e o .env; não devem ser publicados.
+Os ambientes .venv/.venv-ctgan e o volume PostgreSQL ficam fora dos ZIPs.
+O banco permanente não foi recarregado; nenhum commit/push ou alteração de autoria
+foi feito. O registro detalhado de movimentos está em alteracoes_ponto1.json junto
+aos pontos locais.
+
+## Guia do pipeline completo — atualização de documentação (13/11/2026)
+
+O guia de inicialização passou a descrever dez etapas, dos CSVs originais à aplicação.
+Foram conferidos os módulos preparar_dados, tratar_dados_ml e inferencia, os comandos
+de main.py e as posições/títulos das células do notebook 02. O notebook 01 aparece
+como preparação didática/conferência, sem exigir transformação duplicada.
+
+O roteiro registra o nome de consolidado esperado pelo notebook, posterga as
+avaliações de teste até depois das escolhas na validação, separa Cross Entropy/PCA
+do fluxo MLP exportado e exige gerar o CSV de inferência antes de conferi-lo.
+Também distingue primeira carga, recarga histórica e abertura diária.
+
+Alterados apenas este registro, Docs/instalacao_novo_pc.md e a referência no README.
+Links locais, marcos das células, entradas executáveis e ajuda de main.py foram
+conferidos; diff --check passou. Não houve novo treino, preparação completa ou carga
+de banco. Os ZIPs ponto 0/1 permanecem como fotografias anteriores, sem regravação.

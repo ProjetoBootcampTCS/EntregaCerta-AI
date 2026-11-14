@@ -9,8 +9,12 @@ if (!document.getElementById("abrir-assistente")) {
 function atualizarContextoAssistente() {
   const resumo = document.getElementById("assistente-contexto");
   if (!resumo) return;
+  if (resumo.dataset.pedido) {
+    resumo.textContent = resumo.dataset.pedido + '. Os dados autorizados são consultados novamente a cada pergunta. A conversa fica restrita a este pedido.';
+    return;
+  }
   if (window.ecAuth?.estado.usuario?.perfil !== 'analista') {
-    resumo.textContent = 'Orientações sobre a loja demonstrativa, prazos e etapas. O chat não consulta pedidos individuais nem estima probabilidades ou datas de entrega.';
+    resumo.textContent = 'Orientações sobre a loja demonstrativa. Use Conversar sobre pedido em Meus pedidos para consultar prazo e etapas registrados. A loja não possui previsão individual de ML.';
     return;
   }
   const contextoPedidos = document.getElementById("pedidos-contexto");
@@ -130,6 +134,14 @@ function formatarTextoAssistente(destino, texto) {
   if (blocoCodigo !== null) concluirCodigo();
 }
 
+function botaoAssistentePedido(id, tipo) {
+  const botao = document.createElement('button');
+  botao.type = 'button'; botao.className = 'assistant-order-button';
+  botao.textContent = 'Conversar sobre pedido ↗';
+  botao.dataset.assistentePedido = id; botao.dataset.assistenteOrigem = tipo;
+  return botao;
+}
+
 function configurarAssistente() {
   const abrir = document.getElementById("abrir-assistente");
   const painel = document.getElementById("assistente-dialog");
@@ -146,25 +158,58 @@ function configurarAssistente() {
   let fechamentoPendente = null;
   let consultando = false;
   let controladorAtivo = null;
-  let identidade = window.ecAuth?.estado.usuario?.id || null;
+  const chaveSessao = () => `${window.ecAuth?.estado.usuario?.id || ''}:${window.ecAuth?.estado.csrf || ''}`;
+  let identidade = chaveSessao();
+  let conversaId = null, pedidoSelecionado = null, geracao = 0;
+  const estilo = document.createElement('link');
+  estilo.rel = 'stylesheet'; estilo.href = '/static/assistente.css?v=1'; document.head.append(estilo);
+  const barra = document.createElement('div'); barra.className = 'assistant-toolbar';
+  const contextoAtivo = document.createElement('span'); contextoAtivo.id = 'assistente-selecao';
+  contextoAtivo.textContent = 'Conversa geral';
+  const nova = document.createElement('button'); nova.type = 'button'; nova.id = 'assistente-nova';
+  nova.textContent = '＋ Nova conversa'; barra.append(contextoAtivo, nova);
+  painel.querySelector('.assistant-header').after(barra);
+  painel.querySelector('.assistant-context summary').textContent = 'Contexto da conversa';
+  document.getElementById('assistente-aviso').textContent = 'Memória das últimas 6 trocas, nesta página e sessão (30 min sem atividade). Ao avaliar, a pergunta e a resposta são salvas. Não envie dados sensíveis.';
+
+  async function reiniciar(pedido = null) {
+    const anterior = conversaId;
+    geracao++; controladorAtivo?.abort(); conversaId = null; pedidoSelecionado = pedido;
+    historico.replaceChildren(); historico.hidden = true; boasVindas.hidden = false; pergunta.value = '';
+    contextoAtivo.textContent = pedido ? `Pedido #${pedido.id.slice(0, 8)} · ${pedido.tipo === 'loja' ? 'Loja demonstrativa' : 'Olist histórico'}` : 'Conversa geral';
+    document.getElementById('assistente-contexto').dataset.pedido = pedido ? contextoAtivo.textContent : '';
+    atualizarContextoAssistente(); atualizarRascunho();
+    if (anterior) {
+      try { await window.ecFetch('/api/assistente/conversas/' + anterior, {method: 'DELETE'}); }
+      catch { /* A memória antiga expira no servidor e não é usada na nova conversa. */ }
+    }
+  }
+  nova.addEventListener('click', () => { if (!consultando) { reiniciar(); pergunta.focus(); } });
+  document.addEventListener('click', evento => {
+    const botao = evento.target.closest('[data-assistente-pedido]');
+    if (!botao || consultando) return;
+    const pedido = {id: botao.dataset.assistentePedido, tipo: botao.dataset.assistenteOrigem};
+    if (pedido.id !== pedidoSelecionado?.id || pedido.tipo !== pedidoSelecionado?.tipo) reiniciar(pedido);
+    document.querySelectorAll('dialog[open]').forEach(dialogo => { if (dialogo !== painel) dialogo.close(); });
+    abrir.click(); pergunta.focus();
+  });
   const login = document.createElement('a');
   login.href = '/entrar'; login.className = 'assistant-login';
   login.textContent = 'Entre na sua conta para conversar com o assistente ↗';
   formulario.prepend(login);
   function atualizarSessao() {
     const usuario = window.ecAuth?.estado.usuario;
-    if ((usuario?.id || null) !== identidade) {
-      controladorAtivo?.abort();
-      historico.replaceChildren(); historico.hidden = true; boasVindas.hidden = false;
-      pergunta.value = ''; identidade = usuario?.id || null;
+    if (chaveSessao() !== identidade) {
+      // Não reaproveita conversa nem após novo login da mesma pessoa.
+      conversaId = null; identidade = chaveSessao(); reiniciar();
     }
     const autenticado = !!window.ecAuth?.estado.autenticado;
     login.hidden = autenticado;
     pergunta.disabled = !autenticado;
     const nota = painel.querySelector('.assistant-context-note');
     nota.textContent = usuario?.perfil === 'analista'
-      ? 'A IA recebe sua pergunta e o resumo geral da fila histórica. Filtros e detalhes individuais não são enviados automaticamente. Confira as respostas antes de decidir.'
-      : 'A IA recebe sua pergunta e orientações gerais da loja. Não envie informações sensíveis. Confira as respostas antes de decidir.';
+      ? 'A IA recebe as últimas trocas e o resumo da fila ou os dados do pedido selecionado. Filtros não alteram o contexto automaticamente.'
+      : 'A IA recebe as últimas trocas, orientações da loja e os dados do seu pedido selecionado. Não envie informações sensíveis.';
     const prompts = usuario?.perfil === 'analista'
       ? ['Como interpretar o score de atraso dos pedidos?', 'Como funciona a seleção dos pedidos para a fila de análise?', 'Quais são os limites desta análise histórica?']
       : ['Onde acompanho meus pedidos?', 'O que significa prazo prometido não definido?', 'Esta loja realiza entregas reais?'];
@@ -184,6 +229,8 @@ function configurarAssistente() {
     pergunta.readOnly = emAndamento;
     formulario.setAttribute("aria-busy", String(emAndamento));
     sugestoes.forEach((botao) => { botao.disabled = emAndamento; });
+    nova.disabled = emAndamento;
+    historico.querySelectorAll('.assistant-retry').forEach(botao => { botao.disabled = emAndamento; });
     rotuloEnviar.textContent = emAndamento ? "Consultando..." : "Enviar pergunta";
     atualizarRascunho();
   }
@@ -250,7 +297,7 @@ function configurarAssistente() {
   });
   painel.addEventListener("keydown", (evento) => {
     if (evento.key !== "Tab") return;
-    const controles = [...painel.querySelectorAll("button:not(:disabled), textarea, summary")]
+    const controles = [...painel.querySelectorAll("button:not(:disabled), textarea:not(:disabled), select:not(:disabled), a[href], summary")]
       .filter((controle) => controle.getClientRects().length > 0);
     const primeiro = controles[0];
     const ultimo = controles[controles.length - 1];
@@ -301,22 +348,54 @@ function configurarAssistente() {
       feedback.textContent = "Selecione a pergunta e use o comando Copiar do seu dispositivo.";
     }
   });
-  formulario.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-    if (consultando || !window.ecAuth?.estado.autenticado) return;
+  async function lerResposta(resposta) {
+    const dados = await resposta.json();
+    if (!resposta.ok) throw new Error(typeof dados.detail === 'string' ? dados.detail : 'Não foi possível concluir a consulta.');
+    return dados;
+  }
 
-    const texto = pergunta.value.trim();
-    if (!texto || texto.length > 1000) {
-      feedback.textContent = texto ? "Use até 1000 caracteres." : "Digite uma pergunta.";
-      pergunta.focus();
-      return;
+  function acoesResposta(mensagem, dados) {
+    const acompanhar = conteudo.scrollHeight - conteudo.scrollTop - conteudo.clientHeight < 100;
+    const acoes = document.createElement('div'); acoes.className = 'assistant-answer-actions';
+    const aviso = document.createElement('p'); aviso.className = 'assistant-action-status'; aviso.setAttribute('role', 'status');
+    const copiarResposta = document.createElement('button'); copiarResposta.type = 'button'; copiarResposta.textContent = 'Copiar resposta';
+    copiarResposta.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(dados.resposta); aviso.textContent = 'Resposta copiada.'; }
+      catch { aviso.textContent = 'Selecione o texto da resposta e use Copiar no seu dispositivo.'; }
+    });
+    const positivo = document.createElement('button'), negativo = document.createElement('button');
+    for (const [b, nome, icone] of [[positivo, 'Resposta útil', '👍'], [negativo, 'Resposta precisa melhorar', '👎']]) {
+      b.type = 'button'; b.textContent = icone; b.setAttribute('aria-label', nome); b.title = nome; b.setAttribute('aria-pressed', 'false');
     }
+    const categoria = document.createElement('select'); categoria.hidden = true; categoria.setAttribute('aria-label', 'Motivo da avaliação negativa');
+    for (const [valor, nome] of [['', 'O que podemos melhorar?'], ['incorreta', 'Informação incorreta'], ['confusa', 'Resposta confusa'], ['nao_respondeu', 'Não respondeu à pergunta'], ['outro', 'Outro motivo']]) {
+      const op = document.createElement('option'); op.value = valor; op.textContent = nome; categoria.append(op);
+    }
+    async function avaliar(nota) {
+      positivo.disabled = negativo.disabled = categoria.disabled = true;
+      aviso.textContent = 'Salvando avaliação…';
+      try {
+        await lerResposta(await window.ecFetch('/api/assistente/avaliacoes', {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({conversa_id: dados.conversa_id, resposta_id: dados.resposta_id, avaliacao: nota, categoria: nota < 0 ? categoria.value : null}),
+        }));
+        positivo.setAttribute('aria-pressed', String(nota === 1)); negativo.setAttribute('aria-pressed', String(nota === -1));
+        if (nota === 1) { categoria.hidden = true; categoria.value = ''; }
+        aviso.textContent = 'Avaliação salva. Obrigado!';
+      } catch (erro) { aviso.textContent = erro.message || 'Não foi possível salvar. Tente novamente.'; }
+      finally { positivo.disabled = negativo.disabled = categoria.disabled = false; }
+    }
+    positivo.addEventListener('click', () => avaliar(1));
+    negativo.addEventListener('click', () => { categoria.hidden = false; categoria.focus(); aviso.textContent = 'Selecione um motivo para salvar sua avaliação.'; });
+    categoria.addEventListener('change', () => { if (categoria.value) avaliar(-1); });
+    acoes.append(copiarResposta, positivo, negativo, categoria); mensagem.elemento.append(acoes, aviso);
+    if (acompanhar) acompanharConversa(true);
+  }
 
-    boasVindas.hidden = true;
-    historico.hidden = false;
-    adicionarMensagem("user", texto);
-    const mensagemResposta = adicionarMensagem("assistant", "Aguardando resposta…", "loading");
-    pergunta.value = "";
+  async function consultar(texto, mensagemResposta, requisicaoId) {
+    mensagemResposta.elemento.querySelector('.assistant-retry')?.remove();
+    mostrarResposta(mensagemResposta, 'loading', 'Aguardando resposta…');
+    mensagemResposta.elemento.setAttribute('aria-busy', 'true');
     atualizarConsulta(true);
     acompanharConversa(true);
     feedback.textContent = "Consultando o assistente...";
@@ -325,37 +404,47 @@ function configurarAssistente() {
     const controlador = new AbortController();
     controladorAtivo = controlador;
     const identidadeConsulta = identidade;
+    const geracaoConsulta = geracao;
     const temporizador = window.setTimeout(() => controlador.abort(), 120000);
     let mensagemFinal = "";
 
     try {
+      if (!conversaId) {
+        const novaConversa = await lerResposta(await window.ecFetch('/api/assistente/conversas', {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({pedido: pedidoSelecionado}), signal: controlador.signal,
+        }));
+        if (geracaoConsulta !== geracao) return;
+        conversaId = novaConversa.conversa_id;
+      }
       const resposta = await window.ecFetch("/api/assistente", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pergunta: texto }),
+        body: JSON.stringify({ pergunta: texto, conversa_id: conversaId, requisicao_id: requisicaoId }),
         signal: controlador.signal,
       });
-      if (!resposta.ok) throw new Error("Falha na consulta ao backend.");
-
-      const dados = await resposta.json();
-      if (identidadeConsulta !== identidade) return;
+      const dados = await lerResposta(resposta);
+      if (geracaoConsulta !== geracao) return;
       if (typeof dados?.disponivel !== "boolean" || typeof dados?.resposta !== "string" || !dados.resposta.trim()) {
         throw new Error("Resposta inesperada do backend.");
       }
 
       if (dados.disponivel) {
         mostrarResposta(mensagemResposta, "ready", dados.resposta.trim());
+        acoesResposta(mensagemResposta, dados);
         mensagemFinal = "Resposta recebida.";
       } else {
-        mostrarResposta(mensagemResposta, "unavailable", dados.resposta.trim());
-        mensagemFinal = "Assistente indisponível nesta consulta.";
+        throw new Error(dados.resposta.trim());
       }
     } catch (erro) {
-      if (identidadeConsulta !== identidade) return;
+      if (geracaoConsulta !== geracao) return;
       const mensagem = erro.name === "AbortError"
-        ? "O tempo de espera terminou. Tente novamente mais tarde."
-        : "Não foi possível consultar o assistente. Tente novamente mais tarde.";
+        ? "O tempo de espera terminou. Você pode tentar novamente."
+        : erro.message || "Não foi possível consultar o assistente. Tente novamente.";
       mostrarResposta(mensagemResposta, "error", mensagem);
+      const tentar = document.createElement('button'); tentar.type = 'button'; tentar.className = 'assistant-retry'; tentar.textContent = 'Tentar novamente';
+      tentar.addEventListener('click', () => { if (!consultando && geracaoConsulta === geracao) consultar(texto, mensagemResposta, requisicaoId); });
+      mensagemResposta.elemento.append(tentar);
       mensagemFinal = "Não foi possível concluir a consulta.";
     } finally {
       window.clearTimeout(temporizador);
@@ -364,6 +453,18 @@ function configurarAssistente() {
       atualizarSessao();
       feedback.textContent = identidadeConsulta === identidade ? mensagemFinal : '';
     }
+  }
+  formulario.addEventListener('submit', evento => {
+    evento.preventDefault();
+    if (consultando || !window.ecAuth?.estado.autenticado) return;
+    const texto = pergunta.value.trim();
+    if (!texto || texto.length > 1000) { feedback.textContent = 'Digite uma pergunta com até 1000 caracteres.'; return; }
+    // Só a pergunta mais recente pode ser repetida; não reordena a memória.
+    historico.querySelectorAll('.assistant-retry').forEach(botao => botao.remove());
+    boasVindas.hidden = true; historico.hidden = false;
+    adicionarMensagem('user', texto);
+    const mensagem = adicionarMensagem('assistant', 'Aguardando resposta…', 'loading');
+    pergunta.value = ''; consultar(texto, mensagem, crypto.randomUUID());
   });
   atualizarRascunho();
   abrir.hidden = false;

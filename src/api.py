@@ -1,4 +1,4 @@
-# Iniciar a API = .\.venv\Scripts\python.exe -m uvicorn src.api:app --reload --host 127.0.0.1 --port 8000
+# Iniciar a aplicação pela raiz: .\.venv\Scripts\python.exe main.py iniciar
 
 from pydantic import BaseModel, Field, ConfigDict
 from .assistente_genai import responder
@@ -8,6 +8,9 @@ from threading import Lock
 from typing import Literal
 from functools import lru_cache
 from pathlib import Path
+from uuid import UUID, uuid4
+import json
+from . import conversas_assistente as conversas
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse
@@ -18,7 +21,7 @@ from .acesso_web import politica_acesso, router as router_acesso
 from .loja_web import router as router_loja
 from .relatorio_pdf import registrar_analise, gerar_relatorio
 
-from .consultar_postgresql import consultar_pedidos
+from .banco import consultar_pedidos
 from .pedidos_web import montar_lote, filtrar_lote
 from .inferencia import (
     carregar_modelos,
@@ -197,34 +200,58 @@ def consultar_prioridades(request: Request = None):
         ) from None
 
 class PerguntaAssistente(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     pergunta: str = Field(min_length=1, max_length=1000)
+    conversa_id: UUID | None = None
+    requisicao_id: UUID = Field(default_factory=uuid4)
 
 
-@app.post("/api/assistente")
-def conversar_assistente(mensagem: PerguntaAssistente, request: Request):
-    pergunta = mensagem.pergunta.strip() 
+class PedidoAssistente(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    tipo: Literal["loja", "olist"]
+    id: str = Field(pattern=r"^(?:[a-f0-9]{32}|[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})$")
 
-    if not pergunta:
-        raise HTTPException(
-            status_code=400,
-            detail="Digite uma pergunta."
-        )
 
-    if request.state.usuario["perfil"] == "cliente":
-        # Orientação da loja; não consulta ML nem envia dados de outros clientes.
-        return responder(pergunta, {
+class NovaConversa(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    pedido: PedidoAssistente | None = None
+
+
+class AvaliacaoAssistente(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    conversa_id: UUID
+    resposta_id: UUID
+    avaliacao: Literal[-1, 1]
+    categoria: Literal["incorreta", "confusa", "nao_respondeu", "outro"] | None = None
+
+
+def contexto_assistente(usuario, pedido=None):
+    if pedido:
+        if pedido["tipo"] == "loja":
+            return conversas.contexto_loja(usuario, pedido["id"])
+        if usuario["perfil"] != "analista":
+            raise HTTPException(403, "Este contexto é exclusivo do analista.")
+        lote, consultado_em, _ = obter_lote_pedidos()
+        registro = lote.loc[lote["order_id"].eq(pedido["id"])].drop(columns="order_id")
+        if registro.empty:
+            raise HTTPException(404, "Pedido não encontrado.")
+        return {"publico": "analista", "contexto": "Pedido histórico Olist — partição de validação",
+                "pedido": json.loads(registro.to_json(orient="records", date_format="iso"))[0],
+                "consultado_em": consultado_em,
+                "limites": "Score é risco relativo, não probabilidade calibrada. Atributos não comprovam causas do atraso. Sem previsão de data individual ou alteração de pedido."}
+    if usuario["perfil"] == "cliente":
+        return {
             "publico": "cliente",
             "contexto": "Área do cliente — loja demonstrativa EntregaCerta AI",
             "funcionalidades": "Catálogo, carrinho, meus pedidos, prazo prometido e histórico de etapas e prazos.",
             "prazo": "Informado pela equipe; se não definido, não há uma data prometida disponível.",
-            "limites": "Sem pagamento ou envio real. Este chat não consulta pedidos individuais nem estima datas ou probabilidades de atraso. Consulte Meus pedidos para os dados registrados.",
-        })
+            "limites": "Sem pagamento ou envio real. Nenhum pedido está selecionado nesta conversa. Em Meus pedidos, use Conversar sobre pedido para consultar os dados registrados. Sem previsão de ML para pedidos demonstrativos.",
+        }
 
-    # Reutiliza a consulta e a previsão existentes para o perfil analista.
+    # O resumo continua sendo calculado no servidor, sem números enviados pelo browser.
     dados = consultar_prioridades()
-
-    # Envia somente o resumo necessário para a GenAI.
-    contexto = {
+    return {
+        "publico": "analista",
         "contexto": dados["contexto"],
         "pedidos_avaliados": dados["pedidos_avaliados"],
         "pedidos_na_fila": dados["pedidos_na_fila"],
@@ -238,7 +265,37 @@ def conversar_assistente(mensagem: PerguntaAssistente, request: Request):
         )
     }
 
-    return responder(pergunta, contexto)
+@app.post("/api/assistente/conversas")
+def nova_conversa(dados: NovaConversa, request: Request):
+    pedido = dados.pedido.model_dump() if dados.pedido else None
+    # Valida a permissão antes de criar memória para um pedido.
+    if pedido:
+        contexto_assistente(request.state.usuario, pedido)
+    return {"conversa_id": conversas.criar(request.state.usuario, pedido)}
+
+
+@app.delete("/api/assistente/conversas/{conversa_id}")
+def apagar_conversa(conversa_id: UUID, request: Request):
+    conversas.apagar(conversa_id, request.state.usuario)
+    return {"apagada": True}
+
+
+@app.post("/api/assistente")
+def conversar_assistente(mensagem: PerguntaAssistente, request: Request):
+    pergunta = mensagem.pergunta.strip()
+    if not pergunta:
+        raise HTTPException(400, "Digite uma pergunta.")
+    usuario = request.state.usuario
+    identificador = mensagem.conversa_id or conversas.criar(usuario)
+    conversa = conversas.obter(identificador, usuario)
+    contexto = contexto_assistente(usuario, conversa.pedido)
+    return conversas.conversar(identificador, usuario, mensagem.requisicao_id, pergunta, contexto, responder)
+
+
+@app.post("/api/assistente/avaliacoes")
+def avaliar_assistente(dados: AvaliacaoAssistente, request: Request):
+    return conversas.avaliar(request.state.usuario, dados.conversa_id, dados.resposta_id,
+                            dados.avaliacao, dados.categoria)
 
 
 class PedidoRelatorio(BaseModel):

@@ -43,3 +43,17 @@ ALTER TABLE pedidos_demo ADD COLUMN IF NOT EXISTS prazo_original DATE;
 ALTER TABLE pedidos_demo ADD COLUMN IF NOT EXISTS responsavel_id UUID REFERENCES usuarios(id);
 ALTER TABLE pedidos_demo ADD COLUMN IF NOT EXISTS versao INTEGER NOT NULL DEFAULT 1;
 ALTER TABLE pedidos_demo ADD COLUMN IF NOT EXISTS atualizado_em TIMESTAMPTZ;
+
+-- Feedback explícito do assistente, independente das tabelas e alvos de ML.
+CREATE TABLE IF NOT EXISTS assistente_feedback (
+    resposta_id UUID PRIMARY KEY,
+    usuario_id UUID NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+    avaliacao SMALLINT NOT NULL CHECK (avaliacao IN (-1,1)),
+    categoria TEXT CHECK (categoria IN ('incorreta','confusa','nao_respondeu','outro')),
+    pergunta TEXT NOT NULL,
+    resposta TEXT NOT NULL,
+    contexto TEXT NOT NULL CHECK (contexto IN ('geral','loja','olist')),
+    modelo TEXT NOT NULL,
+    criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+    atualizado_em TIMESTAMPTZ NOT NULL DEFAULT now()
+);

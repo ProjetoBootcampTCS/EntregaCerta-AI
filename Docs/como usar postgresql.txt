@@ -1,3 +1,0 @@
-para executar o terminal
-docker exec -it postgres_db psql -U admin -d meu_banco
-para gerenciar o banco de dados postgresql, usar DBeaver e criar uma conexão utilizando os dados colocados no arquivo .env

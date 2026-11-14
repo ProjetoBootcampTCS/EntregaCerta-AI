@@ -15,7 +15,7 @@ from psycopg.rows import dict_row
 from fastapi import APIRouter, HTTPException, Request, Response
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from .carregar_postgresql import obter_conexao
+from .banco import obter_conexao
 
 ESQUEMA = "app_web"
 COOKIE = "entregacerta_sessao"
@@ -182,7 +182,7 @@ def politica_acesso(request: Request):
     request.state.usuario = usuario
     if caminho.startswith("/api/cliente/"):
         permitido = usuario["perfil"] == "cliente"
-    elif caminho in {"/api/auth/sair", "/api/assistente"}:
+    elif caminho in {"/api/auth/sair", "/api/assistente"} or caminho.startswith("/api/assistente/"):
         permitido = True
     else:
         permitido = usuario["perfil"] == "analista"

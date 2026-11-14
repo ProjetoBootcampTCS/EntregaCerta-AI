@@ -6,6 +6,7 @@ Modelos/experimento_ctgan/
 Modelos/experimento_historicos/
 Modelos/experimento_simulacao/
 Modelos/comparacao_recall95/
+Modelos/experimento_operacional/
 Dados/simulacao_ctgan/
 Dados/pedidos_tratados_e_injetados.csv
 Dados/ctgan_sinteticos.csv
@@ -25,6 +26,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ipynb_checkpoints/
+.tmp*/
 *.egg-info/
 *.log
 

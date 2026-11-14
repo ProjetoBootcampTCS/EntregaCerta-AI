@@ -1,1 +1,1 @@
-"""Código do EntregaCerta AI; módulos serão criados conforme o desenvolvimento."""
+"""Módulos da aplicação e dos dados. Operação pelo main.py na raiz."""

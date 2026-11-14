@@ -93,5 +93,15 @@ class AssistenteGenAITest(unittest.TestCase):
             self.assertFalse(assistente.responder('Resumo técnico',{},para_relatorio=True)['disponivel'])
         self.cliente.assert_not_called()
 
+    def test_historico_usa_papeis_reais_e_contexto_atual(self):
+        self.gerar.return_value=resposta_sdk()
+        assistente.responder('E o prazo?', {'pedido': {'prazo_prometido': '2030-01-20'}}, historico=[
+            {'papel': 'user', 'texto': 'Qual pedido?'}, {'papel': 'model', 'texto': 'Pedido selecionado.'},
+        ])
+        conteudos=self.gerar.call_args.kwargs['contents']
+        self.assertEqual([m.role for m in conteudos], ['user','model','user'])
+        self.assertEqual(conteudos[0].parts[0].text,'Qual pedido?')
+        self.assertIn('2030-01-20',conteudos[-1].parts[0].text)
+
 
 if __name__=='__main__':unittest.main()

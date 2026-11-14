@@ -84,7 +84,7 @@
       } catch(erro) { aviso.textContent=erro.message; aviso.dataset.error='true'; }
       finally {salvando=false;consultar.disabled=false;salvar.disabled=false;}
     });
-    card.append(cabecalho,dados,form,historico(p)); return card;
+    card.append(cabecalho,dados,form,historico(p),botaoAssistentePedido(p.id,'loja')); return card;
   }
   async function carregar() {
     if(salvando)return;
