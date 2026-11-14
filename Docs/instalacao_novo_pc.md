@@ -20,10 +20,7 @@ Os pontos 0/1 são cópias locais anteriores; não recebem alterações automati
 | 3 | python -m src.preparar_dados | Consolidado: uma linha por pedido |
 | 4 | python -m src.tratar_dados_ml --entrada Dados/pedidos_consolidados.csv | CSV tratado e matrizes |
 | 4 — opcional | Notebooks/01_preparacao_dados.ipynb | Estudo e conferência didática |
-| 5 | Blocos de treino e avaliação do notebook 02, na ordem abaixo | Modelos comparados |
-| 6A | Blocos de salvamento e demonstração do notebook 02 | Rede, pré-processador e entrada da demonstração |
-| 6B | python -m src.inferencia | CSV de previsões da rodada atual |
-| 6C | Conferência final do notebook 02 | Mesmos pedidos, scores e prioridades |
+| 5–6 | Notebook 02: reiniciar kernel e Executar tudo | Treino, avaliação, salvamento e conferência da inferência |
 | 7 | Configurar .env e executar python main.py preparar-banco | PostgreSQL, view e tabelas web |
 | 8 | python main.py criar-analista ... | Conta autorizada |
 | 9 | python main.py verificar e testes | Integração conferida |
@@ -51,7 +48,7 @@ Não recrie um ambiente que já funciona. Os comandos usam o Python da .venv
 diretamente, sem precisar ativá-la.
 
 No VS Code, selecione **Python: Select Interpreter → .venv**. Para os notebooks
-01/02, escolha também **Selecionar Kernel → Python Environments → .venv**.
+01/02 e o experimento 03, escolha também **Selecionar Kernel → Python Environments → .venv**.
 A .venv-ctgan é reservada aos experimentos: o pacote atual dados_ml.joblib foi
 salvo com Pandas 3, enquanto o ambiente CTGAN usa Pandas 2.3.3.
 
@@ -101,18 +98,10 @@ Produz:
 Referência atual: **99.441 pedidos, sem repetição de order_id**.
 Não passe esse CSV inteiro ao modelo: ele contém datas do desfecho e alvos.
 
-### Compatibilidade com o notebook 02
-
-O notebook 02 ainda lê pedidos_consolidados_teste.csv. Na execução nova, depois
-de consolidar, disponibilize a mesma base com esse nome:
-
-~~~powershell
-Copy-Item -LiteralPath ".\Dados\pedidos_consolidados.csv" -Destination ".\Dados\pedidos_consolidados_teste.csv"
-~~~
-
-É uma cópia do consolidado completo, **não é a partição de teste**. O comando
-substitui esse arquivo se já existir; por isso separe a nova rodada da anterior.
-Não use um consolidado antigo com matrizes geradas de outra base.
+O notebook 02 encontra pedidos_consolidados.csv automaticamente. Se existir apenas
+o nome antigo pedidos_consolidados_teste.csv, ele também é aceito; esse nome antigo
+representa o consolidado completo, não a partição de teste. Não é necessário copiar
+nem renomear o CSV. Use consolidado e matrizes da mesma rodada de preparação.
 
 ## 4. Limpar, dividir e transformar — segundo script
 
@@ -162,108 +151,80 @@ mas a etapa 3 continua necessária para o consolidado usado no notebook 02.
 
 ## 5. Treinar e avaliar — notebook 02
 
-Abra [02_treinamento_modelos.ipynb](../Notebooks/02_treinamento_modelos.ipynb),
-selecione .venv, reinicie o kernel e siga a sequência abaixo.
+Abra [02_treinamento_modelos.ipynb](../Notebooks/02_treinamento_modelos.ipynb) e:
 
-**Não use Run All como roteiro inicial.** Esse notebook reúne o fluxo principal,
-experimentos opcionais e uma conferência que depende de um comando no terminal.
+1. Selecione o kernel **.venv**.
+2. Clique em **Reiniciar kernel**.
+3. Clique em **Executar tudo / Run All**.
+4. Aguarde terminar e salve o notebook com suas saídas.
 
-Os números são a **posição física das células, contando texto e código desde o
-topo**, não o contador de execução In [n]. Use os títulos/trechos se a equipe
-inserir novas células.
+**Agora todas as células estão na ordem. Não pule células e não alterne com o
+terminal.** A preparação das etapas 3 e 4 precisa estar concluída.
 
-### 5.1 Desenvolver com treino e validação
+| Seção do notebook | O que acontece |
+|---|---|
+| 1 | Carrega matrizes, alvos e pré-processamento; confere tamanhos e identificadores |
+| 2 | Treina o baseline que sempre escolhe a classe mais frequente |
+| 3–4 | Treina e avalia regressão logística e HGB na validação |
+| 5 | Treina a rede BCE, recupera a melhor época e mostra métricas/gráficos |
+| 6 | Compara os três modelos na validação com filas de 5%, 10% e 20% |
+| 7 | Aplica as configurações fixadas no teste e gera a tabela atual de comparação |
+| 8–11 | Salva a rede, confere o tratamento e executa a inferência automaticamente |
 
-| Ordem | Células atuais | Como localizar / o que executar |
-|---|---|---|
-| A | 3 e 4 | “Importando Dados”: carregar dados_ml.joblib e treinar o Dummy |
-| B | 6 a 9 | “Treinamento 1: Regressão Logística”: treino e avaliação na validação |
-| C | 14 e 15 | “Treinamento 2: HistGradientBoosting (HGB)” |
-| D | 17 | “Treinamento 3: Rede Neural (MLP)”: criar tensores |
-| E | 19 a 22 | modelo_rede = nn.Sequential(...), loss, otimizador, lotes e treino |
-| F | 24 a 27 | “Métricas Rede Neural”: métricas, gráficos e conferência dos scores |
-| G | 30 | “Comparação e priorização”: filas de 5%, 10% e 20% para logística/HGB |
+A rede mantém camadas 128/64, dropout 0,1, semente 7 e AdamW com learning rate
+0,0003. São até 150 épocas e paciência 50, monitorando **atrasos encontrados na
+fila de 10% da validação**. A melhor época é recarregada ao terminar. A paciência
+desse fluxo não monitora convergência da loss.
 
-**Pule a célula 18 nesta sequência:** é um experimento com CrossEntropyLoss e
-modelo_ce. A aplicação recebe modelo_rede, com uma saída e BCEWithLogitsLoss.
+A configuração e a fila ficam definidas antes de consultar o teste. Não use o
+teste para escolher novos hiperparâmetros. Ele já foi consultado em estudos
+anteriores; a nova execução não o transforma em teste inédito. A tabela final é
+calculada pelo código, sem precisar atualizar números manualmente em Markdown.
 
-A rede atual tem camadas 128/64, dropout 0,1, semente 7 e AdamW com learning rate
-0,0003. A célula 22 permite até 150 épocas e usa paciência 50, monitorando
-**atrasos encontrados na fila de 10% da validação**. Recarrega a melhor época
-ao terminar. A paciência desse bloco não monitora convergência da loss.
+O backend continua usando a MLP. Comparar os modelos não troca automaticamente
+o modelo da aplicação pelo vencedor. A fila de 10% deste fluxo não representa
+a meta de recall 90%/95% dos estudos operacionais.
 
-Registre as métricas calculadas e congele a configuração antes do teste.
-O backend atual carrega a MLP; a comparação não troca automaticamente o modelo
-da aplicação por logística ou HGB.
+## 6. Salvamento e inferência — já incluídos em Executar tudo
 
-### 5.2 Avaliar no teste após definir a configuração
-
-Execute agora:
-
-1. **Células 11 e 12:** “Avaliação no teste — Regressão logística”.
-2. **Célula 28:** avaliação da rede com dados["X"]["teste"].
-
-Essas células estão em posições diferentes no arquivo, mas ficam deliberadamente
-para este momento, após as escolhas na validação.
-
-Registre Precision, Recall, F1, AP e matriz de confusão. Não use o teste para
-continuar escolhendo hiperparâmetros. Esse teste já foi consultado em estudos
-anteriores; uma nova execução não o transforma em teste inédito.
-
-A tabela Markdown “Comparação final no teste” é um registro antigo, sem atualização
-automática. Atualize-a com os resultados reais da nova rodada; não reutilize os
-números anteriores como se fossem novos.
-
-## 6. Salvar o modelo e conferir a inferência
-
-Continue no **mesmo kernel** do notebook 02:
-
-| Ordem | Células atuais | Resultado |
-|---|---|---|
-| A | 33 e 34 | “Salvamento do modelo e do pré-processamento”: salvar e reabrir o par |
-| B | 36 | “Verificação da inferência a partir do CSV consolidado”: conferir tratamento |
-| C | 38 | “Função de inferência”: prever com o modelo salvo |
-| D | 40 | “Fila de prioridade — 10% dos pedidos” |
-| E | 42 | “Verificação do módulo de inferência”: conferir src.inferencia |
-| F | 44 | “Dados de validação para demonstração”: salvar entrada para o terminal |
-
-São produzidos:
+As seções 8 a 11 do mesmo notebook produzem:
 
 - Modelos/rede_neural.pt — pesos da rede.
-- Modelos/preprocessador_rede.joblib — tratamento e arquitetura correspondentes.
-- Dados/pedidos_demo_validacao.csv — identificadores e atributos da validação.
+- Modelos/preprocessador_rede.joblib — pré-processador e arquitetura correspondentes.
+- Dados/pedidos_demo_validacao.csv — entrada da demonstração histórica.
+- Dados/previsoes_demo_validacao.csv — scores e prioridades da rodada atual.
 
-Salve **modelo e pré-processador da mesma rodada**. O salvamento substitui os
-arquivos usados pelo site. Um novo treino pode produzir resultados diferentes:
-não se promete igualdade entre ambientes ou configurações.
+**Executar tudo substitui esse par de modelos e esses dois CSVs.** Preserve a
+rodada anterior se quiser compará-la. O PostgreSQL não é alterado pelo notebook.
+Reinicie a API após atualizar os modelos, pois ela mantém caches em memória.
 
-### 6.1 Pausar o notebook e executar pelo terminal
+A seção 11 chama src.inferencia em outro processo, usando o mesmo Python do kernel
+e a raiz do projeto. Depois confere os mesmos pedidos, scores e prioridades.
+O resultado esperado ao final é:
 
-Depois da célula 44, no terminal da raiz:
+~~~text
+Conferência final aprovada: mesmos pedidos, scores e prioridades!
+~~~
+
+Na base atual são 24.667 pedidos e 2.466 na fila. Essa mensagem comprova integração,
+não qualidade preditiva; avalie Precision, Recall, F1, AP e as matrizes de confusão.
+Se uma célula falhar, corrija a causa e reinicie a execução; não avance ignorando erros.
+
+Não existe mais pausa obrigatória no terminal. Para repetir somente a inferência
+depois que o par de modelos e a entrada de demonstração estiverem salvos, pode usar:
 
 ~~~powershell
 .\.venv\Scripts\python.exe -m src.inferencia
 ~~~
 
-Este é o momento de executar inferencia.py como módulo. Ele lê a entrada de
-demonstração, carrega modelo/pré-processador e grava
-**Dados/previsoes_demo_validacao.csv**.
+### Experimentos separados
 
-Referência: 24.667 pedidos e 2.466 na fila. Isso confere integração e tamanho da
-fila, não o acerto do modelo.
-
-### 6.2 Voltar ao notebook
-
-Execute a **célula 46**, em “Conferência dos resultados gerados pelo terminal”.
-Ela deve confirmar os mesmos pedidos, scores e prioridades.
-
-O CSV que existia no ponto 1 era de uma rodada anterior e não correspondia ao
-modelo salvo. Nesta execução do zero, **a etapa 6.1 gera uma exportação nova e
-compatível** antes da conferência. Não pule essa etapa.
-
-Pode encerrar o notebook após a conferência. “Experimento — redução de atributos”
-(célula 47 em diante) contém estudos opcionais de redução, PCA, coordenadas e
-análises; não é necessário para abrir o site.
+CrossEntropy, redução de atributos, PCA, coordenadas e diagnósticos estão em
+[03_experimentos_rede_neural.ipynb](../Notebooks/experimentos/03_experimentos_rede_neural.ipynb).
+Ele usa **.venv**, carrega os dados independentemente e também executa de cima para
+baixo. São 16 treinos opcionais, por isso demora mais. Não é necessário executar
+o 02 antes dele nem executar o 03 para abrir a aplicação. Seus resultados ficam
+no notebook, sem sobrescrever os modelos, CSVs ou banco usados pelo site.
 
 ## 7. Configurar e carregar o PostgreSQL
 
@@ -398,11 +359,11 @@ ainda não recebem score; a análise de ML exibida usa reprodução histórica O
 | Situação | Como resolver |
 |---|---|
 | No module named ... | Usar .venv/Scripts/python.exe e instalar requirements.txt nela |
-| X_treino is not defined | Reiniciar kernel e carregar a célula 3 do notebook 02 antes do treino |
+| X_treino is not defined | Selecionar .venv, reiniciar kernel e usar Executar tudo no notebook 02 |
 | attempted relative import | Usar python -m src.inferencia ou main.py na raiz |
-| Consolidado _teste.csv ausente | Fazer a cópia da etapa 3; é o consolidado completo |
-| CSV de previsões ausente/divergente | Executar etapa 6.1 antes da célula 46 |
-| dados_ml.joblib não abre no kernel CTGAN | Usar .venv nos notebooks 01/02; não misturar Pandas 3 e 2.3.3 |
+| Consolidado ausente | Executar a etapa 3; pedidos_consolidados.csv é encontrado automaticamente |
+| CSV de previsões ausente/divergente | Executar o notebook 02 inteiro; a seção 11 gera e confere a exportação |
+| dados_ml.joblib não abre no kernel CTGAN | Usar .venv nos notebooks 01/02 e experimento 03; não misturar Pandas 3 e 2.3.3 |
 | NameError após reiniciar kernel | As variáveis foram apagadas; retomar a sequência |
 | Docker indisponível | Abrir Docker Desktop e conferir docker compose ps |
 | Banco sem view/tabelas web | Executar main.py preparar-banco |
@@ -411,8 +372,8 @@ ainda não recebem score; a análise de ML exibida usa reprodução histórica O
 | Login recusado | Usar a conta de analista criada na etapa 8 |
 | GenAI indisponível | Conferir chave/modelo no .env e reiniciar a API |
 
-O aviso verify_integrity do Pandas é uma depreciação, não uma métrica nem um erro
-de treinamento. Uma exceção que interrompe a célula exige correção.
+O notebook 02 confere unicidade diretamente, sem o parâmetro depreciado
+verify_integrity. Uma exceção que interrompe a célula exige correção.
 
 ## Pontos de restauração
 
@@ -434,7 +395,10 @@ COMO_RESTAURAR.txt junto aos backups. V1/V2 visuais estão no ponto 0.
 
 ## Escopo da conferência deste guia
 
-A ordem foi confrontada com os scripts, os nomes dos arquivos e as células
-atuais. Esta atualização é de documentação: **não repetiu a preparação completa,
-não retreinou o modelo e não recarregou o banco**. As contagens são referências
-da execução registrada; uma nova rodada precisa ser conferida ao executar os passos.
+A ordem foi confrontada com os scripts, os nomes dos arquivos e as células atuais.
+O notebook 02 foi executado integralmente, com dados reais, em uma cópia isolada:
+treino, avaliação, salvamento e conferência da inferência passaram sem erros.
+As saídas dessa verificação foram mantidas no notebook. Os modelos e CSVs usados
+pela aplicação foram preservados; ao executar o notebook no projeto, os arquivos
+indicados na etapa 6 serão substituídos. A preparação completa e a carga do banco
+não foram repetidas nesta organização.

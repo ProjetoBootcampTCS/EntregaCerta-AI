@@ -17,8 +17,9 @@ Esse comando inicia o PostgreSQL e a aplicação usando o modelo salvo. Não é 
 executar notebooks, treinar modelos ou abrir arquivos de src individualmente.
 
 **Do zero, incluindo dados e treinamento:** siga o [guia completo](Docs/instalacao_novo_pc.md).
-Ele indica os scripts, a ordem das células dos notebooks, a pausa para inferência
-pelo terminal e os passos de PostgreSQL, login e abertura da aplicação.
+Ele indica os scripts, a execução completa do notebook 02 com **Executar tudo**
+e os passos de PostgreSQL, login e abertura da aplicação. Os estudos opcionais
+ficam em `Notebooks/experimentos/03_experimentos_rede_neural.ipynb`.
 
 ## Comandos principais
 

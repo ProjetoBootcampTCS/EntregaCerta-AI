@@ -3,9 +3,11 @@
 Esta pasta é de pesquisa. Para abrir o sistema, use `python main.py iniciar` na
 raiz: nenhum destes experimentos é requisito para inicializar a aplicação.
 Execute os comandos de pesquisa a partir da raiz do projeto com `.venv-ctgan`.
+**Exceção:** o notebook 03 abaixo usa `.venv`, o mesmo ambiente dos notebooks 01/02.
 
 | Estudo | Notebook ou módulo | Evidências preservadas |
 |---|---|---|
+| CrossEntropy, redução de atributos, PCA, coordenadas e diagnósticos | `Notebooks/experimentos/03_experimentos_rede_neural.ipynb` | Saídas do próprio notebook; não exporta modelos |
 | CTGAN inicial, até 10 mil atrasos | `Notebooks/experimentos/olist_comparacao_otimizada_ctgan_postgresql.ipynb` | `Modelos/experimento_ctgan/` |
 | Doses e repetição de exemplos | `Notebooks/experimentos/04_testes_doses_ctgan.ipynb` | `Modelos/experimento_ctgan/doses_20261111/` |
 | Rótulos e históricos de vendedores | `Notebooks/experimentos/05_rotulos_historicos_vendedores.ipynb` | `Modelos/experimento_historicos/` |
@@ -15,8 +17,14 @@ Execute os comandos de pesquisa a partir da raiz do projeto com `.venv-ctgan`.
 
 Os notebooks 04, 05 e 06 abrem as evidências já executadas. O notebook CTGAN inicial
 pode treinar e gravar dados experimentais; não é um visualizador somente leitura.
-Use `.venv` para os notebooks principais 01/02, que leem o artefato Pandas 3.
+Use `.venv` para os notebooks principais 01/02 e o novo 03, que leem o artefato Pandas 3.
 O ambiente CTGAN usa Pandas 2.3.3 e fica separado da aplicação.
+
+O notebook 03 carrega os dados por conta própria e pode ser executado inteiro após
+a preparação, sem executar o 02 antes. Contém 16 treinos opcionais com dados reais,
+incluindo três sementes nos estudos de atributos/PCA/coordenadas. Não sobrescreve
+os modelos da aplicação, CSVs ou PostgreSQL. A referência “Original” desse estudo
+é uma rede CrossEntropy com duas saídas; a aplicação usa a BCE de uma saída do 02.
 
 ## Reproduzir com cuidado
 

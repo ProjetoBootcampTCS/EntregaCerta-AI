@@ -1188,3 +1188,61 @@ Alterados apenas este registro, Docs/instalacao_novo_pc.md e a referência no RE
 Links locais, marcos das células, entradas executáveis e ajuda de main.py foram
 conferidos; diff --check passou. Não houve novo treino, preparação completa ou carga
 de banco. Os ZIPs ponto 0/1 permanecem como fotografias anteriores, sem regravação.
+
+## Notebooks em ordem de execução (13/11/2026)
+
+O notebook 02 passou de 81 para 46 células, com 31 células de código executáveis
+em sequência. Fluxo: dados preparados → baseline → logística → HGB → MLP BCE →
+comparação na validação → avaliação no teste → salvamento → inferência e conferência.
+O teste da logística não refaz mais o ajuste já feito no treino. As comparações
+agora incluem os três modelos; a tabela final é calculada, sem números históricos
+fixos em Markdown. A configuração da MLP e a política de fila de 10% foram mantidas.
+
+O notebook chama src.inferencia com o Python do próprio kernel, na raiz correta,
+e confere o CSV produzido. Não existe mais pausa obrigatória no terminal. O
+consolidado é encontrado pela mesma função do tratamento: nome atual primeiro,
+nome antigo como alternativa. As verificações de unicidade foram preservadas,
+substituindo o parâmetro depreciado verify_integrity.
+
+CrossEntropy, constantes/categorias raras, sementes, PCA, coordenadas, recortes de
+erros e auditoria temporal foram reunidos em um único notebook opcional:
+Notebooks/experimentos/03_experimentos_rede_neural.ipynb. Ele tem carregamento próprio,
+usa .venv, não precisa do estado do notebook 02 e não exporta modelos nem altera
+o banco. Os estudos comparam redes CrossEntropy de duas saídas; a versão chamada
+Original nesse notebook não é a rede BCE de uma saída usada na aplicação.
+
+### Verificação do fluxo principal
+
+O notebook 02 foi executado integralmente com nbclient em cópia isolada, usando
+os dados reais e o Python da .venv. As 31 células de código passaram em cerca de
+189 segundos, incluindo leitura do consolidado, reprodução das transformações,
+salvamento/reabertura do par e conferência de pedidos, scores e prioridades gerados
+por outro processo. As três figuras geradas foram inspecionadas visualmente.
+As saídas dessa execução foram salvas no notebook, com indicação de sua origem.
+
+Nesta rodada isolada, a MLP encontrou 298 dos 1.124 atrasos no teste, com fila de
+2.555 pedidos, precision 11,6634%, recall 26,5125%, F1 16,2001% e AP 0,0981.
+São resultados desta execução, não prova de melhoria causada pela organização e
+não atualização do modelo em uso. O teste já foi consultado anteriormente.
+
+SHA-256 confirmou a preservação de dados_ml.joblib, pedidos_ml.csv, do par de
+modelos da aplicação e dos dois CSVs de demonstração. Não houve recarga PostgreSQL
+nem alteração do backend/frontend. Ao executar o 02 no projeto, o par de modelos
+e os dois CSVs serão atualizados; isso está explícito no notebook e no guia.
+
+A versão anterior do notebook e dos documentos está na pasta irmã
+EntregaCertaAI_Pontos/notebooks_antes_20261113_220752. Os pontos 0/1 permanecem intactos.
+README, guia de instalação e índice de experimentos foram atualizados; links locais,
+estrutura dos notebooks, sintaxe das células e diff --check foram conferidos.
+
+
+### Verificação dos experimentos separados
+
+O notebook 03 também foi executado integralmente do início ao fim com nbclient,
+em kernel novo e cópia isolada: 28 células de código, 16 treinamentos completos,
+limites de 150 épocas e paciência 50 preservados. CrossEntropy, redução, três
+sementes, PCA, coordenadas e auditorias concluíram sem exceções. As saídas foram
+salvas no próprio notebook. A função de treinamento dos estudos e a célula de
+CrossEntropy mantêm o código do notebook anterior; não houve adoção dos modelos
+experimentais pela aplicação. Os seis hashes de dados/modelos foram reconferidos
+ao final e continuam iguais aos anteriores à organização.
