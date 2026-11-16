@@ -6,7 +6,9 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 from pypdf import PdfReader
 import pandas as pd
-from src import api, acesso_web, relatorio_pdf as relatorio
+from src.web import api
+from src.web import acesso_web
+from src.relatorios import relatorio_pdf as relatorio
 
 
 def dados_teste():

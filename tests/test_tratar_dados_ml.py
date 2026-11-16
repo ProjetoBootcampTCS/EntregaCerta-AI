@@ -7,7 +7,7 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from src.tratar_dados_ml import CATEGORICAS, NUMERICAS, localizar_entrada, limpar_atributos
+from src.experimentos.pipeline_anterior.tratar_dados_ml import CATEGORICAS, NUMERICAS, localizar_entrada, limpar_atributos
 
 
 RAIZ = Path(__file__).resolve().parents[1]

@@ -1,5 +1,7 @@
 # Guia completo — dos CSVs originais à aplicação
 
+> Este guia preserva a instalação da aplicação e o pipeline antigo. Para preparar os novos datasets_merge/engineering e treinar após sua própria revisão, siga [o fluxo atual](laboratorio_modelos.md).
+
 Execute os comandos no **PowerShell, na raiz do projeto**: a pasta que contém
 main.py, src, Notebooks e requirements.txt. No VS Code: **Terminal → Novo Terminal**.
 
@@ -17,8 +19,8 @@ Os pontos 0/1 são cópias locais anteriores; não recebem alterações automati
 |---|---|---|
 | 1 | Instalar dependências na .venv | Ambiente Python |
 | 2 | Colocar os nove CSVs Olist em Dados/Brazilian Logistic/ | Fonte original disponível |
-| 3 | python -m src.preparar_dados | Consolidado: uma linha por pedido |
-| 4 | python -m src.tratar_dados_ml --entrada Dados/pedidos_consolidados.csv | CSV tratado e matrizes |
+| 3 | python -m src.dados.preparar_dados | Consolidado: uma linha por pedido |
+| 4 | python -m src.ml.tratar_dados_ml --entrada Dados/pedidos_consolidados.csv | CSV tratado e matrizes |
 | 4 — opcional | Notebooks/01_preparacao_dados.ipynb | Estudo e conferência didática |
 | 5–6 | Notebook 02: reiniciar kernel e Executar tudo | Treino, avaliação, salvamento e conferência da inferência |
 | 7 | Configurar .env e executar python main.py preparar-banco | PostgreSQL, view e tabelas web |
@@ -84,7 +86,7 @@ e a tradução de categorias permanece como referência.
 ## 3. Consolidar os dados — primeiro script
 
 ~~~powershell
-.\.venv\Scripts\python.exe -m src.preparar_dados
+.\.venv\Scripts\python.exe -m src.dados.preparar_dados
 ~~~
 
 O script agrega itens e pagamentos antes das junções, calcula atributos logísticos
@@ -106,7 +108,7 @@ nem renomear o CSV. Use consolidado e matrizes da mesma rodada de preparação.
 ## 4. Limpar, dividir e transformar — segundo script
 
 ~~~powershell
-.\.venv\Scripts\python.exe -m src.tratar_dados_ml --entrada ".\Dados\pedidos_consolidados.csv"
+.\.venv\Scripts\python.exe -m src.ml.tratar_dados_ml --entrada ".\Dados\pedidos_consolidados.csv"
 ~~~
 
 Seleciona pedidos com rótulos válidos, corrige distâncias, trata inconsistências,
@@ -198,7 +200,7 @@ As seções 8 a 11 do mesmo notebook produzem:
 rodada anterior se quiser compará-la. O PostgreSQL não é alterado pelo notebook.
 Reinicie a API após atualizar os modelos, pois ela mantém caches em memória.
 
-A seção 11 chama src.inferencia em outro processo, usando o mesmo Python do kernel
+A seção 11 chama src.ml.inferencia em outro processo, usando o mesmo Python do kernel
 e a raiz do projeto. Depois confere os mesmos pedidos, scores e prioridades.
 O resultado esperado ao final é:
 
@@ -214,7 +216,7 @@ Não existe mais pausa obrigatória no terminal. Para repetir somente a inferên
 depois que o par de modelos e a entrada de demonstração estiverem salvos, pode usar:
 
 ~~~powershell
-.\.venv\Scripts\python.exe -m src.inferencia
+.\.venv\Scripts\python.exe -m src.ml.inferencia
 ~~~
 
 ### Experimentos separados
@@ -249,7 +251,7 @@ Abra Docker Desktop e aguarde iniciar:
 .\.venv\Scripts\python.exe main.py preparar-banco
 ~~~
 
-O comando inicia PostgreSQL, chama a carga de src/banco.py quando o histórico
+O comando inicia PostgreSQL, chama a carga de src/postgresql/banco.py quando o histórico
 está vazio, cria a view de inferência e inicializa as tabelas web.
 
 Lê **Dados/pedidos_ml.csv e o CSV original de avaliações**. Não carrega
@@ -268,7 +270,7 @@ Se a intenção for explicitamente substituir o histórico por uma nova prepara�
 preserve um backup do banco e, com PostgreSQL ligado, execute:
 
 ~~~powershell
-.\.venv\Scripts\python.exe -c "from src.banco import carregar; print(carregar())"
+.\.venv\Scripts\python.exe -c "from src.postgresql.banco import carregar; print(carregar())"
 .\.venv\Scripts\python.exe main.py preparar-banco
 ~~~
 
@@ -339,7 +341,7 @@ contas e pedidos ficam no PostgreSQL.
 
 ## Pesquisa opcional
 
-Consulte [experimentos/README.md](../experimentos/README.md) e
+Consulte [src/experimentos/README.md](../src/experimentos/README.md) e
 Notebooks/experimentos/. GAN, doses, históricos e previsão operacional usam
 .venv-ctgan e não entram na sequência obrigatória. Notebooks/legado/ guarda
 referências antigas.
@@ -347,7 +349,7 @@ referências antigas.
 Para conferir os testes da pesquisa, sem retreinar GANs:
 
 ~~~powershell
-.\.venv-ctgan\Scripts\python.exe -B -m unittest discover -s experimentos/tests -v
+.\.venv-ctgan\Scripts\python.exe -B -m unittest discover -s tests/experimentos -v
 ~~~
 
 Estudos de recall 90%/95% e despacho não substituem automaticamente o modelo web.
@@ -360,7 +362,7 @@ ainda não recebem score; a análise de ML exibida usa reprodução histórica O
 |---|---|
 | No module named ... | Usar .venv/Scripts/python.exe e instalar requirements.txt nela |
 | X_treino is not defined | Selecionar .venv, reiniciar kernel e usar Executar tudo no notebook 02 |
-| attempted relative import | Usar python -m src.inferencia ou main.py na raiz |
+| attempted relative import | Usar python -m src.ml.inferencia ou main.py na raiz |
 | Consolidado ausente | Executar a etapa 3; pedidos_consolidados.csv é encontrado automaticamente |
 | CSV de previsões ausente/divergente | Executar o notebook 02 inteiro; a seção 11 gera e confere a exportação |
 | dados_ml.joblib não abre no kernel CTGAN | Usar .venv nos notebooks 01/02 e experimento 03; não misturar Pandas 3 e 2.3.3 |

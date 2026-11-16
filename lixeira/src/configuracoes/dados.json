@@ -1,0 +1,10 @@
+{
+  "originais": "Dados/Brazilian Logistic",
+  "saida": "Dados",
+  "origem_dias_compra": null,
+  "transportadoras": {
+    "quantidade": 5,
+    "semente": 42
+  },
+  "semente_pln": 42
+}

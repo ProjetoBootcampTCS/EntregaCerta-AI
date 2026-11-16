@@ -1,6 +1,6 @@
 TRATAMENTO PARA TESTES DE ML - EntregaCerta AI
-Entrada: C:\Users\ghost\OneDrive\Documentos\ChatGPT\Nikolas\BootcampTCS\EntregaCertaAI\Dados\pedidos_consolidados_teste.csv
-Python 3.12.14; Pandas 3.1.0; NumPy 2.5.4; Scikit-learn 1.9.1; Joblib 1.6.0
+Entrada: C:\Users\cpedr\Documents\Documentos\TCS\projeto\EntregaCerta-AI\Dados\pedidos_consolidados_teste.csv
+Python 3.12.10; Pandas 2.3.3; NumPy 2.5.4; Scikit-learn 1.9.1; Joblib 1.6.0
 Pedidos na entrada: 99441
 Duplicatas identicas removidas: 0
 Datas invalidas convertidas em ausentes em order_purchase_timestamp: 0
@@ -58,5 +58,5 @@ Dados\pedidos_consolidados_teste.csv: d9358143c89395d511effbd99da8dae454fe582457
 Dados\Brazilian Logistic\olist_geolocation_dataset.csv: 3b7cf4f504ce3fbb3e63693f48d20ac4a4925619720e2ed46aba2f9801260876
 Dados\Brazilian Logistic\olist_sellers_dataset.csv: c877ee451aadbec30ddc58542c12b87685703f9c8a2ba410fb3087336ac65d4a
 Dados\Brazilian Logistic\olist_order_items_dataset.csv: 14e321c489a729b088f26f73262b506577e2b7fcb19cf04cd70fa6276d16ff65
-SHA-256 do CSV preparado: 66c941ea32c5d14a0df4bf7fa6eae41ef38a93eac1815567924aa2b37abb74a6
-SHA-256 do pacote: 304e00889222cdc52db7e7a2b6973e77bb7a31f81a9a3617d7b54f230fd3b320
+SHA-256 do CSV preparado: 42eedde13d49703e0a77569a9daec8bba056ded5dd61b6450231de0f83985eee
+SHA-256 do pacote: 1ab7789dc1604ae87f2f72bef7ad59a3988d7f3464f142beb577a6552a223ba7

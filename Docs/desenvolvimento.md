@@ -60,12 +60,12 @@ Para implementar com orientação: **Nos guie pela etapa N, para implementarmos.
 
 ### Dataset consolidado em 05/11/2026
 
-O script `src/preparar_dados.py` gera um único CSV com **99.441 linhas e 53 colunas**, mantendo todos os pedidos originais, inclusive aqueles sem itens ou pagamentos correspondentes. Não modifica os nove CSVs de origem. O registro de execução e os hashes SHA-256 estão em `Docs/validacao_dados.txt`.
+O script `src/dados/preparar_dados.py` gera um único CSV com **99.441 linhas e 53 colunas**, mantendo todos os pedidos originais, inclusive aqueles sem itens ou pagamentos correspondentes. Não modifica os nove CSVs de origem. O registro de execução e os hashes SHA-256 estão em `Docs/validacao_dados.txt`.
 
 Executar na raiz do projeto:
 
 ```powershell
-.\.venv\Scripts\python.exe src\preparar_dados.py
+.\.venv\Scripts\python.exe src\dados\preparar_dados.py
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
@@ -121,7 +121,7 @@ Checkpoint de 05/11/2026, solicitado pela equipe para preservar as decisões e e
 Na conferência deste checkpoint, o arquivo disponível é `Dados/pedidos_consolidados_teste.csv`, com 47.996.599 bytes. Sua leitura confirmou novamente 99.441 linhas, 53 colunas, zero pedidos duplicados e as contagens de rótulos acima. Os cinco testes da geração anterior não foram reexecutados nesta conferência.
 
 - SHA-256 do CSV atual: `d9358143c89395d511effbd99da8dae454fe5824577072916b9a13628bd3e180`.
-- SHA-256 de `src/preparar_dados.py`: `7AF45872F24B55013F56856D25231117B21649FC1D0111BF6FE5727EEB589A0F`.
+- SHA-256 de `src/dados/preparar_dados.py`: `7AF45872F24B55013F56856D25231117B21649FC1D0111BF6FE5727EEB589A0F`.
 - SHA-256 de `tests/test_preparar_dados.py`: `88670F08293216DDB0140FACAB1A0F6D9D2823148FB6B853D41C96131A497A22`.
 - Ambiente conferido: Python 3.12.14. A geração documentada usou Pandas 3.1.0 e NumPy 2.5.4.
 
@@ -137,7 +137,7 @@ Para GenAI e aplicação, registrar prompts, contexto fornecido, testes de confi
 
 ## Tratamento para testes de ML — 05/11/2026
 
-Executado `src/tratar_dados_ml.py` sobre `Dados/pedidos_consolidados_teste.csv`, preservando seu conteúdo e os originais. O script gera:
+Executado `src/ml/tratar_dados_ml.py` sobre `Dados/pedidos_consolidados_teste.csv`, preservando seu conteúdo e os originais. O script gera:
 
 - `Dados/pedidos_ml.csv`: base legível com unidades originais, imputação aprendida no treino, indicadores de ausência, alvos e identificação da partição.
 - `Modelos/dados_ml.joblib`: matrizes numéricas prontas, alvos de classificação/duração, metadados e o pré-processador ajustado somente no treino.
@@ -175,7 +175,7 @@ Não houve balanceamento artificial ou SMOTE, nem ajuste ao conjunto de teste. P
 ### Execução e consumo pelos modelos
 
 ```powershell
-.\.venv\Scripts\python.exe src\tratar_dados_ml.py --entrada "Dados\pedidos_consolidados_teste.csv"
+.\.venv\Scripts\python.exe src\ml\tratar_dados_ml.py --entrada "Dados\pedidos_consolidados_teste.csv"
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 .\.venv\Scripts\python.exe -m pip check
 ```
@@ -525,21 +525,21 @@ e [semântica de consultas temporais](https://pandas.pydata.org/docs/reference/a
 **Objetivo:** permitir compras demonstrativas e acompanhamento individual, mantendo
 as análises históricas acessíveis somente à equipe. Não altera o pipeline de ML.
 
-**Implementação:** `src/acesso_web.py` centraliza sessões, senhas, cadastro e política
+**Implementação:** `src/web/acesso_web.py` centraliza sessões, senhas, cadastro e política
 de acesso; `src/gerenciar_acessos.py` cria analistas localmente com senha solicitada
 via terminal. A dependência global da FastAPI exige analista por padrão; a lista de
 rotas públicas é explícita. As rotas `/api/cliente/` exigem cliente. Documentação da
 API está desativada; a rota estática só serve assets, nunca HTML/ZIPs que poderiam
 contornar a proteção das páginas. Erros de validação não devolvem valores enviados.
 
-**Persistência:** schema aditivo `app_web`, criado por `src/esquema_web.sql`, com
+**Persistência:** schema aditivo `app_web`, criado por `src/postgresql/esquema_web.sql`, com
 `usuarios`, `sessoes`, `limites_acesso` e `pedidos_demo`. Consultas usam parâmetros SQL
 com filtro de proprietário no servidor. O cookie contém um token aleatório; apenas
 seu hash é salvo. Expiração em oito horas, revogação no logout e checagem de usuário
 ativo. Ações exigem origem autorizada e CSRF (login/cadastro verificam a origem).
 Tentativas de login e cadastro têm limites persistidos no PostgreSQL.
 
-**Loja:** `src/loja_web.py` seleciona um produto de cada uma de seis categorias da
+**Loja:** `src/web/loja_web.py` seleciona um produto de cada uma de seis categorias da
 base Olist e calcula a mediana histórica dos preços registrados. Nomes de categoria
 e ícones representam os produtos anonimizados, sem inventar marcas ou fotografias.
 O servidor calcula os valores e valida quantidades; a chave de idempotência evita
@@ -1010,7 +1010,7 @@ em um ambiente já instalado, sem atualizar as bibliotecas de ML:
 ```
 
 Reinicie a API depois de instalar e atualize o navegador. O módulo de geração é
-`src/relatorio_pdf.py`; o botão usa `frontend/relatorio.js`. Nenhum treinamento ou
+`src/relatorios/relatorio_pdf.py`; o botão usa `frontend/relatorio.js`. Nenhum treinamento ou
 alteração de modelo é executado para exportar o relatório.
 
 
@@ -1022,7 +1022,7 @@ Com o `.env` do PostgreSQL configurado, execute na raiz do projeto:
 docker compose up -d postgres
 .\.venv\Scripts\python.exe -m src.gerenciar_acessos iniciar
 .\.venv\Scripts\python.exe -m src.gerenciar_acessos criar-analista --nome "Nome do analista" --email "analista@equipe.com"
-.\.venv\Scripts\python.exe -m uvicorn src.api:app --host 127.0.0.1 --port 8000 --reload
+.\.venv\Scripts\python.exe -m uvicorn src.web.api:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 O comando de criação pede uma senha de **12 a 128 caracteres** e sua confirmação,
@@ -1091,7 +1091,7 @@ quantidade de arquivos sem perder a evidência necessária ao artigo.
   bytes originais, com leitura integral do ZIP e comparação SHA-256.
 - main.py reúne iniciar, preparar-banco, criar-analista, verificar e testar.
   Não é necessário executar uma lista de módulos internos para abrir a aplicação.
-- Carga e consulta do PostgreSQL foram reunidas em src/banco.py. O comando de
+- Carga e consulta do PostgreSQL foram reunidas em src/postgresql/banco.py. O comando de
   analistas passou para main.py; imports foram atualizados.
 - A pasta src passou de 29 arquivos de código/SQL para 15, contando a pequena
   compatibilidade necessária aos Joblib antigos. Dados/modelos não são retreinados
@@ -1101,7 +1101,7 @@ quantidade de arquivos sem perder a evidência necessária ao artigo.
   ficaram em Notebooks/experimentos/. Os notebooks principais 01 e 02 ficam à vista.
 - HGB antigo e o estudo PLN foram separados em experimentos/legado; os resultados
   HGB ficaram em Modelos/legado_hgb. Os notebooks antigos ficaram em Notebooks/legado.
-- O guia CTGAN foi integrado ao índice experimentos/README.md. O README principal
+- O guia CTGAN foi integrado ao índice src/experimentos/README.md. O README principal
   foi reduzido; as funcionalidades recentes do assistente/loja/PDF foram preservadas
   no registro histórico acima. Docs/instalacao_novo_pc.md é o guia atual de execução.
 - Saíram da pasta ativa os rascunhos Notebooks/testes (inclusive CSV derivado),
@@ -1114,7 +1114,7 @@ quantidade de arquivos sem perder a evidência necessária ao artigo.
 - Corrigido um erro preexistente no notebook 02: "7import pandas as pd" virou
   "import pandas as pd". Não houve treinamento nem alteração de suas saídas.
 - O código exato das execuções anteriores está em
-  experimentos/legado/codigo_execucoes_ponto0.zip. Hashes históricos não foram
+  src/experimentos/legado/codigo_execucoes_ponto0.zip. Hashes históricos não foram
   substituídos pelos hashes do código reorganizado. O notebook 05 verifica a cópia
   histórica; um módulo pequeno de compatibilidade abre a classe Cenario dos Joblib.
 - Doses/históricos aceitam --saida para novas rodadas, e um protocolo divergente
@@ -1198,7 +1198,7 @@ O teste da logística não refaz mais o ajuste já feito no treino. As comparaç
 agora incluem os três modelos; a tabela final é calculada, sem números históricos
 fixos em Markdown. A configuração da MLP e a política de fila de 10% foram mantidas.
 
-O notebook chama src.inferencia com o Python do próprio kernel, na raiz correta,
+O notebook chama src.ml.inferencia com o Python do próprio kernel, na raiz correta,
 e confere o CSV produzido. Não existe mais pausa obrigatória no terminal. O
 consolidado é encontrado pela mesma função do tratamento: nome atual primeiro,
 nome antigo como alternativa. As verificações de unicidade foram preservadas,

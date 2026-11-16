@@ -16,10 +16,9 @@ Acesse **http://127.0.0.1:8000**. Mantenha o terminal aberto; Ctrl+C encerra a A
 Esse comando inicia o PostgreSQL e a aplicação usando o modelo salvo. Não é preciso
 executar notebooks, treinar modelos ou abrir arquivos de src individualmente.
 
-**Do zero, incluindo dados e treinamento:** siga o [guia completo](Docs/instalacao_novo_pc.md).
-Ele indica os scripts, a execução completa do notebook 02 com **Executar tudo**
-e os passos de PostgreSQL, login e abertura da aplicação. Os estudos opcionais
-ficam em `Notebooks/experimentos/03_experimentos_rede_neural.ipynb`.
+**Fluxo novo de dados e treinamento:** siga o [guia das três etapas](Docs/laboratorio_modelos.md).
+O [guia de instalação](Docs/instalacao_novo_pc.md) documenta a aplicação web e seu
+modelo anterior. Os notebooks anteriores ficam disponíveis como estudos históricos.
 
 ## Comandos principais
 
@@ -31,28 +30,58 @@ Todos usam .\.venv\Scripts\python.exe main.py seguido da ação:
 | preparar-banco | Primeira instalação ou atualização das tabelas web; preserva histórico já carregado |
 | criar-analista --nome "Nome" --email "email@equipe.com" | Cadastrar analista; a senha é solicitada no terminal |
 | verificar | Conferir conexão, consulta e inferência reais, sem alterar os dados |
+| preparar-dados | Criar/atualizar `datasets_merge.csv`, `datasets_engineering.csv` e `dataset_ml.csv` com a PLN legada |
+| gerar-sinteticos --nome estudo_01 | Após sua validação: separar os dados e gerar CTGAN |
+| treinar --nome estudo_01 | Treinar os modelos configurados sobre a preparação dessa execução |
+| avaliar | Consultar métricas da última execução, sem retreinar |
 | testar --postgres | Testar aplicação e integração com banco em schemas temporários |
 | --help | Consultar a ajuda |
 
+## Pipeline em três comandos
+
+```powershell
+.\.venv-pipeline\Scripts\python.exe src/1_preparar_dados.py
+# Revise dataset_ml.csv e marque dados_validados=true no JSON de treinamento.
+.\.venv-pipeline\Scripts\python.exe src/2_treinar_modelos.py --nome rodada_01
+.\.venv-pipeline\Scripts\python.exe src/3_avaliar_modelos.py --nome rodada_01
+```
+
+São **7 Python + 2 JSON** para essas etapas; os módulos de web e assistente foram preservados.
+
 ## Onde trabalhar
+
+Para comparar modelos e cenários reais/sintéticos/mistos, veja o [laboratório configurável](Docs/laboratorio_modelos.md).
+Primeiro execute `python main.py preparar-dados` e trate os dados como desejar.
+Depois da sua revisão, marque `dados_validados: true` em `src/configuracoes/2_treinamento.json`.
+O treino usa `Dados/dataset_ml.csv`; cada execução salva um único CSV de desempenho
+em `Dados/resultados_modelos/`, sem subpastas. Quantidade/semente das transportadoras
+ficam em `src/configuracoes/1_dados.json` (padrão: 5 transportadoras, semente 42).
+A geração e o treino permanecem bloqueados até isso acontecer, em todas as execuções.
+Os CSVs ficam em `Dados/comparacao_modelos/`; modelos, em
+`Modelos/comparacao_modelos/`; métricas, em `Dados/resultados_modelos/`. Neste computador, use `.venv-pipeline` para esses comandos.
 
 ```text
 main.py           Comandos para operar o projeto
 src/              Backend, PostgreSQL, dados, inferência e GenAI
+  1_*.py          Preparação e PLN
+  2_*.py          CTGAN, dados, catálogo e treino automatizado
+  3_*.py          Métricas e consulta dos resultados
+  configuracoes/  Dois JSONs: dados e treinamento
+  experimentos/   Pré-processamento antigo ainda usado pela aplicação
+lixeira/          Pipeline e estudos substituídos, preservados
 frontend/         Páginas, estilos, scripts e logo em uso
 Dados/            CSVs originais e bases preparadas
 Modelos/          Modelo da aplicação e evidências dos experimentos
-Notebooks/        01: preparação; 02: treinamento principal
+Notebooks/        01/02: preparação e modelo web anteriores, preservados
   experimentos/   CTGAN, históricos e comparações opcionais
   legado/         Estudos antigos preservados para consulta
-experimentos/     Scripts, configurações e testes da pesquisa de ML
 tests/            Testes da aplicação e da preparação de dados
 Docs/             Guia, histórico técnico, proveniência, registros e BPMN
 ```
 
-Para continuar a pesquisa, consulte o [índice dos experimentos](experimentos/README.md).
+Para continuar a pesquisa, consulte o [índice dos experimentos](lixeira/src/experimentos/README.md).
 Os resultados, limitações e etapas realizadas estão no [registro técnico](Docs/desenvolvimento.md).
-Os JSONs de experimentos/configuracoes controlam o cenário CTGAN; os arquivos
+Os dois JSONs de src/configuracoes controlam dados, treinamento e CTGAN; os arquivos
 em Modelos registram modelos, parâmetros e resultados, por isso foram preservados.
 
 ## Limites atuais

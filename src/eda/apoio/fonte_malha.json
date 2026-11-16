@@ -1,0 +1,6 @@
+{
+  "url": "https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?formato=application%2Fvnd.geo%2Bjson&qualidade=minima&intrarregiao=UF",
+  "documentacao": "https://servicodados.ibge.gov.br/api/docs/malhas?versao=3",
+  "periodo": "padrão da API",
+  "qualidade": "minima"
+}

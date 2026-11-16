@@ -8,7 +8,9 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 from psycopg import sql
 
-from src import acesso_web as acesso, api, loja_web
+from src.web import acesso_web as acesso
+from src.web import api
+from src.web import loja_web
 
 
 @unittest.skipUnless(os.getenv("ENTREGACERTA_TEST_POSTGRES") == "1", "Ative ENTREGACERTA_TEST_POSTGRES=1 com PostgreSQL local disponível")

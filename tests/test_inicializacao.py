@@ -26,7 +26,7 @@ class InicializacaoTest(unittest.TestCase):
     def test_iniciar_nao_executa_carga_nem_migracao(self):
         with patch.object(main, 'conferir_arquivos'), patch.object(main, 'ligar_banco'), \
              patch.object(main, 'conferir_banco'), patch('uvicorn.run') as servidor, \
-             patch('src.banco.carregar') as carga, patch('src.acesso_web.inicializar') as migracao:
+             patch('src.postgresql.banco.carregar') as carga, patch('src.web.acesso_web.inicializar') as migracao:
             main.iniciar(SimpleNamespace(sem_docker=True))
         carga.assert_not_called()
         migracao.assert_not_called()

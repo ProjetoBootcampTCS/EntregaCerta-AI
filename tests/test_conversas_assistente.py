@@ -5,7 +5,9 @@ from unittest.mock import Mock, patch
 from uuid import uuid4
 
 from fastapi import HTTPException
-from src import conversas_assistente as memoria, api, acesso_web as acesso
+from src.assistente import conversas_assistente as memoria
+from src.web import api
+from src.web import acesso_web as acesso
 from tests import test_acesso_web as base
 
 

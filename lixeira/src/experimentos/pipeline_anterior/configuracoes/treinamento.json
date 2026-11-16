@@ -1,0 +1,105 @@
+{
+  "entrada": null,
+  "originais": "Dados/Brazilian Logistic",
+  "semente": 42,
+  "threads": 2,
+  "usar_notas_historicas": true,
+  "cortes": {
+    "validacao": "2018-01-01",
+    "teste": "2018-05-01"
+  },
+  "limiar": "f1_validacao",
+  "fracoes_fila": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "ctgan": {
+    "threads": 2,
+    "parametros": {
+      "epochs": 100,
+      "batch_size": 500,
+      "pac": 10,
+      "verbose": true,
+      "enable_gpu": false
+    }
+  },
+  "modelos": [
+    {
+      "nome": "linear",
+      "tipo": "linear"
+    },
+    {
+      "nome": "arvore",
+      "tipo": "arvore"
+    },
+    {
+      "nome": "random_forest",
+      "tipo": "random_forest"
+    },
+    {
+      "nome": "extra_trees",
+      "tipo": "extra_trees"
+    },
+    {
+      "nome": "hist_gradient_boosting",
+      "tipo": "hist_gradient_boosting"
+    }
+  ],
+  "cenarios": [
+    {
+      "nome": "somente_reais",
+      "treino": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "validacao": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "teste": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      }
+    },
+    {
+      "nome": "treino_sintetico",
+      "treino": {
+        "modo": "sintetico",
+        "n_reais": null,
+        "n_sinteticos": 10000
+      },
+      "validacao": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "teste": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      }
+    },
+    {
+      "nome": "treino_misto",
+      "treino": {
+        "modo": "misto",
+        "n_reais": null,
+        "n_sinteticos": 10000
+      },
+      "validacao": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "teste": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,1806 @@
+{
+  "arquivos_preservados": 360,
+  "verificacao": "SHA-256 iguais antes/depois da movimentação; preparacao.json teve apenas caminhos atualizados depois da conferência.",
+  "arquivos": [
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\config.json",
+      "sha256": "007B13995E0C205850777F6942CB537C40E3E50D49700A7A3F9C7F5D9290FA01",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\config.json"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\gerador_ctgan.joblib",
+      "sha256": "57DB4162EE0743E054CAB8270A8206AD8447B02CF2FECF460C4476CCB8A2E887",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\gerador_ctgan.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\manifesto.json",
+      "sha256": "0AB82AFE2600A15B43FFEA09348D6C58E37473F8104610DB5F0A1062D69F8D85",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\manifesto.json"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\preparacao.json",
+      "sha256": "320BC2ECE52F5BEE92DEA6AD4D084E9A9C78BEB6D6931E8F85D41040D205305D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\preparacao.json"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\avaliacoes_clientes_eda.csv",
+      "sha256": "72D52253EEEC20707B9B13E0094664F7D589793E24D534D05A2D0A4DD079FF27",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\avaliacoes_clientes_eda.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\reais_teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\reais_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\reais_treino.csv",
+      "sha256": "6D9B4E8C348C3E6427B4FF1E1106D4D2F26A7A4C08D0D3B2DBDD7987656CE9F7",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\reais_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\reais_validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\reais_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\resumo_particoes.csv",
+      "sha256": "C6CADEFA8A8B0076016A588F5357D3453F186BB7053FC496CB6F36A72454F1A5",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\resumo_particoes.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\sinteticos_teste.csv",
+      "sha256": "641480E61C45C58A020EBE1BBD14F3C4AA7C251671BB54AE6EC5088AF92F23D5",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\sinteticos_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\sinteticos_treino.csv",
+      "sha256": "67EBEB8C715B6F8D9D343C4B0267AE40F5B1570F6EDDA57A5C65F005BA320E9A",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\sinteticos_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\sinteticos_validacao.csv",
+      "sha256": "6D2F48A8B5820F4EEC562412264F4AF2666BEB475D501EF3BE1154BD189E30E0",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\sinteticos_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\somente_reais\\teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\somente_reais\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\somente_reais\\treino.csv",
+      "sha256": "6D9B4E8C348C3E6427B4FF1E1106D4D2F26A7A4C08D0D3B2DBDD7987656CE9F7",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\somente_reais\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\somente_reais\\validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\somente_reais\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\treino_misto\\teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\treino_misto\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\treino_misto\\treino.csv",
+      "sha256": "3261FE8E65DFBB3751A17091FA006629CD2AEFE9AD4AA7CD2D744E7370F2A8A6",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\treino_misto\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\treino_misto\\validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\treino_misto\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\treino_sintetico\\teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\treino_sintetico\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\treino_sintetico\\treino.csv",
+      "sha256": "67EBEB8C715B6F8D9D343C4B0267AE40F5B1570F6EDDA57A5C65F005BA320E9A",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\treino_sintetico\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\treino_sintetico\\validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\treino_sintetico\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\tudo_misto\\teste.csv",
+      "sha256": "C10DD0BB08FC0F8988D8E00FD2DD001FF6A185112AE53ACC7E1FFE94B902AC4A",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\tudo_misto\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\tudo_misto\\treino.csv",
+      "sha256": "3261FE8E65DFBB3751A17091FA006629CD2AEFE9AD4AA7CD2D744E7370F2A8A6",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\tudo_misto\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\tudo_misto\\validacao.csv",
+      "sha256": "7D7C79D8EB12206A1720A92E6407AEFF1EC215F0E89E685FFF0A0573C85F83B3",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\tudo_misto\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\tudo_sintetico\\teste.csv",
+      "sha256": "641480E61C45C58A020EBE1BBD14F3C4AA7C251671BB54AE6EC5088AF92F23D5",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\tudo_sintetico\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\tudo_sintetico\\treino.csv",
+      "sha256": "67EBEB8C715B6F8D9D343C4B0267AE40F5B1570F6EDDA57A5C65F005BA320E9A",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\tudo_sintetico\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\dados\\tudo_sintetico\\validacao.csv",
+      "sha256": "6D2F48A8B5820F4EEC562412264F4AF2666BEB475D501EF3BE1154BD189E30E0",
+      "destino": "Dados\\comparacao_modelos\\verificacao_final\\tudo_sintetico\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\matrizes_confusao.csv",
+      "sha256": "5BB93E6429D28FBBFD5A1EE380C22ED31FA16C1964147AF8C9B208B77E6929C0",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\matrizes_confusao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\metricas.csv",
+      "sha256": "CD40561946BDAE9CDE1C1504039501A00F6A62E9ECBA0C0E51ADD026AC89FE90",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\metricas.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\selecionados_validacao.csv",
+      "sha256": "3A9EDD22E33A6C6E3CCAA77E819412977AFF820EDAF184AF3629F5B6964ACC7C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\selecionados_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\modelo.joblib",
+      "sha256": "8FB475B9F57C68321700CA055EF54AB10713F2C3A740423353941E58EFDF7615",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "0E9C755A8B090ED189371856CAA0914342730B1EF90344E94FBB1C281DFCE78D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_teste.csv",
+      "sha256": "0E9C755A8B090ED189371856CAA0914342730B1EF90344E94FBB1C281DFCE78D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_treino.csv",
+      "sha256": "CF2AFF7325AA76EE457D9C6E173B004C51D9F11C762E2673AE5B5523842EC699",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_validacao.csv",
+      "sha256": "FE531511DB51C761CEDE06244CC30C9069341470866B9CA7507E5DA7B8DC536E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\modelo.joblib",
+      "sha256": "DCF2C20D299B34781E834A58B1CAEB4D64D3E42C9B77BF21DB43C214A8AE812A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "FD848B6A179D46062E57950CE076C50A545274E42C2B5DF86CB7EB327A16ED74",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_teste.csv",
+      "sha256": "FD848B6A179D46062E57950CE076C50A545274E42C2B5DF86CB7EB327A16ED74",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_treino.csv",
+      "sha256": "2E8979163AC5FE4AAF00DFE83BB1F688C7206C0F8893BCBA11D8DB76924B80A9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_validacao.csv",
+      "sha256": "25083914BF6DFDB34A1CB94E398B746593DD5F4072DA409C990D771C90B4D9D1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\modelo.joblib",
+      "sha256": "267F36644F011AB49318D34DA99514C3414CE6366CB54B40552A9EF31FD6F517",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "A8EB3BAB700F21D22802E7C404AD70B445B7AA37050ADFA2BE3705D27F914739",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_teste.csv",
+      "sha256": "A8EB3BAB700F21D22802E7C404AD70B445B7AA37050ADFA2BE3705D27F914739",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_treino.csv",
+      "sha256": "02B97D2C49DCDC999CC388280182113B302CFA82823A23BD0D7240C0E9BE0C49",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "E8255BF28F72251301D6276408D4DF6CD236FB0FCB1DF333A445174D4AA59D12",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "104EA2FC6178C1BD5238FCDA86F00051D521D01B815FC38F50F211B668921B7C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "50B03CDC08A5F1561A744BA4E99C5DD8586A1702B099250F149C0F3499E41D0B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "50B03CDC08A5F1561A744BA4E99C5DD8586A1702B099250F149C0F3499E41D0B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "2A3A6FA103A97C2897716529FFDAF3933C25F66CDA5E1DBB5C1A366E066CA11C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "C66ECB070BD5543E3D6E1143741DD7E22FE8A29B9D0E1F22E0268EFBA8B9E990",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\modelo.joblib",
+      "sha256": "E7E903476485F496C55186888723FB021768C13EAE361B204C6A486EA3EFA5B5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "BB52EB8DCEE3E673D1086DA06F2AE98A707291B8E637E5B5A4440559D92827B2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_teste.csv",
+      "sha256": "BB52EB8DCEE3E673D1086DA06F2AE98A707291B8E637E5B5A4440559D92827B2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_treino.csv",
+      "sha256": "FB60F1B351B006596B5263354846CA113FA45BBB96D05370B934F1B5FE9804E4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_validacao.csv",
+      "sha256": "D3E6AEB6A5E0A12506606240E7522359395EFDD70E62EC4C40F3B98AA833250B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\modelo.joblib",
+      "sha256": "14790B80674EC283B2BF3311F4E59FC6B48CC75FF886A1EF5D927B183C8A4C48",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "ECFE6B1E73C4E5508DBAE39BA2C60BEA33C92141BE1ED08B5D81C4E73EDABAB4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_teste.csv",
+      "sha256": "072B9B6EF8BCE711DA460C809F7F80F0335FE4813ABBD95300972E6C9947B7D7",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_treino.csv",
+      "sha256": "2038EA75DF54E6087D4C18D0F2233EB9CC4235E83E76A4775FA56F27A963AE18",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_validacao.csv",
+      "sha256": "F2176E971F2A0FA78A93A831D0FC51A57C50C65E48F99EBB3C86CCE14FD1EA34",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\somente_reais\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\modelo.joblib",
+      "sha256": "ABBCBA13BC9A288894F2010CAA6A1E189C4BA5F8AF5A84AA72CEC6F157026F70",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "F7A20846D0E259B20D840FD1D1C0FA38059A662CD9B44E1EAF7AE8DE78F64942",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_teste.csv",
+      "sha256": "F7A20846D0E259B20D840FD1D1C0FA38059A662CD9B44E1EAF7AE8DE78F64942",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_treino.csv",
+      "sha256": "1B25D7F36173C1C86B899522041BA7D5EDF064D45B5D6064C97A13319B988725",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_validacao.csv",
+      "sha256": "3A5E19C1A3F74621AD277FC5E0B3998ACA520302100CA4BA83B8F86E2061CDFF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\modelo.joblib",
+      "sha256": "F97C1E3FC41D921B7ABD0B1CCEBB359650D03801191AD08E701023E9CF23C59A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "A95D46F4661C8BDDF3E2003327578CBC1481C9A4E30E3E4988671A0A820C2425",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_teste.csv",
+      "sha256": "A95D46F4661C8BDDF3E2003327578CBC1481C9A4E30E3E4988671A0A820C2425",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_treino.csv",
+      "sha256": "9D4D90622CB5EF74B16271A41B1CE9486CC350FC91E58A046E694599C8BEE0FF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_validacao.csv",
+      "sha256": "5938165F24BD15A2FFB85FF94B18297AA21B2CA404B150CF043F58B3A031B59A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\modelo.joblib",
+      "sha256": "135F3837C4A38D449D4A000A980F7F9B5CBAC96749BD0C155AB0E7032B81AF56",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "DEF9BB12101B627F8072BEAEADF6982B538E8E19C7D2EA30FA5D38931F3B0DDA",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_teste.csv",
+      "sha256": "E50CC0666EBC14A4DDB5C691B5CA82D6657FFC9794B321F0E125D85A53557B23",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_treino.csv",
+      "sha256": "5896AC9AF25B11714925814D52A92B0F5800E4164B8A97C4F01EAFA23426728A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "FBF2C2AF273B145870952D7A0ECD0B48ECEE3C26E9AD81A41EE31554BE6A13EB",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "ED4A9E693826370162E1DAA695A62BEB3968EE13B3628CA642F4F906BBF80FD8",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "B19DEADB080BFF3F49F067FA5C4FB4C20340DFBB5C5D98EF3ABECCA2F05C025E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "B19DEADB080BFF3F49F067FA5C4FB4C20340DFBB5C5D98EF3ABECCA2F05C025E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "EE5A255E38CD74E6F2EB405B834950EECCEC12CF9D24340381794400665B016F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "5A2F1D524FFC2943CAA64A33B83E29516D860265AB4C2D619F1029E2D13E07D2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\modelo.joblib",
+      "sha256": "A10FEEE627F6436F386D05247F17FBB44F3EB5CAF0ABBD4F343E37BC8070B47F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "3A86BE557EFADC5C2D70CEB5EEBACC5F360E6E5185FF99FADA9C5E1DAD423CD9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_teste.csv",
+      "sha256": "3A86BE557EFADC5C2D70CEB5EEBACC5F360E6E5185FF99FADA9C5E1DAD423CD9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_treino.csv",
+      "sha256": "D8050A0B96A6418EE445E41FBEE3A8B321AE9B589EB9543E8DCB9808534EC366",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_validacao.csv",
+      "sha256": "E7C9EE1EBBB871BBB5C08CD5B78C3B87582FA59CA8EF2D0548BACA36EFE917C1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\modelo.joblib",
+      "sha256": "CD9527A1154FEE8800EE48D340E3F915DB4FD9C6B6DD3B47D7E7D4FAEF88CBFF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "5C874589D71075DE275E83DC42EFBB478F59F603AA026C1C6FAAC03E002FA75D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_teste.csv",
+      "sha256": "5C874589D71075DE275E83DC42EFBB478F59F603AA026C1C6FAAC03E002FA75D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_treino.csv",
+      "sha256": "523B575E33B10A34C7AE4FC9A602691B96B8215E538ED79AF857B6D1B398AE9E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_validacao.csv",
+      "sha256": "7EFD1FC3E61BCE0E51D02B7616210E71A82F198FB22C4BDD3DCED3A58BA72151",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_misto\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\modelo.joblib",
+      "sha256": "1B2F5048970F42B1CDE6774FCC665CF5AF77A897B2D5449EACFA6FD7D2145C75",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "04372DFE111B148CA2C546231C343B35191385637BF525DA90D0CCB00193C7E3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_teste.csv",
+      "sha256": "04372DFE111B148CA2C546231C343B35191385637BF525DA90D0CCB00193C7E3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_treino.csv",
+      "sha256": "E1A284D18E621E021BC165EE79B7749FD8724355D77E85C794FDAB36AEC8DCA4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_validacao.csv",
+      "sha256": "D98800A072AC83EA87A2C6D854FF74CED49E0DBFD4FA6988D9E5E30A74DD2674",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\modelo.joblib",
+      "sha256": "A1ED343F0EB895B46CF8DB80B37C36C4389A68B5ADBAD3FCEDE4601B4E856A90",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "F8911CD59CA3433B33BC58377E29D8C348F954D5DC461016ABCC781C319160DC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_teste.csv",
+      "sha256": "F8911CD59CA3433B33BC58377E29D8C348F954D5DC461016ABCC781C319160DC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_treino.csv",
+      "sha256": "91953A442265642EE139B37E4601F56535C175B3D7617F4F5B1149989921BD99",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_validacao.csv",
+      "sha256": "11CCA22877192C3B7B04E02687298F5DA3559359BE1AC511C232734552D5D68B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\modelo.joblib",
+      "sha256": "B1625707983BD858E1B9E64B26C717E1F4FB67D185DA022D129DA5AD68C6161D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "312E463A81EB1CF53EE4DEA2D67ADA382AEE68BD722326860EE17F3F7D52DDC5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste.csv",
+      "sha256": "DCDC156DDBBE63C82D5E0A25F77D29FEED6485B2D2A38E9968A44DC631B93FFC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_treino.csv",
+      "sha256": "688F96182107E4C6E2419D23936900904E8AABB2784AD5771A7CD8C697E33BBB",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "41AC099FF66DF350D6711B703BD50C9556180EF751D978DEF117CF8A91237FD2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "A40F83283AD032E6EE928D5BA8C2F96B7FC0FD0B84DD79A87786A96A2F164DEC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "A74F7C7234F6DF7732CA276582E6A52E50101098BEAD721A9F23CCCF1C09B55D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "A74F7C7234F6DF7732CA276582E6A52E50101098BEAD721A9F23CCCF1C09B55D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "9CDFEBF658FE224CD374B1ABD4EDD871E1CD8B945B3BAD28ABDF291B909CA174",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "77AE95511228ADFB6CA70A48E3DDE2765E83246A287CED261EE0CBCC4ECA6ED1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\modelo.joblib",
+      "sha256": "1AE65879EA483A1FA24B85BB29929283BA5FC5F3DE9C83E3F01B36D35820D9E3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "7599E99F543DF8B53BBFD477E32E9142C90B30D33DFEF7659E608309FABD2D85",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_teste.csv",
+      "sha256": "7599E99F543DF8B53BBFD477E32E9142C90B30D33DFEF7659E608309FABD2D85",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_treino.csv",
+      "sha256": "E9882BD10545429DA9BCEC5B801DAFDF1F98CB84905D80D32F99DE309EE7D052",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_validacao.csv",
+      "sha256": "1767593B65FCC43B68F280C3D137241CDDF389F95FD95EEEBA59768E8BC215F6",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\modelo.joblib",
+      "sha256": "DA69D9BE570C2E9A0F617366A52D02F678EBE1B82D12F56C9AD831C20F5491FB",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "5DA084B55A0685D3ED70B462B0DD8BD2F73E828F4354B94A4A85615C09BBB202",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_teste.csv",
+      "sha256": "3E1B515A3F96E42E51DE3A2482857200E715CF449D1DA4339254425B543B456B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_treino.csv",
+      "sha256": "4556620E0016BA918F533EBE300AEF104DDEE7D517426B94DDB10FCEFB0D4386",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_validacao.csv",
+      "sha256": "19E26B31105C79577B779149C5556BAF93A7A5DCCC52D2F7AE13DB497D122941",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\treino_sintetico\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\modelo.joblib",
+      "sha256": "DA7EF5F6C3D491E6F1A0934D8675367A504E45C830F370E1DEB71F855EDB1946",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "598E483628D9095262AD7DC83E689D912119A540F7EC048137BB8F24FA84BDEB",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_teste.csv",
+      "sha256": "9F4999BACEA507C4E00AFDA4BF6013A1CD3FF02D0873E0DE1B175B4C828A39C4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_treino.csv",
+      "sha256": "4C1ECEEACA4C9B4203A8DC6D9BF1E6FC4C810569C6CDF0D0D36932D69B22C21D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_validacao.csv",
+      "sha256": "C13C3D9616973DAC90CB4B9C92E1257CA14F1A42178BE3A351F20BC7D8C64C0C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\modelo.joblib",
+      "sha256": "F97C1E3FC41D921B7ABD0B1CCEBB359650D03801191AD08E701023E9CF23C59A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "A95D46F4661C8BDDF3E2003327578CBC1481C9A4E30E3E4988671A0A820C2425",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_teste.csv",
+      "sha256": "9803AF6C612530217DA4127117C0C870657A637BF6D139C99BAF41294BED02BC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_treino.csv",
+      "sha256": "9D4D90622CB5EF74B16271A41B1CE9486CC350FC91E58A046E694599C8BEE0FF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_validacao.csv",
+      "sha256": "F4A8DB0854292BE1454048A2903897B9B023EB50316AF41DB19B29BCCC0C31E5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\modelo.joblib",
+      "sha256": "08B0CCD3C9E0A51DC0D9B6AE6B54CB3168E9C935FD4368269E2615F9344ECF86",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "ED5C6B7873B2FA7C54D083B4BA6BA80233FC8EBC69E700B1FA36691DE545AD75",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_teste.csv",
+      "sha256": "BE83DDD684052E8A3973AEC46B850A75221B81E418BAD643AAB1182B2B1ABB19",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_treino.csv",
+      "sha256": "2B2A453ABF48D2C75B9AD1BA0E7D01F873E49B54B6A4E19BF2890053065ED6EC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "77381BBECC439DF02A648348A467F930AB60EEBB396EA9FF11D7E0AE0587ABE6",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "8B01332016A612D1C188395924018C70407FB5421DE3D601DF8CB423B1D80BF4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "3E6942188E34BAAA0AB5AFA0EF96CF455074FA0C3B8B06BBE7DC6DC79450A2A6",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "2FCA93E05C5544F82772936CBC6100044CC6A430A146B15697D82819446381BD",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "0A20AFFE285B8026977921B23D58D6A528431CA86C445931E9841AC79FD37D40",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "4942989B68949858752D296CC5DFA2A5CD36249CC4859384D3B2E21083CBFC6D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\modelo.joblib",
+      "sha256": "D4BA684B127BBCF4ED96A13D36E07405F2711B2B6DDDEE883312FF1FA1FADA3B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "9B0C1325AD5BA659DF3548708102E695E7C55B3100B81916839D74D86F5100CE",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_teste.csv",
+      "sha256": "3B9455F57D1C9E7C848510166F60C09BEF3FCD6F6020E697CAC3B1F4CF2BE61F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_treino.csv",
+      "sha256": "FF7EC4F48B832D6A2DE6B481C9A1E464D38133E8C457606567C70E0CC451C63E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_validacao.csv",
+      "sha256": "1A486CE046A6DDB7B587FC89EE070A0506B8FAF45CAE62AF6A811213F3C97C58",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\modelo.joblib",
+      "sha256": "24306841BFD40D034DB7E0F0B6C9A544BD4B93E6ECBE0CC1AFA00FEBC2204162",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "75EFE489BCD02B39F70474665045C877DEC793F554A3EE8099279D34FBD0F7B9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_teste.csv",
+      "sha256": "795272CC6047D90325249ED4B20F45DC0E7BFB3A43E014104500C8D69E91A4FD",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_treino.csv",
+      "sha256": "A689DC1EA04F6E60DBBA2A84C777A8FEB32667395C2E6ECFFF70517EE52E7EC2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_validacao.csv",
+      "sha256": "C91361AC0FAA89AFAB8B66616DBB750A4CE1EC75412EDD8DEAE889539515E558",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_misto\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\modelo.joblib",
+      "sha256": "CA424FE976DEA95E06E1ED737E29F358C5DD2E0B0B854C0DDE4237B0435CBA6B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "7D0F23E542A7ED85A2CC47F6C673A326B21786A1C99686C0E9029292E8E2B647",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_teste.csv",
+      "sha256": "A5126F3365FFBCBCF37444F29B981664A134FE0D528412C6DD6E70D4C1B19927",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_treino.csv",
+      "sha256": "6B45D92C8B25D0B30F5772E12B135C585A79B163AC52CA1716C21DD13E827997",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_validacao.csv",
+      "sha256": "6B104572D82827E909EAA4A9D350F9F87EE5C95683459B1A88854D9B437926CF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\modelo.joblib",
+      "sha256": "A1ED343F0EB895B46CF8DB80B37C36C4389A68B5ADBAD3FCEDE4601B4E856A90",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "F8911CD59CA3433B33BC58377E29D8C348F954D5DC461016ABCC781C319160DC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_teste.csv",
+      "sha256": "C44F599BF359E1DD6A67FE6B4BF03AC02EF4D792B9C52E6DCABDF33BB5B4726D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_treino.csv",
+      "sha256": "91953A442265642EE139B37E4601F56535C175B3D7617F4F5B1149989921BD99",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_validacao.csv",
+      "sha256": "FA2189B1C8FE899DD0E38C45D84CC45EF29ED360E1201E486E0ECCBF847284AE",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\modelo.joblib",
+      "sha256": "6CC412EC1E3AE7BE2233473B6B21A20785A1CFC6A6963CAA9160C57015929B23",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "064C937FA12BAD455E187D440720C1580FFD16075E88FC669699DFD2F17F915B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste.csv",
+      "sha256": "C6F625EAFA7308E71AC71B84068FAB9CA495F992C7EC577EE5956567B03F3D7B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_treino.csv",
+      "sha256": "A99D563847FA0341A617667AF93B1E13F9BAF1161296892B754D56035CA2BBCA",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "58AC14F1FB97C35B9511B82C732D3851C12959F39D7CCC2B53FE9F508BC18542",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "3948E906E7F2358CA5A24C6BF92057E63B0093475BDB789E0FD730A9404B8E00",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "CE28B7FBA47CEEA9F2B658DF8D77C1DA43BDEC8F01D116D9427602BDBD3A1E04",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "C27C1B8F2CA15812249B7B15E02EAD59FBAF85D225941E0D3F954628622ADC5B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "E52F927AD024F7630BE6010D42B387739501B7D535D2D17928B504DA8ADF793C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "F50128AE765A51E2CCB88D8765DA0F67331525F2A3A53F3BA30D3F0EF94FB1C5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\modelo.joblib",
+      "sha256": "69BC0EF50A0D0A6903D141FCED9DD9800F39E91480FE95D870D0E02EAA77EA37",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "D64ED3A964A34417F307D37D0090166BAE125E0EF0C0B7AD632B9FBB671B0E26",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_teste.csv",
+      "sha256": "1326B5CF2469B3999D6C74460F9832A3E2A38EBC7236786582D0B6CC21F4A467",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_treino.csv",
+      "sha256": "0FE677BE915A58952375C1667C85BA661FA141BF0DF39CA6E4535D58C2D520C3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_validacao.csv",
+      "sha256": "F27E2E40B8662D894589A98BB0A5480603BFCA3E5FBFD5AA49A50ABB0A339BC6",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\modelo.joblib",
+      "sha256": "7FA496C675501BB4C564A4B30687926EDCFBAF2E4886F501346467B766CBA240",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "69C34EF861505C8D2A2698A724C6284BFFD7AE9918ECB845CA893917BE6F7B0E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste.csv",
+      "sha256": "292685DAC3643C0083CE9D7F6944E5C6648F7D85A4E0CDB60AD422E686F33571",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_treino.csv",
+      "sha256": "277FD8ABA59141C946F23A9445EAADE07096F9151EEC387EA1C1EAC7988911E8",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_validacao.csv",
+      "sha256": "E38CE40AA66E6883FCCC3D45D478DDF7FC9529EA4151CD5B017EA2A00EE0284E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_final\\resultados\\tudo_sintetico\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\config.json",
+      "sha256": "007B13995E0C205850777F6942CB537C40E3E50D49700A7A3F9C7F5D9290FA01",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\config.json"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\gerador_ctgan.joblib",
+      "sha256": "3999504897C16FAE035EFB7F0EF60B9969A577833119AE28E570FDA601C96D03",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\gerador_ctgan.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\manifesto.json",
+      "sha256": "9A82638D0866B6CECF5728F88ACE6458D90BFA047355440F80934E690E7A18D4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\manifesto.json"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\preparacao.json",
+      "sha256": "DA30F35DA1EC0AA40FE3683B628CC54D55BB61F267A42F94E2C08C403E8AB7A6",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\preparacao.json"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\avaliacoes_clientes_eda.csv",
+      "sha256": "72D52253EEEC20707B9B13E0094664F7D589793E24D534D05A2D0A4DD079FF27",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\avaliacoes_clientes_eda.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\reais_teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\reais_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\reais_treino.csv",
+      "sha256": "6D9B4E8C348C3E6427B4FF1E1106D4D2F26A7A4C08D0D3B2DBDD7987656CE9F7",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\reais_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\reais_validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\reais_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\resumo_particoes.csv",
+      "sha256": "C6CADEFA8A8B0076016A588F5357D3453F186BB7053FC496CB6F36A72454F1A5",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\resumo_particoes.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\sinteticos_teste.csv",
+      "sha256": "02CD1162A90DD95BEF9C0BB2A0050D21D1B85A1D3F6F60C1D56831FC3D8F9C78",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\sinteticos_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\sinteticos_treino.csv",
+      "sha256": "DB752673B1596FE661BAA11642D84F94B7CEBE3008096A25228DDBA19B2A66AB",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\sinteticos_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\sinteticos_validacao.csv",
+      "sha256": "BC8742E6BB8D985E1FCD22DC899446D4FAF21B7D78134E2B83CEF6E5936B3E10",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\sinteticos_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\somente_reais\\teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\somente_reais\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\somente_reais\\treino.csv",
+      "sha256": "6D9B4E8C348C3E6427B4FF1E1106D4D2F26A7A4C08D0D3B2DBDD7987656CE9F7",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\somente_reais\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\somente_reais\\validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\somente_reais\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\treino_misto\\teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\treino_misto\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\treino_misto\\treino.csv",
+      "sha256": "3791CB8D4F1E56249C95D05542C5CCA7D9E9B043F3BEDA7D8920D1E52C41E550",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\treino_misto\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\treino_misto\\validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\treino_misto\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\treino_sintetico\\teste.csv",
+      "sha256": "71CB7A8442CFBDBC001DC9EBAA5727F3C84D03BC708D6B6C8D453E096CFAE982",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\treino_sintetico\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\treino_sintetico\\treino.csv",
+      "sha256": "DB752673B1596FE661BAA11642D84F94B7CEBE3008096A25228DDBA19B2A66AB",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\treino_sintetico\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\treino_sintetico\\validacao.csv",
+      "sha256": "DF6B1A0F80DF05DD081DF8069B422C96E2B864B252F1ACF08985C0C57E8F24BE",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\treino_sintetico\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\tudo_misto\\teste.csv",
+      "sha256": "B2B231B3D27D9AB9EBE39AA067EF3D8AB9E698E191B2A43FDC177F30CC19D86C",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\tudo_misto\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\tudo_misto\\treino.csv",
+      "sha256": "3791CB8D4F1E56249C95D05542C5CCA7D9E9B043F3BEDA7D8920D1E52C41E550",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\tudo_misto\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\tudo_misto\\validacao.csv",
+      "sha256": "40C979A3222F681F60C2DF0561272B821FCA7CBFBE9D3EE9F6E3103F7DD691B1",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\tudo_misto\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\tudo_sintetico\\teste.csv",
+      "sha256": "02CD1162A90DD95BEF9C0BB2A0050D21D1B85A1D3F6F60C1D56831FC3D8F9C78",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\tudo_sintetico\\teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\tudo_sintetico\\treino.csv",
+      "sha256": "DB752673B1596FE661BAA11642D84F94B7CEBE3008096A25228DDBA19B2A66AB",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\tudo_sintetico\\treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\dados\\tudo_sintetico\\validacao.csv",
+      "sha256": "BC8742E6BB8D985E1FCD22DC899446D4FAF21B7D78134E2B83CEF6E5936B3E10",
+      "destino": "Dados\\comparacao_modelos\\verificacao_inicial\\tudo_sintetico\\validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\matrizes_confusao.csv",
+      "sha256": "01D380159A5C672C5B4B89D3BB24E98B86D9FC00C3E795EF0F466D44655D9A3C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\matrizes_confusao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\metricas.csv",
+      "sha256": "A3E88F9E0F9BE39020A7B6616C97B8327FE6D6B6AF9F736AED87D87BD3C29985",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\metricas.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\selecionados_validacao.csv",
+      "sha256": "30C2EFFF2D238AC2E1BBBBD474F02417BBBFC055AAD22CA5453939B3A849927E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\selecionados_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\modelo.joblib",
+      "sha256": "8FB475B9F57C68321700CA055EF54AB10713F2C3A740423353941E58EFDF7615",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "0E9C755A8B090ED189371856CAA0914342730B1EF90344E94FBB1C281DFCE78D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_teste.csv",
+      "sha256": "0E9C755A8B090ED189371856CAA0914342730B1EF90344E94FBB1C281DFCE78D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_treino.csv",
+      "sha256": "CF2AFF7325AA76EE457D9C6E173B004C51D9F11C762E2673AE5B5523842EC699",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_validacao.csv",
+      "sha256": "FE531511DB51C761CEDE06244CC30C9069341470866B9CA7507E5DA7B8DC536E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\modelo.joblib",
+      "sha256": "DCF2C20D299B34781E834A58B1CAEB4D64D3E42C9B77BF21DB43C214A8AE812A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "FD848B6A179D46062E57950CE076C50A545274E42C2B5DF86CB7EB327A16ED74",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_teste.csv",
+      "sha256": "FD848B6A179D46062E57950CE076C50A545274E42C2B5DF86CB7EB327A16ED74",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_treino.csv",
+      "sha256": "2E8979163AC5FE4AAF00DFE83BB1F688C7206C0F8893BCBA11D8DB76924B80A9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_validacao.csv",
+      "sha256": "25083914BF6DFDB34A1CB94E398B746593DD5F4072DA409C990D771C90B4D9D1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\modelo.joblib",
+      "sha256": "267F36644F011AB49318D34DA99514C3414CE6366CB54B40552A9EF31FD6F517",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "73F2A46BD6BA0597EBF1955EBF401C7AC51CDF94221B86497A5E05431DFB48DF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_teste.csv",
+      "sha256": "73F2A46BD6BA0597EBF1955EBF401C7AC51CDF94221B86497A5E05431DFB48DF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_treino.csv",
+      "sha256": "EC485E754C2D17369AEBD75A7A7B00564F6E80E1A11AABFE400712F4E73A20B2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "499A72E92EEFD54F3F7EC5132BCD57D59981D5A29663B347F2DE026AC695FA05",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "104EA2FC6178C1BD5238FCDA86F00051D521D01B815FC38F50F211B668921B7C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "50B03CDC08A5F1561A744BA4E99C5DD8586A1702B099250F149C0F3499E41D0B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "50B03CDC08A5F1561A744BA4E99C5DD8586A1702B099250F149C0F3499E41D0B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "2A3A6FA103A97C2897716529FFDAF3933C25F66CDA5E1DBB5C1A366E066CA11C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "C66ECB070BD5543E3D6E1143741DD7E22FE8A29B9D0E1F22E0268EFBA8B9E990",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\modelo.joblib",
+      "sha256": "E7E903476485F496C55186888723FB021768C13EAE361B204C6A486EA3EFA5B5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "BB52EB8DCEE3E673D1086DA06F2AE98A707291B8E637E5B5A4440559D92827B2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_teste.csv",
+      "sha256": "BB52EB8DCEE3E673D1086DA06F2AE98A707291B8E637E5B5A4440559D92827B2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_treino.csv",
+      "sha256": "FB60F1B351B006596B5263354846CA113FA45BBB96D05370B934F1B5FE9804E4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_validacao.csv",
+      "sha256": "D3E6AEB6A5E0A12506606240E7522359395EFDD70E62EC4C40F3B98AA833250B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\modelo.joblib",
+      "sha256": "14790B80674EC283B2BF3311F4E59FC6B48CC75FF886A1EF5D927B183C8A4C48",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "ECFE6B1E73C4E5508DBAE39BA2C60BEA33C92141BE1ED08B5D81C4E73EDABAB4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_teste.csv",
+      "sha256": "EB4A044170A5FF310843C51A05BA9BDA82EAB93D89E4CD6E2815CDEB05A3A162",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_treino.csv",
+      "sha256": "AC16DBFDF6681FCBCD4BBA08A30D49DF4A0F1419F95528E96F788B36BC5324EF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_validacao.csv",
+      "sha256": "E80D6319B1A90420E0183844343918F862312F279B7E81CB6E03C1E966409FA4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\somente_reais\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\modelo.joblib",
+      "sha256": "141B04D198631F48D8E81822DCD88056C0382C8BBD263774407099EA8ED4FBE0",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "78A8C1ADD0A0110459611D298A71F36DBEE695302BD1E8E6E16B7226946B8C00",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_teste.csv",
+      "sha256": "78A8C1ADD0A0110459611D298A71F36DBEE695302BD1E8E6E16B7226946B8C00",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_treino.csv",
+      "sha256": "C7C12608B50132DAB1AEE7C4771BFD9AC58FFF0C5ACDB2396CACB4B0C75D50E5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_validacao.csv",
+      "sha256": "D0CDC86B7EC7B502BC41374097E4CD2606EC0E9B16D656270B0DEDB1CA67E7CA",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\modelo.joblib",
+      "sha256": "A299C38E805084C04F48DBA904C47572EA13EAD657DA4CBE5F27A3E5E4B1797B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "A95D46F4661C8BDDF3E2003327578CBC1481C9A4E30E3E4988671A0A820C2425",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_teste.csv",
+      "sha256": "A95D46F4661C8BDDF3E2003327578CBC1481C9A4E30E3E4988671A0A820C2425",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_treino.csv",
+      "sha256": "9D4D90622CB5EF74B16271A41B1CE9486CC350FC91E58A046E694599C8BEE0FF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_validacao.csv",
+      "sha256": "5938165F24BD15A2FFB85FF94B18297AA21B2CA404B150CF043F58B3A031B59A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\modelo.joblib",
+      "sha256": "E2734DDBCFBB397627F350B933433F13C6DFE6D6ABFCEBB00E1AD91A6CDEB180",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "5D8C87DD26E77FF952C97229981528B7532A95A733DB1B5D61EB1B093BFEAF31",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_teste.csv",
+      "sha256": "2E1DB2843418A9C28741FD910B4947ED578D4EC325A82F53CC571CFBC92739E6",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_treino.csv",
+      "sha256": "EABB8B1970104F123A0D1839C9598ED214C1BCB3D3956C02D3FDD85D2C02B0B5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "2FA79E5605FE290C5B5C6E5739A67D2E9499CE3D2F573052EC52297DD8B457A7",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "7ED5CD0E4506294704217C6792341E3B07E2A45992CE6EFA3E365822946E8C7F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "5E816988C6C9B441817CE70D31CEF5320F6E758B0C5E39EC11A67A755431C28E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "5E816988C6C9B441817CE70D31CEF5320F6E758B0C5E39EC11A67A755431C28E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "8575E2A19BB32B65E50742F744C0B34470ADDD19BA0B9E7AEBA279C961103076",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "007B6FD7F290E06AC8F62CE4B0A2F86D007B32421FD36BDD2E8C8B220F717FD1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\modelo.joblib",
+      "sha256": "612A1372D6AD320B03FBCF2A937300B706AC6F31836601363764791EC0F544DB",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "74209063D5DAF976724B470FA6D8A228C45B37A721C6BBC13F9BFA34E4A6671E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_teste.csv",
+      "sha256": "74209063D5DAF976724B470FA6D8A228C45B37A721C6BBC13F9BFA34E4A6671E",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_treino.csv",
+      "sha256": "8115156C5E09329C259777716BE56E43ABFE909DC2EABDFB6C24D5BFCF42E6AC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_validacao.csv",
+      "sha256": "5B0B02227A6353860551ED27F14AA8488C72B4641EF4FF75E76581DDC9425082",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\modelo.joblib",
+      "sha256": "E6B8C316ADFBE5E9E8E1427DEF0FA184DDEBAAA00E640CF5CBB66607DC55E90A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "CCBA050C9FF969E7CBAA8FD5AB797BDD7088B6E1ED976B002B277BC23876488B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_teste.csv",
+      "sha256": "FB64AFD2BE81DD4EF6948C284FD8C0050209FDCF12A8C0478D4D5BC9B282357F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_treino.csv",
+      "sha256": "7F7C42605951FD8D37084F1AE5F34D8E8B341D488AE1FFAB38B0EFAF8239B137",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_validacao.csv",
+      "sha256": "853FC8486B82BCADF54D3103D5C8BFCC5433ABEC1E44F0BE2E68C215DF7088D0",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_misto\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\modelo.joblib",
+      "sha256": "59B613E843268118A10B24E292ED0A062664651F8CCEAE2862E3FD331500B1F2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "474FCB5DA018331FCF421C7EFD6EB0C685458029C9110047382A04204911A897",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_teste.csv",
+      "sha256": "474FCB5DA018331FCF421C7EFD6EB0C685458029C9110047382A04204911A897",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_treino.csv",
+      "sha256": "EC9A4DED8D8E2A8EC2E26BD91935F269D2EE79879F939EADCF847428BFE1F9B9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_validacao.csv",
+      "sha256": "18CA550FE7607348F161FD1A87500A8DC41264B46FAC14A191CE9A246699AC92",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\modelo.joblib",
+      "sha256": "44772289C272974A1903ED47329B1FE7730E22554DD2FB1F3FF47D1D966A2FDE",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "F8911CD59CA3433B33BC58377E29D8C348F954D5DC461016ABCC781C319160DC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_teste.csv",
+      "sha256": "F8911CD59CA3433B33BC58377E29D8C348F954D5DC461016ABCC781C319160DC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_treino.csv",
+      "sha256": "91953A442265642EE139B37E4601F56535C175B3D7617F4F5B1149989921BD99",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_validacao.csv",
+      "sha256": "11CCA22877192C3B7B04E02687298F5DA3559359BE1AC511C232734552D5D68B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\modelo.joblib",
+      "sha256": "FE55898F29A7B35064FBAEFEDFDC4E6991F3D1B664799FD619C8F733D48B7637",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "68B1C6DFE42C4FB60FCA75BB765476E2AAC578FB3286F76173456F051145A26A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste.csv",
+      "sha256": "8F55F678A258006E6BDB79E9B6EE1FF3EED559369992401654A2E76F53650EDA",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_treino.csv",
+      "sha256": "162B1CE82A71978472E8374BAB24D4E24D1D3E396FFF0689EB3D0375148258C1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "364D9394A9AC9E7E6B474A70E6AF0276E843BB3D673A7635C5C1C1BF59D932B9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "44FF1E0D8C1010934733BFBA0E9D7A5CE61F3DCAD42FB91B9E1109C44949C6D3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "9E6E7668D2EDF13732B7E8CC29A9F6E2940C1E49F7C9E9D0C140B9B2AB0FFEF8",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "9E6E7668D2EDF13732B7E8CC29A9F6E2940C1E49F7C9E9D0C140B9B2AB0FFEF8",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "B49E04BA8A2DB2365512C5A25F962FFE067D2D8BDE5B8D30AF27A51035815C92",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "F21AB3284FEE6051E758427DD8B8C06E17838B1D77B79DF15EC4F54579154A38",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\modelo.joblib",
+      "sha256": "50019335FEB729ECA7EB0964023BFC0E444D4653B72229EFAA2004C7981CE5CB",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "F802E306C274C84C9D1B28D915E89A9E2D42E01CAE0BB602D3B7482769526FF1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_teste.csv",
+      "sha256": "F802E306C274C84C9D1B28D915E89A9E2D42E01CAE0BB602D3B7482769526FF1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_treino.csv",
+      "sha256": "0FD05408EAB92406F14ADD4CB59FDD9072E87FFAE046D0C3F72BD0E7AEE1D355",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_validacao.csv",
+      "sha256": "F24B919365B76F34D04845236243AE372C55CF0085E79225F5395893E5381405",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\modelo.joblib",
+      "sha256": "E58D604B485147EA433F9668B24BE77351FD36BE948972B81996859FF8890B8F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "3E8397877699B423F20CC9DF776911741C68E579B517A278C14CA32929E1072F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_teste.csv",
+      "sha256": "8F5AEBAE6175B3F124472D956535D7C8F9F842F9808D19110533C74FA74B62DC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_treino.csv",
+      "sha256": "5CE9F314A9351C724618D5A25762AEC9D9504FFCA85005E3CC9ADC6D8477205C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_validacao.csv",
+      "sha256": "F527F8A3955070411B21B3BDE78C18D86D08B61EF475A98AA73A7940F49A662F",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\treino_sintetico\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\modelo.joblib",
+      "sha256": "8911A65932D27E74F817121728B3C52C9EEDE5303D433B02E08B02BE17128FC0",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "CB8A3E3CBDC6928A8EA2D5619C4A818D1DC58BC44587A10B42F63C76B7362FA3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_teste.csv",
+      "sha256": "ADF2D831747148F69F5C7DE22DDF878069A95F05EEEC4DAC5E92B705AE2B7D94",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_treino.csv",
+      "sha256": "37E50912D541E4454A071E6048AE629AA5E8DCEA19665E47D5AD3E1424EFC141",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_validacao.csv",
+      "sha256": "D60B983B596F2CD6C18A9957840728A9A258A0EF7B73B8A2800682EE6E8B0221",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\modelo.joblib",
+      "sha256": "A299C38E805084C04F48DBA904C47572EA13EAD657DA4CBE5F27A3E5E4B1797B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "A95D46F4661C8BDDF3E2003327578CBC1481C9A4E30E3E4988671A0A820C2425",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_teste.csv",
+      "sha256": "9803AF6C612530217DA4127117C0C870657A637BF6D139C99BAF41294BED02BC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_treino.csv",
+      "sha256": "9D4D90622CB5EF74B16271A41B1CE9486CC350FC91E58A046E694599C8BEE0FF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_validacao.csv",
+      "sha256": "F4A8DB0854292BE1454048A2903897B9B023EB50316AF41DB19B29BCCC0C31E5",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\modelo.joblib",
+      "sha256": "A002B75E685EE551210A28CEC8CC64A1B2792995736EE51B78A2BA67CC9BC798",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "49AAF695F4B2A73249BD13CDA69EA9C82EFB7297531B709E08494BDC72866788",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_teste.csv",
+      "sha256": "5E943307F963A3341794CA89D0E0854C035762FB98B57D58BB3378FD79AD3B90",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_treino.csv",
+      "sha256": "67303A95CEEF2B042C5CB361EA6CCBF884D009DC91F2242893A5794DCE185F9A",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "2657D03E7126CC9ECB1BF7B53CF7001A8E2AE28AE4985F37079916BD25D83448",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "61488A81F35F16BF86152FF513A66DBAA6177222C7C16E598B831377B44CA5F3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "FBB0DBD8FC009504674F87BC79FFA6F68469E2BA1FCEA6F74B940F0974D64F87",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "BBA64C2F364676FC32789410FA201A35C7E23BB522781B7F2A11046C3B4C9C7D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "CD00325B3CDB378BF8111E9E1AB6E18D398F6B3DB277EA92D46C4BAFD4779BCB",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "26DBD3FD66E0415C2D31CB8372B2E4ED1692FB230755F8AB40895311E4A67156",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\modelo.joblib",
+      "sha256": "D4EF257FEAB91F2EA0938D7F7A27C8A7DB7DE2DF2CCA7E64239D717DD910DB32",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "4260A54B456733C3053353EC91103793DFD332AC2FAAD0572EC30913E0B22209",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_teste.csv",
+      "sha256": "CD3A9BD6C426836755DE17F87C75CF7833DEBD336CF3D004F977735F90EB7517",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_treino.csv",
+      "sha256": "E578A7871C3C124C8CF5D12750349E10D000A195079732CC33BC0F68D640FCCF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_validacao.csv",
+      "sha256": "FA941CB3BA67478CDE1BB2553C01353FFE3EFACD5905B2E6F865DE59DDAF10DF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\modelo.joblib",
+      "sha256": "C36586DE067BD10C555E78CEEDFB43D6B0FC85067E814545C9E38617D6733D1B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "A11FBD01A54CA966D0DB3346B7F654684FCA1EC82920E548803FCA13CEAA368D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_teste.csv",
+      "sha256": "8B004B945F8E7556F83FCA77A058487BC35ACD212B679B7ED4A42E21561E85FF",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_treino.csv",
+      "sha256": "4210B8E441D7703EF8FCAADB2D6B26F0BDB90E8BB8EE8C3394DA4BB9EBA273FC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_validacao.csv",
+      "sha256": "A0BB55ADEC39A7F6154FE01FCB938906F5FC8D721292A713CDE4A516F2A4F7D4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_misto\\random_forest\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\modelo.joblib",
+      "sha256": "94D5B061D503BB63982080D25A7882AAD394567B012D304B62C5F80D87E692A2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_teste_real_referencia.csv",
+      "sha256": "7848F349E4657EEBB50E25A279F443FBCEFB98A21BB31E3A9E58B77F635EBCB4",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_teste.csv",
+      "sha256": "CAB7BF5D7425B4B2D0E9BB62EDC13111BA6F573B0E60A3935FB076E697DD6FB8",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_treino.csv",
+      "sha256": "44BD6CB9FE247895314FF3AC8DD799366526E27D6AEE2FF83437BBF5561739DA",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_validacao.csv",
+      "sha256": "A4ABC2DA35DC69998706502ED8A26E68E97C426EF4ECE9EDC7EC426280BAE2C2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\arvore\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\modelo.joblib",
+      "sha256": "44772289C272974A1903ED47329B1FE7730E22554DD2FB1F3FF47D1D966A2FDE",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_teste_real_referencia.csv",
+      "sha256": "F8911CD59CA3433B33BC58377E29D8C348F954D5DC461016ABCC781C319160DC",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_teste.csv",
+      "sha256": "C44F599BF359E1DD6A67FE6B4BF03AC02EF4D792B9C52E6DCABDF33BB5B4726D",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_treino.csv",
+      "sha256": "91953A442265642EE139B37E4601F56535C175B3D7617F4F5B1149989921BD99",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_validacao.csv",
+      "sha256": "FA2189B1C8FE899DD0E38C45D84CC45EF29ED360E1201E486E0ECCBF847284AE",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\dummy\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\modelo.joblib",
+      "sha256": "ED30A1D65F84404B5AA1793541BA8D2B94453BEFF72A9B0FB54BBEC539AF1DBD",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv",
+      "sha256": "6571FB6E51DFEC66E4DA01616CC47AA5DFBF096112440EB2DEE058B166DC3A02",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste.csv",
+      "sha256": "B5AF586C948C95B5F36BDAFF068CCB3DF872D867A3A0CD2AB8DD1D04A7FFB1C2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_treino.csv",
+      "sha256": "FCCAE879AC4EE99D8EEAFF91C14A1C9A690AA573402C6B83EE49F550F329A800",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_validacao.csv",
+      "sha256": "546906E3D4266B92F96AA6764DCDCB33177AFC74A8B83C9CEF027104B1E870E0",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\extra_trees\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\modelo.joblib",
+      "sha256": "0EDCDE2FECF744F0CC4DDB71B66C564D6E890E2B52EECDBA48EC1760947FACB3",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv",
+      "sha256": "AED057D26A59F13DAA49F1F104B81C2B6A61FC8A0B0ED6F15A8CC5A5444FF3A8",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste.csv",
+      "sha256": "3A83D2A5C160C74F80C539D0B62AB185A2EB805D22AFA4E976CF09D2676DCCE2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_treino.csv",
+      "sha256": "8CCE8B0239CC123B2E9B1D3163703F04BC857BEE9DB8A9F3E662FB88ADF157DD",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv",
+      "sha256": "B91B3B09552DCB4079FDD14F49B91FE9498D0DC6255E76FAE4057C10DA1D142C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\hist_gradient_boosting\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\modelo.joblib",
+      "sha256": "6F886F0B9C512F490A14260772536A548D733BEE266ED626B2D83DF14DE1173C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_teste_real_referencia.csv",
+      "sha256": "E5A3E0F81DA6CDBBFD2E118E70A8B355F62946F160EE10DE62985A888CAA19E9",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_teste.csv",
+      "sha256": "A718AAA3D8FE3ABD48C34BF3D7CCF3025DAF92DEC47338F6BD282C349A4AF73C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_treino.csv",
+      "sha256": "E58020ED348BBD1CF776269C5CB3A0968BC609BB5348D73CD5773DE0101D86F2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_validacao.csv",
+      "sha256": "AA907A50426C9B6EAA3F8C6D20255EDD63E3034381058A281BA191788B7D3C7B",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\linear\\previsoes_validacao.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\modelo.joblib",
+      "sha256": "B979EB53CDF6B68FD2C03E723BDD07F878835C031C6AEE1D2EA4F8A47AC5355C",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\modelo.joblib"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste_real_referencia.csv",
+      "sha256": "B5C5314E16C587E7293170BF1F47D8494DF5C713B663BB24274E14DD45020AAA",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste_real_referencia.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste.csv",
+      "sha256": "0D2206B6D66EB69FF8045E91F26B995F03B774451B93F81F98ECB905E01598B2",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_teste.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_treino.csv",
+      "sha256": "606F73FEFAB17C74B6186AFC0A9BBF0EF8C9A8254C780638B5B3B6EBC7B15E09",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_treino.csv"
+    },
+    {
+      "relativo": "artifacts\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_validacao.csv",
+      "sha256": "D2F7764F4675D7C1F1907FF35E568811365CE26FFC99D35499DA5C6817F11FF1",
+      "destino": "Modelos\\comparacao_modelos\\verificacao_inicial\\resultados\\tudo_sintetico\\random_forest\\previsoes_validacao.csv"
+    }
+  ]
+}

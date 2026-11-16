@@ -1,0 +1,158 @@
+{
+  "dados_validados": false,
+  "entrada": "Dados/dataset_ml.csv",
+  "atributos": [
+    "order_status",
+    "price",
+    "freight_value",
+    "customer_state",
+    "seller_state",
+    "qtd_items",
+    "total_volume_cm3",
+    "total_weight",
+    "predominant_product_category_name",
+    "distance_customer_seller",
+    "seller_reliability_score",
+    "transportadora",
+    "approval_date_in_days"
+  ],
+  "semente": 42,
+  "threads": 2,
+  "cortes": {
+    "validacao": "2018-01-01",
+    "teste": "2018-05-01"
+  },
+  "limiar": "f1_validacao",
+  "fracoes_fila": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "ctgan": {
+    "threads": 2,
+    "parametros": {
+      "epochs": 30,
+      "batch_size": 500,
+      "pac": 10,
+      "verbose": true,
+      "enable_gpu": false
+    }
+  },
+  "modelos": [
+    {
+      "nome": "linear",
+      "tipo": "linear"
+    },
+    {
+      "nome": "arvore",
+      "tipo": "arvore"
+    },
+    {
+      "nome": "random_forest",
+      "tipo": "random_forest"
+    },
+    {
+      "nome": "extra_trees",
+      "tipo": "extra_trees"
+    },
+    {
+      "nome": "hist_gradient_boosting",
+      "tipo": "hist_gradient_boosting"
+    }
+  ],
+  "cenarios": [
+    {
+      "nome": "somente_reais",
+      "treino": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "validacao": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "teste": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      }
+    },
+    {
+      "nome": "treino_sintetico",
+      "treino": {
+        "modo": "sintetico",
+        "n_reais": null,
+        "n_sinteticos": 10000
+      },
+      "validacao": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "teste": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      }
+    },
+    {
+      "nome": "treino_misto",
+      "treino": {
+        "modo": "misto",
+        "n_reais": null,
+        "n_sinteticos": 10000
+      },
+      "validacao": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      },
+      "teste": {
+        "modo": "real",
+        "n_reais": null,
+        "n_sinteticos": 0
+      }
+    },
+    {
+      "nome": "tudo_sintetico",
+      "treino": {
+        "modo": "sintetico",
+        "n_reais": null,
+        "n_sinteticos": 10000
+      },
+      "validacao": {
+        "modo": "sintetico",
+        "n_reais": null,
+        "n_sinteticos": 3000
+      },
+      "teste": {
+        "modo": "sintetico",
+        "n_reais": null,
+        "n_sinteticos": 3000
+      }
+    },
+    {
+      "nome": "tudo_misto",
+      "treino": {
+        "modo": "misto",
+        "n_reais": null,
+        "n_sinteticos": 10000
+      },
+      "validacao": {
+        "modo": "misto",
+        "n_reais": null,
+        "n_sinteticos": 3000
+      },
+      "teste": {
+        "modo": "misto",
+        "n_reais": null,
+        "n_sinteticos": 3000
+      }
+    }
+  ],
+  "review_score_origem": "media_global_vendedor",
+  "verificar_disponibilidade_rotulo": true,
+  "saida_resultados": "Dados/resultados_modelos"
+}

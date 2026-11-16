@@ -7,8 +7,8 @@ from unittest.mock import patch
 import pandas as pd
 from fastapi.testclient import TestClient
 
-from src import api
-from src.pedidos_web import montar_lote, filtrar_lote
+from src.web import api
+from src.web.pedidos_web import montar_lote, filtrar_lote
 
 
 class PedidosWebTest(unittest.TestCase):

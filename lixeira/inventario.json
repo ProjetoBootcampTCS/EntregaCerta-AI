@@ -1,0 +1,646 @@
+[
+  {
+    "arquivo": "src\\__init__.py",
+    "sha256": "76F14572A5B99DC2EFCB6EA43DEF7DA09335C4F7A7D21803DD9C71603C886B59"
+  },
+  {
+    "arquivo": "src\\README.md",
+    "sha256": "BD256F37B9CEB40643BFB8ED476502F94C08068F31307D2A79C3BA919D279C04"
+  },
+  {
+    "arquivo": "src\\.ipynb_checkpoints\\inferencia-checkpoint.ipynb",
+    "sha256": "DEB88B98D596F0BFA87CE2C14B5421D80EDF6F2A19D7CC026C916EC172606B47"
+  },
+  {
+    "arquivo": "src\\.ipynb_checkpoints\\inferencia-checkpoint.py",
+    "sha256": "D41C9145AFA9D46761064CD3AE223C5769E3BAB76A9A2FFB4082B5E567CFCF5B"
+  },
+  {
+    "arquivo": "src\\.ipynb_checkpoints\\__pycache__\\inferencia-checkpoint.cpython-312.pyc",
+    "sha256": "2956E32A61009E51F3920FB979BDFE5AEBB74C121BAAABE642F886FD9EBD4A6C"
+  },
+  {
+    "arquivo": "src\\assistente\\__init__.py",
+    "sha256": "8F4E2EA90660B9B0C80966266AE9E2B4FE790670D8E661B0C8C90D4ED4087DE4"
+  },
+  {
+    "arquivo": "src\\assistente\\assistente_genai.py",
+    "sha256": "A21B11AD4263C25F5A4F1C7118A3A1E8DEBFA21F6C22C14D78AF10A4BE1FD454"
+  },
+  {
+    "arquivo": "src\\assistente\\conversas_assistente.py",
+    "sha256": "5007EA2984480C21C686101AB2F1518B04064FBAD6C1EB58CAB94D4C0351374A"
+  },
+  {
+    "arquivo": "src\\assistente\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "CCCDFA3A2F02699F30A368D8DDB99AFD0D60B54156A918EDC6945FBA8A188B61"
+  },
+  {
+    "arquivo": "src\\assistente\\__pycache__\\assistente_genai.cpython-312.pyc",
+    "sha256": "7F7686767D22C6CA7FB8EC7719E16E6CB9C9DB89447E468426E7B26DE940F316"
+  },
+  {
+    "arquivo": "src\\assistente\\__pycache__\\conversas_assistente.cpython-312.pyc",
+    "sha256": "0DF5ED8D3A3C7716CD335546273875D6356966086C94BFEC80897A49B44ED2B6"
+  },
+  {
+    "arquivo": "src\\configuracoes\\cenario_logistico.json",
+    "sha256": "52CB38E1892895562A0815D08DDA45B635D85DADCF2E26DA1D21A8B4A1AB3172"
+  },
+  {
+    "arquivo": "src\\configuracoes\\dados.json",
+    "sha256": "18E7B901F741699E364BB61F5B5F8FD6E0D60BC2F12C83F4BBA7FE7FA39E1CE8"
+  },
+  {
+    "arquivo": "src\\configuracoes\\geracao_ctgan.json",
+    "sha256": "EA17AC12E1C7AD4FF9094CB4BD329F747413A05C4893F04E9BB9B01CB072F279"
+  },
+  {
+    "arquivo": "src\\configuracoes\\treinamento_rapido.json",
+    "sha256": "3D4C231112E2C756B87C90BF0DE04D19895DFD038C4EF0206AC3B0A736AD486C"
+  },
+  {
+    "arquivo": "src\\configuracoes\\treinamento.json",
+    "sha256": "63740E73CC9F7C5B92F3FDD729E852A9372A1D71E5FD2B003C77EFC7082A4797"
+  },
+  {
+    "arquivo": "src\\ctgan\\__init__.py",
+    "sha256": "0A24A7D02F7A9D11768AF7122193A0E33C5E2848268DB3570619CB770ED2E592"
+  },
+  {
+    "arquivo": "src\\ctgan\\experimento_legado.py",
+    "sha256": "2DB114C9865EC2CEDE0ECD8742677F4867AF9C93C3CF6A5BCEA6CCD1474ECCD6"
+  },
+  {
+    "arquivo": "src\\ctgan\\geracao.py",
+    "sha256": "A872F6AAE4D7F44C435C581A2D4041C5FB60D18EF1AF9F5B7A24F5B646973676"
+  },
+  {
+    "arquivo": "src\\ctgan\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "5308A90172236EC893AC33C3BFC9568A832495A9FBD746D281EB8B0777173A81"
+  },
+  {
+    "arquivo": "src\\ctgan\\__pycache__\\experimento_legado.cpython-312.pyc",
+    "sha256": "9722E7226BCF99734464E01C5F92C94CE823AE212DA7CF0BC9603525F3C131CD"
+  },
+  {
+    "arquivo": "src\\ctgan\\__pycache__\\geracao.cpython-312.pyc",
+    "sha256": "295B877DA768657B111093AB73AA51539C4DB36F7CD162C170EAA1B287A43B2A"
+  },
+  {
+    "arquivo": "src\\dados\\__init__.py",
+    "sha256": "559A880AA1926CE424F4E90D4D1A24FA276B9D4F53A6B7219EF94F545CD92145"
+  },
+  {
+    "arquivo": "src\\dados\\esquema.py",
+    "sha256": "295AB5CABDF17B4E8867C00CAEBBC0D4816C642E8E0E85F7D44FE4AB01C6E7DA"
+  },
+  {
+    "arquivo": "src\\dados\\preparar_dados.py",
+    "sha256": "F0A7E1EA9EDC3537A9A10DA1E1DC707BF128386FE0F80B8BC5778F8583BDA444"
+  },
+  {
+    "arquivo": "src\\dados\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "0E0BBC7DE01BD926583C1DBE9DF9601EE9DF1D778F0C7E3534409736E93FE028"
+  },
+  {
+    "arquivo": "src\\dados\\__pycache__\\avaliacoes.cpython-312.pyc",
+    "sha256": "DE1D29700108DCD91815D6047A1F24A9C427F112ECBEA5AEE8692E229F070E19"
+  },
+  {
+    "arquivo": "src\\dados\\__pycache__\\esquema.cpython-312.pyc",
+    "sha256": "A19DC316B54BA83238B07AADAFEF1BF666A5E6D18304F7E2F111EB97F4995B82"
+  },
+  {
+    "arquivo": "src\\dados\\__pycache__\\preparar_dados.cpython-312.pyc",
+    "sha256": "D444F7ED635BAE062048935CF51C323D216356B8CB7EDDB8C58210F722012089"
+  },
+  {
+    "arquivo": "src\\eda\\__init__.py",
+    "sha256": "8483DA8A4A7F27BCAFC358725A7B3575CCF9DD70E1D446A519705E5A5935F64D"
+  },
+  {
+    "arquivo": "src\\eda\\loc.py",
+    "sha256": "265BDBF89491CC12915175FA309C8641AB72ACE1D955386DD8BD28DA26EC430E"
+  },
+  {
+    "arquivo": "src\\eda\\localizacao.py",
+    "sha256": "06D1E29661B1802D6DA920AE96B55F6856228C09223CAED7257C39A5DE2F3051"
+  },
+  {
+    "arquivo": "src\\eda\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "C82AF20C9D1167B2F3E395F5C40359D57F7545862DE21D9D301F7F9209E4AE6C"
+  },
+  {
+    "arquivo": "src\\eda\\__pycache__\\loc.cpython-312.pyc",
+    "sha256": "3F6477C9C33058E00D90E2E8B9E1456D75C5F5C27E3FAC742E2EC565BF277F11"
+  },
+  {
+    "arquivo": "src\\eda\\__pycache__\\localizacao.cpython-312.pyc",
+    "sha256": "FD0D38E4040E25F8745BF5609B8C33C2EC9420F4E5E35C7F3B8F22291046A965"
+  },
+  {
+    "arquivo": "src\\experimentos\\__init__.py",
+    "sha256": "8A8976B65D12F798F99A2FFD384418398FA8ADBF85E303466A67D5D0627180FB"
+  },
+  {
+    "arquivo": "src\\experimentos\\comparar_recall95.py",
+    "sha256": "AAD20B244A5AB31E04AECFBCA06AB65D388C120605CDC97FB9CDDE2265A5B94F"
+  },
+  {
+    "arquivo": "src\\experimentos\\README.md",
+    "sha256": "54DB3B99A4408DA0C42D09181D5F0F481F1EF30FA843FA5CE6E90CA1C454F0B1"
+  },
+  {
+    "arquivo": "src\\experimentos\\testar_doses_ctgan.py",
+    "sha256": "C837A8790929B7D4FF6EE80E64602AF373B2E4E16D963D09343CFE0F44331731"
+  },
+  {
+    "arquivo": "src\\experimentos\\testar_historicos_vendedores.py",
+    "sha256": "9D44D8AA4DDB62BC3087164BBF3A4A4EB442540320122C02A6699747764C7BE2"
+  },
+  {
+    "arquivo": "src\\experimentos\\testar_previsao_operacional.py",
+    "sha256": "B3A2ADF060536E08687440472E1D9013F081C51E2266773755FF38999754692C"
+  },
+  {
+    "arquivo": "src\\experimentos\\legado\\__init__.py",
+    "sha256": "8A8976B65D12F798F99A2FFD384418398FA8ADBF85E303466A67D5D0627180FB"
+  },
+  {
+    "arquivo": "src\\experimentos\\legado\\codigo_execucoes_ponto0.zip",
+    "sha256": "A2D2859A0CBBDFBE5F426B738EE2F92D999C8FFACBFD4943521CC19A7CBF6C78"
+  },
+  {
+    "arquivo": "src\\experimentos\\legado\\pln_status_entrega.py",
+    "sha256": "016B06EAF66EEC67A860147DD079FB00DA191DC72CB16E986989947B48B90040"
+  },
+  {
+    "arquivo": "src\\experimentos\\legado\\treinar_pedidos.py",
+    "sha256": "DA10497CDBB9C788C7961C115F7B7E8A7381F51A60E3F69006AFCE413311D5B4"
+  },
+  {
+    "arquivo": "src\\experimentos\\legado\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "C615F79B8B377DF5097F3225573416E4A590B0C52D1BA7ACEB390F01C8350523"
+  },
+  {
+    "arquivo": "src\\experimentos\\legado\\__pycache__\\pln_status_entrega.cpython-312.pyc",
+    "sha256": "38182FA86F3EC880CA7A33C65A43E080D6080956A33AA85DFAD433713F8E13AC"
+  },
+  {
+    "arquivo": "src\\experimentos\\legado\\__pycache__\\treinar_pedidos.cpython-312.pyc",
+    "sha256": "E7A40A3355E7D9FE67CCAE6EF5FC44C2FB4D6DCCF3BE5B559FCFE2B927B3A23D"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__init__.py",
+    "sha256": "BCF2B9FFBF171CA641444CF8788F51797A45C160A9FC2E63080FFFE80CE0FC58"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\avaliacoes.py",
+    "sha256": "09B6EF7DBA36A0DF81D87516E8B4DA4F8F0BB3938F9429198FF91E69FEB2BB98"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\comparador.py",
+    "sha256": "DC6F2906B68087170EBADC44A3A74A5632318E64742B14853DE4B151567F2062"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\geracao.py",
+    "sha256": "CF8506DA826F35AB40E79F34D5BACDC211F3ACEC5B33C59C48577DA35CBDAC3E"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\preparar_dados.py",
+    "sha256": "1488120A014001CB9C68856EAEA4D06AAE40F155A48AAAA5245A7D1E940824D2"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\README.md",
+    "sha256": "9E05506D90C3D447A37F87D36AEE6E96C0AAF81762D7C8751B50F5F3CD8A1674"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\test_laboratorio_ml.py",
+    "sha256": "E1B83D47731FD59309C6E2D061BD94A2F8D8DD6C49FBBEF5C389A5DB28E8D383"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\tratar_dados_ml.py",
+    "sha256": "E8FA110108D7BAA2D20A306271B0E08953D3AF401D068C5B9060CE8E71DCB092"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\configuracoes\\treinamento copy.json",
+    "sha256": "DDBE04D9DEDAE16C66308FE2182A4EAABD7F4C2711DC354A331DE4CB1FA3DFC6"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\configuracoes\\treinamento_rapido.json",
+    "sha256": "8696E5E766B0C16785D3CE8A185E6FF44A05BF806B4BC518BEB731E584958E40"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\configuracoes\\treinamento.json",
+    "sha256": "864DB9C39C3EA84CB23CE0C3626A32460E57B429164C92FB8A1C42C70F2A81ED"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "85AC316101F267FAC180493C07B763A9463A9240014D83434AFA2CF2EC3210B6"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__pycache__\\avaliacoes.cpython-312.pyc",
+    "sha256": "D7BD9B818D7B237EDCCFA497864A50BFCF3FE6AB683315225D3A1281A31FC4A8"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__pycache__\\comparador.cpython-312.pyc",
+    "sha256": "C73A90E8B6F4A8084972601AE65F098A2FA757281D22BA4BC7E4ED6F30C314B5"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__pycache__\\geracao.cpython-312.pyc",
+    "sha256": "338C4ADA211BED8A3CC4D2CB8643FFD85D8BD6DB9DDC38669664D2D8511E01AA"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__pycache__\\preparar_dados.cpython-312.pyc",
+    "sha256": "B0F0D729576644F8D33E180BE43E4E8DD81EC5B93425DBA4A95F4CE99C54AB06"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__pycache__\\test_laboratorio_ml.cpython-312.pyc",
+    "sha256": "D5724B238E5A9E415EFE06E1155F0C2036F5C7898AD02E65AEA1D4ECA4145BAD"
+  },
+  {
+    "arquivo": "src\\experimentos\\pipeline_anterior\\__pycache__\\tratar_dados_ml.cpython-312.pyc",
+    "sha256": "EC86059967C0B3A24EF152381AC4EF4EE731F74E24634EF463243FD73E3B0EDA"
+  },
+  {
+    "arquivo": "src\\experimentos\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "8B60BB487171A86EED04E4CC939664F855035E18FB2F7106CCA45FAA1ED86B14"
+  },
+  {
+    "arquivo": "src\\experimentos\\__pycache__\\comparar_recall95.cpython-312.pyc",
+    "sha256": "37F945BC7775AFC7B8A5A11D77C0472228C97DB1D4FD99EF784E93843FF7A073"
+  },
+  {
+    "arquivo": "src\\experimentos\\__pycache__\\testar_doses_ctgan.cpython-312.pyc",
+    "sha256": "464ECA1C9506FAEDEBE4EBA66F5AA607397442F3EFA6BBC9A51FC484E5ABFA7C"
+  },
+  {
+    "arquivo": "src\\experimentos\\__pycache__\\testar_historicos_vendedores.cpython-312.pyc",
+    "sha256": "C08A7D91B1A2BD23B891A0344BF826E43F83664436C748BBD45F267F6E4D7BA8"
+  },
+  {
+    "arquivo": "src\\experimentos\\__pycache__\\testar_previsao_operacional.cpython-312.pyc",
+    "sha256": "FFCE433F5E63B2EA0ABEC78E8F42659230662BE147E9D0E985528544BE01D5F3"
+  },
+  {
+    "arquivo": "src\\ml\\__init__.py",
+    "sha256": "BB41C6F8ECCB496AD9E2D0D39AA4D992155A42142BFBD64B805F462B5599819B"
+  },
+  {
+    "arquivo": "src\\ml\\dados_treino.py",
+    "sha256": "639651DCCD4D2BF7A421F4F4BE5F7F5C52AFCCFC0C17E021DCF13B008A8BD445"
+  },
+  {
+    "arquivo": "src\\ml\\experimentos.py",
+    "sha256": "0BF16B6D05822E9EC4AB0792A466CC24090F233C6F8C0213DA662544915A630F"
+  },
+  {
+    "arquivo": "src\\ml\\inferencia.py",
+    "sha256": "1500595749A01EEDA4E56D8213416ECE2163EC3DA08B3E5676EB0EEF02514070"
+  },
+  {
+    "arquivo": "src\\ml\\metricas.py",
+    "sha256": "79E76C7FA530630EE17C2AEFC7E41A6FCCDCD373A18C4E305F4487E44B840A48"
+  },
+  {
+    "arquivo": "src\\ml\\modelos.py",
+    "sha256": "D9D609244D39CA73E42DCE0361114B0D3253FADEF4672E77C86E362731DE5A0F"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "43E04BEA9CB11375044E1B17AC0F97955B080E74435BB805CB68CC62D1916025"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\dados_treino.cpython-312.pyc",
+    "sha256": "F8EB70BC76D8FBEA744740B9E6232BD01FC01B7C4B5A34775D57DD992210D75B"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\experimentos.cpython-312.pyc",
+    "sha256": "69F4ABAB10BEDB9441BE2A77CE532B78A1072D79A250AF3AE5CDC76F93D18045"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\inferencia.cpython-312.pyc",
+    "sha256": "B5FF76843FE4DBB1189D4FD28E326A963D44D53672A1E63AB8C0FA10B7B69099"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\metricas.cpython-312.pyc",
+    "sha256": "64A62A629F2EAFC9EB3AF66130D52B8DFD5318FC27F5E67D955754D256ECCB70"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\modelos.cpython-312.pyc",
+    "sha256": "6156724F6959B38D7855CAAF077C7B376BE3B68BB30C29D278B56B1F25FE34C8"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\sinteticos.cpython-312.pyc",
+    "sha256": "220A7D6B29DBBDFC8171F7E14E29925C09FA76FA29E32C790B1600EC059C35A8"
+  },
+  {
+    "arquivo": "src\\ml\\__pycache__\\tratar_dados_ml.cpython-312.pyc",
+    "sha256": "497DDFF51B52E0BDCCD10B698CA4E5B20B83DEB59FF4825A765C9502EB41405C"
+  },
+  {
+    "arquivo": "src\\postgresql\\__init__.py",
+    "sha256": "071705ACF690BEA7ADAA6E4B4A0F4FD08C172936C5B775B6078362AF0D872A72"
+  },
+  {
+    "arquivo": "src\\postgresql\\banco.py",
+    "sha256": "F382C995C813514E5995EB21F298EB28B19126A8E0F1C1867E172B27334EEA3E"
+  },
+  {
+    "arquivo": "src\\postgresql\\esquema_web.sql",
+    "sha256": "B59F807E7F7F3A0D83B07ADFCBBF040CA848A2FF5619B443D02389E2769BDD68"
+  },
+  {
+    "arquivo": "src\\postgresql\\view_pedidos_inferencia.sql",
+    "sha256": "8BC1F981EA234F5367EE9FA4BBCA7E754B4EC68EAA5F8C3353DFC0F65E703C09"
+  },
+  {
+    "arquivo": "src\\postgresql\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "5001C8FC305515A2A8BF7CD01A20DBA881F99BCB22507415075ABD9B3C183A87"
+  },
+  {
+    "arquivo": "src\\postgresql\\__pycache__\\banco.cpython-312.pyc",
+    "sha256": "F9C78C9EFD6D1F433C6395FE705EB87BF898DE36CF6AF33E4A6FA733516EAF6D"
+  },
+  {
+    "arquivo": "src\\relatorios\\__init__.py",
+    "sha256": "7B3F024DD6A69383B08000BD1ED271910A5567575A4EDB081AEAADF66BFDA6B0"
+  },
+  {
+    "arquivo": "src\\relatorios\\relatorio_pdf.py",
+    "sha256": "2C84C80A44A0A632F95EC8E2F240DF001164A1E4F573E9663BD9125EAB5A6500"
+  },
+  {
+    "arquivo": "src\\relatorios\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "4B6AB724AEBEA042DA88FB32A1746E87C18A7A77253DC8562FE0C1B3DEC93860"
+  },
+  {
+    "arquivo": "src\\relatorios\\__pycache__\\relatorio_pdf.cpython-312.pyc",
+    "sha256": "636DFE95528EB620451F3F5D982696946F753BE5166DBC82E4C0C023D16257AB"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__init__.py",
+    "sha256": "98823808B17E35606893918F27CCCE5556E5AF897BEB657B18F6BDAC893DADB0"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__main__.py",
+    "sha256": "E9CA3DE9E05CD5E7553D236705268965FD53331FA1985C12FE9C53E6E406D19A"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\avaliacao.py",
+    "sha256": "00C5E5DED052580B896B10711F46D02DCF084B7AD82AEBA753FCB7483210CF1E"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\cenario.py",
+    "sha256": "544F97420F84A16B8034BCBECC919CA57B753BD6EA456AD058EB6137B66D8A64"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\dados.py",
+    "sha256": "5734373B65811160BFC31AF0B954E53A23F6894AFE5E7165DB9DB0E7E4CC7300"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\geracao.py",
+    "sha256": "BFA472E08D4DCC1F949CA3BF0D4FCA78240239980C175BA0C03A04C8C26F96E2"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "891B9B84C4B87092AF4AEC28ABFEE4D39A3B418AE832F54A9E94A5D3FF2EB0F9"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__pycache__\\__main__.cpython-312.pyc",
+    "sha256": "B58AA77D7CA19F1BBFF3AB556DE22BE83678F7F52C826D29D35C5EA34D9FB16C"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__pycache__\\avaliacao.cpython-312.pyc",
+    "sha256": "1DAEF13FACE1E4CD944895486644F2AD03ADB9A629758274C0E3C49CE95818B4"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__pycache__\\cenario.cpython-312.pyc",
+    "sha256": "D62B68EC00173BE0D1B64F38520D3CA36191F62C40A8D9E10EDD2D4093F78C7D"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__pycache__\\dados.cpython-312.pyc",
+    "sha256": "DAFCB23F794550CDA8C2857464D2AF29964973DC5ECEAB47B76A60A24727EFD4"
+  },
+  {
+    "arquivo": "src\\simulacao_logistica\\__pycache__\\geracao.cpython-312.pyc",
+    "sha256": "5AF358FE26430CA0F56541175C570FCD81898A53E978CE7CD9C6831385BEE6CB"
+  },
+  {
+    "arquivo": "src\\web\\__init__.py",
+    "sha256": "0DB3C68B8761FAE44C74C29424784180A51A1D17C743421991DC35495BFBA49C"
+  },
+  {
+    "arquivo": "src\\web\\acesso_web.py",
+    "sha256": "1D31D9ED6ED3CE7E47D14325BDF6338B37F2B38DAC47D8D43F5EE636D98F2182"
+  },
+  {
+    "arquivo": "src\\web\\api.py",
+    "sha256": "AF32356DA9CF5542EF99C625B641EB96B4DBAF8F451ACEECDC6839318ADDA21F"
+  },
+  {
+    "arquivo": "src\\web\\loja_web.py",
+    "sha256": "8783E5BC1568FA91E2B9699C3525551D79C73686080B9679924231DA263EBB54"
+  },
+  {
+    "arquivo": "src\\web\\pedidos_web.py",
+    "sha256": "401178E7C47EA452DC20B7AB7401D6895F85E3D1D7BADF654412BE8930F5822B"
+  },
+  {
+    "arquivo": "src\\web\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "C8D4CF5B25BDC03DD01135D3DA6F7B1F7EEC92AAF4D86E217633304EC477F086"
+  },
+  {
+    "arquivo": "src\\web\\__pycache__\\acesso_web.cpython-312.pyc",
+    "sha256": "82D4DEA6CCAF4D7AC284F5D129DD34A785B7C3016BC7C68DBD2D1396496CFC8A"
+  },
+  {
+    "arquivo": "src\\web\\__pycache__\\api.cpython-312.pyc",
+    "sha256": "A57D44A441532D413CDF03BC7853A6585CD067B929EAC07149D99AF999FD6ED3"
+  },
+  {
+    "arquivo": "src\\web\\__pycache__\\loja_web.cpython-312.pyc",
+    "sha256": "5B477DAF74D1905755D17450836CA9940E5EE7AFFBA26C5055F1D23E41DA2DA8"
+  },
+  {
+    "arquivo": "src\\web\\__pycache__\\pedidos_web.cpython-312.pyc",
+    "sha256": "534CE48FE84F2CC7B2AC6754F9A9CF89B9ACAA27F4DFFBF0D6A5CB000C223807"
+  },
+  {
+    "arquivo": "src\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "DA00E703DFF3CDEC8C78FBFB9B2D96F5BAE0B08A987EA52630E281C9F02BD131"
+  },
+  {
+    "arquivo": "main.py",
+    "sha256": "FC859E8F9C4FA163D21999A6A00DCCFA6A00B2FB495873D0C8B516ECEFA14303"
+  },
+  {
+    "arquivo": "tests\\test_acesso_web.py",
+    "sha256": "0D02416BA3EE0A9B8B3D59F767D51DAFCB272DEDCC0BB7F9051754EB7FCCC430"
+  },
+  {
+    "arquivo": "tests\\test_assistente_genai.py",
+    "sha256": "70457FAD7469D87922233A825214BBF96BC11991CA08FF0DF2A16A9064D92AB3"
+  },
+  {
+    "arquivo": "tests\\test_conversas_assistente.py",
+    "sha256": "CF59522749AE0A802783632C7CE9E9A5890E6C9143E4BF371D3CB9D25EB99E58"
+  },
+  {
+    "arquivo": "tests\\test_inicializacao.py",
+    "sha256": "F5361BE3D236E88EE0984A46FD79BA6F46E4EBC4C45FE17B763E8741B37C4E8A"
+  },
+  {
+    "arquivo": "tests\\test_novo_pipeline.py",
+    "sha256": "FB15F9E6CAFB57A92FE148BCB12AD0146BB0D08C353160E3BBD9681AC835A626"
+  },
+  {
+    "arquivo": "tests\\test_pedidos_web.py",
+    "sha256": "3BD10B2F8727939F4E634744803414F6801D3E7EC34A384F7265AF0DC8268AE8"
+  },
+  {
+    "arquivo": "tests\\test_preparar_dados.py",
+    "sha256": "0455AF05A3568FC700763A7730ECC4333678D92BE1CD6F69E8F2B0A17606154C"
+  },
+  {
+    "arquivo": "tests\\test_relatorio_pdf.py",
+    "sha256": "DE675A4FF7B710E9887836935A3E7822D73E4B6D800C600CF4FE66296844B226"
+  },
+  {
+    "arquivo": "tests\\test_tratar_dados_ml.py",
+    "sha256": "6429AD6263D5BA797D15A022923C560C2AC5140E3818FE3B85B520425264DB99"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__init__.py",
+    "sha256": "8A8976B65D12F798F99A2FFD384418398FA8ADBF85E303466A67D5D0627180FB"
+  },
+  {
+    "arquivo": "tests\\experimentos\\test_doses_ctgan.py",
+    "sha256": "24003C0A26482D4060CCF13827A4943F53E88D659E78E93BDBFA14123023FD22"
+  },
+  {
+    "arquivo": "tests\\experimentos\\test_experimento_ctgan.py",
+    "sha256": "6F13FD180CF73AC6E0DD85A194ED3097A2D8CB8AA65D27C0023D8AB78BF7B45F"
+  },
+  {
+    "arquivo": "tests\\experimentos\\test_historicos_vendedores.py",
+    "sha256": "89E5FB518A7C50DC81B1CFFE3A0BEC3484C526EE4D9587E99CDD71F2A09DD548"
+  },
+  {
+    "arquivo": "tests\\experimentos\\test_organizacao.py",
+    "sha256": "E9DFF18EB555BD2FE24B461B31530ADCB93E60EE9BE82E6777AC3E55434322CF"
+  },
+  {
+    "arquivo": "tests\\experimentos\\test_previsao_operacional.py",
+    "sha256": "F9B7A472A02730365EC7DE4492CAF9D7288DA01A61A8EA7FD55DAF183FFB39A3"
+  },
+  {
+    "arquivo": "tests\\experimentos\\test_recall95.py",
+    "sha256": "C0B807F60708F184D2408DF2A346F6AD288C634A1A166F3A34D1803D9F8F642A"
+  },
+  {
+    "arquivo": "tests\\experimentos\\test_simulacao_logistica.py",
+    "sha256": "54CB3399519F33B0E46B1B816491A2CE8F0EEB945B2D7CB531FA044270FCE5F8"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\__init__.cpython-312.pyc",
+    "sha256": "E634369907CA22489E80AC3466A6E5F065435B42D7536B637204B458632A6281"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\test_doses_ctgan.cpython-312.pyc",
+    "sha256": "BE019F9ADD6692FD362B5833256161202618FE286332E08E425007CD850F65E7"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\test_experimento_ctgan.cpython-312.pyc",
+    "sha256": "9A21894BA6CA6068D70D685DF036B7AC988F024702D125CF5C55DB0BB5146890"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\test_historicos_vendedores.cpython-312.pyc",
+    "sha256": "669EE0F06712FC5F48C2CB39E0FE105220D8B04DB651FE7798499FCA7EFE0EC4"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\test_organizacao.cpython-312.pyc",
+    "sha256": "D44C145AE0AA9B888F84874289ADF0DED2F489906BDA53D49D43B8FAB77489A9"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\test_previsao_operacional.cpython-312.pyc",
+    "sha256": "5F8F6AE0944E0FE99E343580EBC704A5AE3301AFB2BB9AA502B804A0C46D4A1D"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\test_recall95.cpython-312.pyc",
+    "sha256": "F8CCE0244F0DF5F356279702797872E854F33C565F36361583B7F74A3199C6F5"
+  },
+  {
+    "arquivo": "tests\\experimentos\\__pycache__\\test_simulacao_logistica.cpython-312.pyc",
+    "sha256": "9F127F96059618F25B74818152B502A21C3E5DCAB1CFB4C4E8A44CAAD8FC0B97"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_acesso_web.cpython-312.pyc",
+    "sha256": "E2FC8FB1804961BD5D715D27E4D682B41B9435DAE0C613B87974479158FA471C"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_assistente_genai.cpython-312.pyc",
+    "sha256": "5D56979817BA5A60753499EE0567149356AF45F59C71731C099D3634D097B5F0"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_cenarios_ctgan.cpython-312.pyc",
+    "sha256": "69396458FFBCE03B8C7BAE6C4B16D997C9EB152B76476750A50B7913B017FC0C"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_conversas_assistente.cpython-312.pyc",
+    "sha256": "C3F97DAFD4DFE140AA5380FEEADB8F9B68C5A72640E59000D603C47B4D9D2B11"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_ctgan_perfis_referencias.cpython-312.pyc",
+    "sha256": "7846CA8C0C1A13839BC39BDFE1263298ACBF2384781755A0813D89012A215CCC"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_doses_ctgan.cpython-312.pyc",
+    "sha256": "940DC387BB9894C97F7DD6E6AEA5D7E17BCE33498ACFAF648AD594DAD2A0CA9E"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_experimento_balanceamento.cpython-312.pyc",
+    "sha256": "C6202213F8892CA69022B4EC195024EB587106C4CBBAEB89907222A95AE88049"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_experimento_ctgan.cpython-312.pyc",
+    "sha256": "A034063346D7430E42D160B27185536FFF3C88B05A027D77A6C1D2081BA66E3F"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_inicializacao.cpython-312.pyc",
+    "sha256": "650617AC350CC86FB1EF2EB82E3B8ED6163F4ABEFE9F5FA3EFDF8D3C992D0CCF"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_laboratorio_ml.cpython-312.pyc",
+    "sha256": "69D9629CC8FD758AA44FC3BC78E3C0562ABF61236F46EB9B761F8C2A5F03194D"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_novo_pipeline.cpython-312.pyc",
+    "sha256": "4A5F82C025A7060B9A346BD242DF75D1DBEDA88FF6A60ED6CE62C6D79723B79D"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_pedidos_web.cpython-312.pyc",
+    "sha256": "4F2A93C5E0BB463FE5C17C71CE34ED04B5824D1D8EED355323E6A58220A09035"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_pipeline_olist.cpython-312.pyc",
+    "sha256": "331077F114872CFC16F61AB95F19DAA18573469191B0C7BC731A20FE3BBD0AF3"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_preparar_dados.cpython-312.pyc",
+    "sha256": "EAF4974BC9F7744E2721C5561195238B4A8A5C6A2FE95477DC4C726503D31E3B"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_relatorio_pdf.cpython-312.pyc",
+    "sha256": "A1482DDD90E7146FF49DE7DE075BA5920FD9F0938DB77B2EFC630CB3E2C94772"
+  },
+  {
+    "arquivo": "tests\\__pycache__\\test_tratar_dados_ml.cpython-312.pyc",
+    "sha256": "32FD986DF0886F46EDA41E7A1ADB643570882D3B3FF6786F0E9BF38FA43F12A1"
+  },
+  {
+    "arquivo": "README.md",
+    "sha256": "3F0E41DB8053F3E4AE04673C45FD86FBA6F07B68B686CDD110B52C56014EE04F"
+  }
+]

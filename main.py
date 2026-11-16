@@ -28,7 +28,7 @@ def ligar_banco(sem_docker=False):
         raise ValueError('Crie o .env conforme Docs/instalacao_novo_pc.md.')
     if not sem_docker:
         subprocess.run(['docker', 'compose', 'up', '-d', 'postgres'], cwd=RAIZ, check=True)
-    from src.banco import obter_conexao
+    from src.postgresql.banco import obter_conexao
     import psycopg
     for tentativa in range(10):
         try:
@@ -42,7 +42,7 @@ def ligar_banco(sem_docker=False):
 
 
 def contar_historico():
-    from src.banco import obter_conexao
+    from src.postgresql.banco import obter_conexao
     from psycopg import sql
     with obter_conexao() as conn:
         contagens = {}
@@ -69,8 +69,8 @@ def precisa_carga(contagens):
 
 def preparar_banco(args):
     ligar_banco(args.sem_docker)
-    from src.banco import carregar, obter_conexao
-    from src.acesso_web import inicializar
+    from src.postgresql.banco import carregar, obter_conexao
+    from src.web.acesso_web import inicializar
     if precisa_carga(contar_historico()):
         print('Primeira carga: lendo pedidos_ml.csv e avaliações. Aguarde...', flush=True)
         pedidos, avaliacoes = carregar()
@@ -78,13 +78,13 @@ def preparar_banco(args):
     else:
         print('Histórico já carregado; pedidos e avaliações preservados.')
     with obter_conexao() as conn:
-        conn.execute((RAIZ / 'src/view_pedidos_inferencia.sql').read_text(encoding='utf-8'))
+        conn.execute((RAIZ / 'src/postgresql/view_pedidos_inferencia.sql').read_text(encoding='utf-8'))
     inicializar()
     print('View e tabelas web prontas. Contas, pedidos da loja e histórico preservados.')
 
 
 def conferir_banco():
-    from src.banco import obter_conexao
+    from src.postgresql.banco import obter_conexao
     with obter_conexao() as conn:
         for tabela in ['public.vw_pedidos_inferencia', 'app_web.usuarios', 'app_web.assistente_feedback']:
             if conn.execute('SELECT to_regclass(%s)', (tabela,)).fetchone()[0] is None:
@@ -102,11 +102,11 @@ def iniciar(args):
     import uvicorn
     print('Abra http://127.0.0.1:8000 — Ctrl+C encerra o servidor.', flush=True)
     # Memória das conversas e PDFs pertence a este processo.
-    uvicorn.run('src.api:app', host='127.0.0.1', port=8000, workers=1)
+    uvicorn.run('src.web.api:app', host='127.0.0.1', port=8000, workers=1)
 
 
 def criar_analista(args):
-    from src.acesso_web import criar_usuario
+    from src.web.acesso_web import criar_usuario
     conferir_banco()
     senha = getpass('Senha do analista (12 a 128 caracteres): ')
     if senha != getpass('Confirme a senha: '):
@@ -119,8 +119,8 @@ def verificar(_args):
     """Diagnóstico real, somente leitura; não chama a API de GenAI."""
     conferir_arquivos()
     total = conferir_banco()
-    from src.banco import consultar_pedidos
-    from src.inferencia import carregar_modelos, prever_pedidos, priorizar_pedidos
+    from src.postgresql.banco import consultar_pedidos
+    from src.ml.inferencia import carregar_modelos, prever_pedidos, priorizar_pedidos
     pedidos = consultar_pedidos('validacao')
     pacote, modelo = carregar_modelos()
     resultado = priorizar_pedidos(prever_pedidos(pedidos, pacote, modelo), pacote['fracao_fila'])
@@ -135,6 +135,32 @@ def testar(args):
         os.environ.pop('ENTREGACERTA_TEST_POSTGRES', None)
     comando = [sys.executable, '-B', '-m', 'unittest', 'discover', '-s', 'tests', '-v']
     raise SystemExit(subprocess.call(comando, cwd=RAIZ))
+
+
+def treinar(args):
+    from importlib import import_module
+    executar_configuracao = import_module('src.2_treinar_modelos').executar_configuracao
+    if args.etapa == 'treinar' and args.nome is None:
+        raise ValueError('Para retomar, informe --nome da preparação anterior.')
+    executar_configuracao(args.config, args.nome, args.etapa)
+
+
+def avaliar(args):
+    from importlib import import_module
+    mostrar_resultados = import_module('src.3_avaliar_modelos').mostrar_resultados
+    mostrar_resultados(args.nome)
+
+
+def preparar_dados(args):
+    from importlib import import_module
+    executar = import_module('src.1_preparar_dados').executar
+    executar(args.config, somente_particoes=getattr(args, 'somente_particoes', False))
+
+
+def gerar_sinteticos(args):
+    from importlib import import_module
+    executar_configuracao = import_module('src.2_treinar_modelos').executar_configuracao
+    executar_configuracao(args.config, args.nome, etapa='preparar')
 
 
 def main():
@@ -154,6 +180,22 @@ def main():
     comando.add_argument('--email', required=True)
     comando.set_defaults(funcao=criar_analista)
     sub.add_parser('verificar', help='Conferir banco e inferência reais, sem alterar dados.').set_defaults(funcao=verificar)
+    comando = sub.add_parser('preparar-dados', help='Criar/atualizar merge, engineering e dataset_ml.csv com a PLN legada.')
+    comando.add_argument('--config', type=Path, default=RAIZ / 'src/configuracoes/1_dados.json')
+    comando.add_argument('--somente-particoes', action='store_true', help='Atualizar as partições preservando os CSVs tratados.')
+    comando.set_defaults(funcao=preparar_dados)
+    comando = sub.add_parser('gerar-sinteticos', help='Etapa 2: separar o CSV revisado e ajustar/gerar CTGAN.')
+    comando.add_argument('--config', type=Path, default=RAIZ / 'src/configuracoes/2_treinamento.json')
+    comando.add_argument('--nome', help='Identificador da execução, a reutilizar no treino.')
+    comando.set_defaults(funcao=gerar_sinteticos)
+    comando = sub.add_parser('treinar', help='Gerar CSVs, treinar os modelos configurados e calcular métricas.')
+    comando.add_argument('--config', type=Path, default=RAIZ / 'src/configuracoes/2_treinamento.json')
+    comando.add_argument('--nome', help='Nome para identificar esta execução; padrão: data e hora.')
+    comando.add_argument('--etapa', choices=['preparar', 'treinar', 'tudo'], default='tudo')
+    comando.set_defaults(funcao=treinar)
+    comando = sub.add_parser('avaliar', help='Mostrar as métricas da última execução, sem retreinar.')
+    comando.add_argument('--nome', help='Consultar uma execução específica.')
+    comando.set_defaults(funcao=avaliar)
     comando = sub.add_parser('testar', help='Executar testes da aplicação e preparação de dados.')
     comando.add_argument('--postgres', action='store_true', help='Incluir integração em schemas temporários do banco.')
     comando.set_defaults(funcao=testar)

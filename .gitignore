@@ -25,6 +25,12 @@ Dados/ctgan_sinteticos.csv
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.cache/
+Dados/comparacao_modelos/
+Dados/resultados_modelos/
+Dados/experimentos/antes_preparacao_*/
+Modelos/experimentos/resultados_anteriores/
+Modelos/comparacao_modelos/
 .ipynb_checkpoints/
 .tmp*/
 *.egg-info/

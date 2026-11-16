@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import patch
 
 from google.genai import types
-from src import assistente_genai as assistente
+from src.assistente import assistente_genai as assistente
 
 
 def resposta_sdk(motivo='STOP', texto='Resumo completo de teste para a revisão humana da fila.'):

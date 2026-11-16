@@ -1,0 +1,165 @@
+{
+  "origem_dias_compra": "2016-09-04 21:15:19",
+  "unidade_dias": "segundos decorridos / 86400, com frações preservadas",
+  "review_score": "nota_do_proprio_pedido",
+  "pedidos_originais": 99441,
+  "filtro": "exatamente um vendedor distinto",
+  "pedidos_excluidos_pelo_filtro_vendedor": 2053,
+  "avaliacoes_vendedor": "média global de todas as avaliações associadas; vendas = pedidos distintos; sem corte temporal",
+  "linhas_merge": 97388,
+  "pedidos_engineering": 96497,
+  "ausencias_engineering": {
+    "order_id": 0,
+    "customer_id": 0,
+    "order_status": 0,
+    "order_approved_at": 14,
+    "seller_id": 0,
+    "price": 0,
+    "freight_value": 0,
+    "customer_state": 0,
+    "seller_state": 0,
+    "customer_lat": 265,
+    "customer_lng": 265,
+    "seller_lat": 215,
+    "seller_lng": 215,
+    "payment_sequential": 1,
+    "payment_installments": 1,
+    "payment_value": 1,
+    "review_score": 632,
+    "review_comment_title": 85320,
+    "review_comment_message": 57076,
+    "qtd_items": 0,
+    "total_volume_cm3": 16,
+    "total_weight": 16,
+    "predominant_product_category_name": 1364,
+    "distance_customer_seller": 479,
+    "seller_sales_count": 0,
+    "seller_review_score_mean": 3,
+    "seller_reviews_count": 0,
+    "order_delivered_carrier_date_in_days": 662,
+    "order_delivered_customer_date_in_days": 1296,
+    "order_estimated_delivery_date_in_days": 0,
+    "order_purchase_timestamp_in_days": 0,
+    "approval_date_in_days": 14,
+    "delay_in_days": 1296,
+    "delay_status": 0,
+    "transportadora": 0,
+    "seller_reliability_score": 3,
+    "delay_status_source": 0,
+    "label_available_at": 0,
+    "particao": 14
+  },
+  "sha256": {
+    "datasets_merge.csv": "d451bcb41e13c5d7b9578e702bded0c55a130b8f0b360465a7320ffbe58394e0",
+    "datasets_engineering.csv": "add84c9092a7f7c29de586ca1d76af9cad808473e8a718d501e35cc59e3c2ea3",
+    "dataset_ml.csv": "1835b326a9f8f69c9dce0df4faf515287b9b3f3307316ddeacb21f9fc5146672"
+  },
+  "tratamento": "PLN preenche somente delay_status ausente como 1; descarta demais classes ausentes. Sem imputação de atributos ou dias.",
+  "pedidos_ml": 94644,
+  "transportadoras": {
+    "quantidade": 5,
+    "semente": 42
+  },
+  "seller_reliability_score": "round(seller_review_score_mean * 0.6 + seller_sales_count / max_vendas * 5 * 0.4, 2)",
+  "max_vendas": 1854.0,
+  "pln": {
+    "rotulos_ausentes_entrada": 0,
+    "preenchidos_pln": 0,
+    "descartados_sem_classificacao_atrasado": 0
+  },
+  "ausencias_ml": {
+    "order_id": 0,
+    "order_approved_at": 0,
+    "delay_status_source": 0,
+    "label_available_at": 0,
+    "particao": 0,
+    "order_status": 0,
+    "price": 0,
+    "freight_value": 0,
+    "customer_state": 0,
+    "seller_state": 0,
+    "qtd_items": 0,
+    "total_volume_cm3": 0,
+    "total_weight": 0,
+    "predominant_product_category_name": 0,
+    "distance_customer_seller": 0,
+    "seller_reliability_score": 0,
+    "transportadora": 0,
+    "approval_date_in_days": 0,
+    "delay_in_days": 1256,
+    "delay_status": 0
+  },
+  "avaliacao_pln": {
+    "origem_rotulos": "expressoes_do_legado; avaliação de pseudorrótulos, não de entregas observadas",
+    "exemplos_treino": 5924,
+    "exemplos_teste": 1481,
+    "accuracy": 0.9912221471978393,
+    "relatorio": {
+      "atrasado": {
+        "precision": 0.9904240766073872,
+        "recall": 0.9917808219178083,
+        "f1-score": 0.9911019849418207,
+        "support": 730.0
+      },
+      "no prazo": {
+        "precision": 0.992,
+        "recall": 0.9906790945406125,
+        "f1-score": 0.9913391072618255,
+        "support": 751.0
+      },
+      "accuracy": 0.9912221471978393,
+      "macro avg": {
+        "precision": 0.9912120383036935,
+        "recall": 0.9912299582292103,
+        "f1-score": 0.9912205461018231,
+        "support": 1481.0
+      },
+      "weighted avg": {
+        "precision": 0.9912232112919598,
+        "recall": 0.9912221471978393,
+        "f1-score": 0.9912222272526401,
+        "support": 1481.0
+      }
+    },
+    "matriz_confusao": [
+      [
+        724,
+        6
+      ],
+      [
+        7,
+        744
+      ]
+    ]
+  },
+  "particoes": {
+    "datasets_engineering.csv": {
+      "metodo": "data_aprovacao",
+      "cortes": {
+        "validacao": "2018-03-01",
+        "teste": "2018-05-01"
+      },
+      "pedidos_csv": 96497,
+      "aprovacoes_ausentes": 14,
+      "por_particao": {
+        "treino": 57398,
+        "validacao": 13701,
+        "teste": 25384
+      }
+    },
+    "dataset_ml.csv": {
+      "metodo": "data_aprovacao",
+      "cortes": {
+        "validacao": "2018-03-01",
+        "teste": "2018-05-01"
+      },
+      "pedidos_csv": 94644,
+      "aprovacoes_ausentes": 0,
+      "por_particao": {
+        "treino": 56048,
+        "validacao": 13446,
+        "teste": 25150
+      }
+    }
+  }
+}
