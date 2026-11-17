@@ -47,12 +47,19 @@
     "seller_reliability_score": 3,
     "delay_status_source": 0,
     "label_available_at": 0,
-    "particao": 14
+    "particao": 14,
+    "delivered_to_carrier_minus_estimative_in_days": 662,
+    "delivered_to_carrier_week_day": 662,
+    "delivered_to_carrier_is_holiday": 662,
+    "delivered_to_carrier_to_estimative_holidays": 662,
+    "delivered_to_carrier_to_estimative_business_days": 662,
+    "delivered_to_carrier_days_until_next_business_day": 662,
+    "delivered_to_carrier_to_estimative_holiday_dates": 662
   },
   "sha256": {
     "datasets_merge.csv": "d451bcb41e13c5d7b9578e702bded0c55a130b8f0b360465a7320ffbe58394e0",
-    "datasets_engineering.csv": "add84c9092a7f7c29de586ca1d76af9cad808473e8a718d501e35cc59e3c2ea3",
-    "dataset_ml.csv": "1835b326a9f8f69c9dce0df4faf515287b9b3f3307316ddeacb21f9fc5146672"
+    "datasets_engineering.csv": "c4cdba94c80a02e0ceec0e8509ce534bd52d9673dd4d24dcf148038f4ef6d3d6",
+    "dataset_ml.csv": "fa839abf0cda1a726815f0b594976e39d2f227487f80f09e937fb860b2e0e3df"
   },
   "tratamento": "PLN preenche somente delay_status ausente como 1; descarta demais classes ausentes. Sem imputação de atributos ou dias.",
   "pedidos_ml": 94644,
@@ -86,6 +93,12 @@
     "seller_reliability_score": 0,
     "transportadora": 0,
     "approval_date_in_days": 0,
+    "delivered_to_carrier_minus_estimative_in_days": 641,
+    "delivered_to_carrier_week_day": 641,
+    "delivered_to_carrier_is_holiday": 641,
+    "delivered_to_carrier_to_estimative_holidays": 641,
+    "delivered_to_carrier_to_estimative_business_days": 641,
+    "delivered_to_carrier_days_until_next_business_day": 641,
     "delay_in_days": 1256,
     "delay_status": 0
   },
@@ -136,30 +149,45 @@
     "datasets_engineering.csv": {
       "metodo": "data_aprovacao",
       "cortes": {
-        "validacao": "2018-03-01",
+        "validacao": "2017-07-01",
         "teste": "2018-05-01"
       },
       "pedidos_csv": 96497,
       "aprovacoes_ausentes": 14,
       "por_particao": {
-        "treino": 57398,
-        "validacao": 13701,
+        "treino": 14347,
+        "validacao": 56752,
         "teste": 25384
       }
     },
     "dataset_ml.csv": {
       "metodo": "data_aprovacao",
       "cortes": {
-        "validacao": "2018-03-01",
+        "validacao": "2017-07-01",
         "teste": "2018-05-01"
       },
       "pedidos_csv": 94644,
       "aprovacoes_ausentes": 0,
       "por_particao": {
-        "treino": 56048,
-        "validacao": 13446,
+        "treino": 13971,
+        "validacao": 55523,
         "teste": 25150
       }
     }
+  },
+  "calendario_transportadora": {
+    "biblioteca": "holidays",
+    "versao": "0.108",
+    "pais": "BR",
+    "categoria": "PUBLIC",
+    "subdivisao": null,
+    "observed": false,
+    "semana_util": "segunda a sexta",
+    "datas": "horário local conforme a fonte Olist",
+    "diferenca_dias": "(despacho - estimativa).total_seconds() / 86400; negativo = antecipação",
+    "intervalo_contagens": "(dia do despacho, dia estimado]; vencido ou vazio = 0",
+    "proximo_dia_util": "estritamente após o dia do despacho, mesmo se o despacho ocorreu em dia útil",
+    "sem_data_transportadora": 662,
+    "limites": "Calendário PUBLIC do Brasil (inclui Sexta-feira Santa), sem pontos facultativos ou feriados locais; não representa a escala real da transportadora."
   }
 }

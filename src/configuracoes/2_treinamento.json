@@ -14,20 +14,28 @@
     "distance_customer_seller",
     "seller_reliability_score",
     "transportadora",
-    "approval_date_in_days"
+    "approval_date_in_days",
+    "delivered_to_carrier_minus_estimative_in_days",
+    "delivered_to_carrier_week_day",
+    "delivered_to_carrier_to_estimative_holidays"
   ],
+  "excluir_sem_data_transportadora": true,
   "semente": 42,
   "threads": 2,
+  "pca": {
+    "ativado": true,
+    "variancia": 0.95
+  },
+  "kfold": {
+    "ativado": true,
+    "n_splits": 5,
+    "limiar": 0.5
+  },
   "cortes": {
-    "validacao": "2018-03-01",
+    "validacao": "2017-07-01",
     "teste": "2018-05-01"
   },
   "limiar": "f1_validacao",
-  "fracoes_fila": [
-    0.05,
-    0.1,
-    0.2
-  ],
   "ctgan": {
     "threads": 2,
     "parametros": {
@@ -84,7 +92,7 @@
       "treino": {
         "modo": "sintetico",
         "n_reais": null,
-        "n_sinteticos": 10000
+        "n_sinteticos": 50000
       },
       "validacao": {
         "modo": "real",
@@ -102,7 +110,7 @@
       "treino": {
         "modo": "misto",
         "n_reais": null,
-        "n_sinteticos": 10000
+        "n_sinteticos": 50000
       },
       "validacao": {
         "modo": "real",
@@ -120,7 +128,7 @@
       "treino": {
         "modo": "sintetico",
         "n_reais": null,
-        "n_sinteticos": 10000
+        "n_sinteticos": 50000
       },
       "validacao": {
         "modo": "sintetico",

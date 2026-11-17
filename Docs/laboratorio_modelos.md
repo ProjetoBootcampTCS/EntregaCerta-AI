@@ -58,7 +58,10 @@ já conhecidas são preservadas. `delay_in_days` desconhecido continua vazio.
 As outras ausências permanecem para seu tratamento; não há imputação de atributos.
 
 Se `datasets_engineering.csv` já existe, a preparação o reutiliza, preservando
-seu tratamento. Antes de atualizar os CSVs, guarda a versão anterior em
+seu tratamento e recalculando as features de calendário pelas datas originais.
+O [contrato de calendário](../src/README.md#calendário-da-entrega-à-transportadora)
+detalha os dias úteis, feriados, encoder e o comando `--somente-calendario`, que
+atualiza apenas essas colunas nos CSVs existentes. Antes de atualizar os CSVs, guarda a versão anterior em
 `Dados/experimentos/antes_preparacao_<data>/`. Para reconstruir dos originais,
 configure uma pasta de saída nova em `1_dados.json`.
 
@@ -136,7 +139,11 @@ treinamento ficam bloqueados, em todas as execuções.
 ```
 
 Essa etapa verifica tipos, ausências, IDs e consistência entre os dois alvos.
-Se houver problema, informa o erro; não preenche valores nem exclui linhas.
+Se houver problema, informa o erro; não preenche valores. A opção explícita
+`excluir_sem_data_transportadora: true`, quando o treino inclui features de calendário,
+seleciona os pedidos com data de despacho conhecida e registra quantos ficaram de
+fora. Os CSVs de entrada são preservados. Sem essa opção, ausências continuam
+bloqueando o treino; nenhuma outra exclusão é feita pelo carregamento.
 O engineering e o CSV de ML recebem `particao`, definida somente pela aprovação
 com os cortes de `2_treinamento.json`:
 

@@ -259,11 +259,51 @@ class TreinoTest(unittest.TestCase):
         self.assertEqual(m['f1'],1.)
         self.assertEqual(m['mae_dias'],1.5)
         self.assertEqual(m['pedidos_avaliados_regressao'],2)
-        self.assertEqual(m['dias_atraso_total'],3)
-        self.assertEqual(m['fila_1_dias_ausentes'],1)
+        self.assertEqual(m['pedidos_dias_ausentes'],1)
+        self.assertEqual(m['mae_dias_atrasados'],2.)
+        self.assertNotIn('f1_macro',m)
+        self.assertNotIn('f1_micro',m)
+        self.assertNotIn('roc_auc',m)
+        self.assertFalse(any(c.startswith('fila_') for c in m))
+        esperadas={'mae_dias','rmse_dias','r2_dias','mae_dias_atrasados','tn','fn','tp','fp',
+                   'recall','precision','accuracy','limiar','f1'}
+        informacoes={'pedidos','pedidos_dias_conhecidos','pedidos_dias_ausentes','pedidos_avaliados_regressao'}
+        self.assertEqual(set(m),esperadas|informacoes)
         vazio=avaliar([1],[.9],[np.nan],[np.nan],.5,[1.])
         self.assertTrue(np.isnan(vazio['mae_dias']))
-        self.assertTrue(np.isnan(vazio['dias_atraso_total']))
+        self.assertTrue(np.isnan(vazio['mae_dias_atrasados']))
+
+    def test_f1_da_classe_atrasado_e_limiar_otimo_na_validacao(self):
+        y=np.array([0,0,0,1]);scores=np.array([.1,.2,.3,.25])
+        m=avaliar(y,scores,[-1,-1,-1,2],[-1,-1,-1,2],.5)
+        self.assertEqual(m['accuracy'],.75)
+        self.assertEqual(m['f1'],0.)
+        limiar=metricas_mod.escolher_limiar(y,scores)
+        candidatos=np.r_[scores,np.nextafter(scores.max(),np.inf)]
+        observado=avaliar(y,scores,[-1]*4,[-1]*4,limiar)['f1']
+        esperado=max(avaliar(y,scores,[-1]*4,[-1]*4,t)['f1'] for t in candidatos)
+        self.assertAlmostEqual(observado,esperado)
+        self.assertAlmostEqual(observado,2/3)
+
+    def test_selecao_usa_f1_positivo_da_validacao_e_nao_o_teste(self):
+        base=pd.DataFrame({'cenario':['real']*4,'segmento':['todos']*4,
+            'particao':['validacao','validacao','teste','teste'],'modelo':['a','b','a','b'],
+            'tp':[4,8,10,0],'fp':[0,9,0,0],'fn':[6,2,0,10],'tn':[90,81,90,90],
+            'precision':[1.,8/17,1.,0.],'mae_dias':[1.,2.,0.,50.]})
+        resultado=metricas_mod.marcar_selecionados(base)
+        self.assertEqual(set(resultado.loc[resultado.melhor_classificador_validacao,'modelo']),{'b'})
+        self.assertEqual(set(resultado.loc[resultado.melhor_regressor_validacao,'modelo']),{'a'})
+        self.assertAlmostEqual(resultado.loc[1,'f1'],16/27)
+
+    def test_resultados_antigos_recalculam_f1_sem_renomear_macro_ou_micro(self):
+        antigo=pd.DataFrame({'tp':[4,0],'fp':[0,0],'fn':[6,0],'tn':[90,10],
+                             'f1_macro':[.77,1.],'f1_micro':[.94,1.]})
+        atual=metricas_mod.metricas_f1(antigo)
+        self.assertAlmostEqual(atual.loc[0,'f1'],4/7)
+        self.assertEqual(atual.loc[1,'f1'],0.)
+        self.assertNotIn('f1_macro',atual)
+        self.assertNotIn('f1_micro',atual)
+        self.assertIn('f1_macro',antigo)
 
     def test_ctgan_restaura_ausencia_dias_sem_inventar_duracao(self):
         class Gerador:

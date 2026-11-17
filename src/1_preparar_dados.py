@@ -20,6 +20,10 @@ if str(RAIZ) not in sys.path:
 _dados = import_module("src.2_dados_treino")
 ATRIBUTOS, sha256 = _dados.ATRIBUTOS, _dados.sha256
 atribuir_particoes = _dados.atribuir_particoes
+ATRIBUTOS_CALENDARIO = _dados.ATRIBUTOS_CALENDARIO
+DATAS_TRANSPORTADORA = ["order_id", "order_delivered_carrier_date", "order_estimated_delivery_date"]
+FERIADOS_DETALHES = "delivered_to_carrier_to_estimative_holiday_dates"
+DIAS_SEMANA = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"]
 
 
 COLUNAS = {
@@ -112,6 +116,89 @@ def categoria_predominante(s):
     return sorted(contagens[contagens.eq(contagens.max())].index)[0] if len(contagens) else pd.NA
 
 
+def adicionar_features_calendario(base, pedidos=None):
+    """Features disponíveis no despacho, sem consultar a entrega ao cliente.
+
+    Diferença assinada: despacho - estimativa, com frações de 24h.
+    Contagens: (dia do despacho, dia estimado], sem contar o dia parcial do
+    despacho. Intervalos vencidos/vazios têm zero dias restantes e feriados.
+    Datas ausentes/inválidas permanecem ausentes, nunca viram zero.
+    """
+    import holidays
+
+    resultado = base.copy()
+    datas = base if pedidos is None else pedidos
+    if pedidos is not None:
+        for tabela in (base, pedidos):
+            if tabela.order_id.isna().any() or tabela.order_id.duplicated().any():
+                raise ValueError("Calendário exige order_id único e presente por linha.")
+        if not base.order_id.isin(pedidos.order_id).all():
+            raise ValueError("Há pedidos sem correspondência na fonte de datas do calendário.")
+        datas = pedidos.set_index("order_id").reindex(base.order_id)
+        datas.index = base.index
+    despacho = pd.to_datetime(datas.order_delivered_carrier_date, errors="coerce", format="mixed")
+    estimativa = pd.to_datetime(datas.order_estimated_delivery_date, errors="coerce", format="mixed")
+    resultado[ATRIBUTOS_CALENDARIO[0]] = (despacho - estimativa).dt.total_seconds() / 86400
+    resultado["delivered_to_carrier_week_day"] = despacho.dt.dayofweek.map(dict(enumerate(DIAS_SEMANA))).astype("string")
+    for coluna in _dados.CONTAGENS_CALENDARIO:
+        resultado[coluna] = pd.Series(pd.NA, index=base.index, dtype="Int64")
+    resultado[FERIADOS_DETALHES] = pd.Series(pd.NA, index=base.index, dtype="string")
+
+    conhecidas = pd.concat([despacho, estimativa]).dropna()
+    if conhecidas.empty:
+        return resultado
+    # Inclui o ano seguinte para encontrar o próximo dia útil após 31/12.
+    anos = range(int(conhecidas.dt.year.min()), int(conhecidas.dt.year.max()) + 2)
+    feriados = holidays.country_holidays("BR", years=anos, categories=holidays.PUBLIC,
+                                        subdiv=None, observed=False, language="pt_BR", expand=False)
+    dias_feriados = np.array(sorted(feriados), dtype="datetime64[D]")
+    calendario = np.busdaycalendar(weekmask="1111100", holidays=dias_feriados)
+    um_dia = np.timedelta64(1, "D")
+
+    tem_despacho = despacho.notna()
+    inicio = despacho.loc[tem_despacho].to_numpy(dtype="datetime64[D]")
+    resultado.loc[tem_despacho, "delivered_to_carrier_is_holiday"] = np.isin(inicio, dias_feriados).astype(int)
+    proximo = np.busday_offset(inicio + um_dia, 0, roll="forward", busdaycal=calendario)
+    resultado.loc[tem_despacho, "delivered_to_carrier_days_until_next_business_day"] = (proximo - inicio).astype(int)
+
+    validas = tem_despacho & estimativa.notna()
+    inicio = despacho.loc[validas].to_numpy(dtype="datetime64[D]")
+    fim = estimativa.loc[validas].to_numpy(dtype="datetime64[D]")
+    # np.busday_count exclui a extremidade final; deslocar ambas conta (início, fim].
+    uteis = np.busday_count(inicio + um_dia, np.maximum(inicio, fim) + um_dia, busdaycal=calendario)
+    resultado.loc[validas, "delivered_to_carrier_to_estimative_business_days"] = uteis
+    esquerda = np.searchsorted(dias_feriados, inicio, side="right")
+    direita = np.maximum(esquerda, np.searchsorted(dias_feriados, fim, side="right"))
+    resultado.loc[validas, "delivered_to_carrier_to_estimative_holidays"] = direita - esquerda
+    # Datas/nomes auditáveis ficam só no engineering; reusa intervalos iguais.
+    descricoes = {}
+    detalhes = []
+    for a, b in zip(esquerda, direita):
+        chave = (int(a), int(b))
+        if chave not in descricoes:
+            descricoes[chave] = json.dumps([
+                {"data": str(d), "nome": feriados[d.astype(object)]} for d in dias_feriados[a:b]
+            ], ensure_ascii=False)
+        detalhes.append(descricoes[chave])
+    resultado.loc[validas, FERIADOS_DETALHES] = detalhes
+    return resultado
+
+
+def registro_calendario(base):
+    from importlib.metadata import version
+
+    return {
+        "biblioteca": "holidays", "versao": version("holidays"), "pais": "BR",
+        "categoria": "PUBLIC", "subdivisao": None, "observed": False,
+        "semana_util": "segunda a sexta", "datas": "horário local conforme a fonte Olist",
+        "diferenca_dias": "(despacho - estimativa).total_seconds() / 86400; negativo = antecipação",
+        "intervalo_contagens": "(dia do despacho, dia estimado]; vencido ou vazio = 0",
+        "proximo_dia_util": "estritamente após o dia do despacho, mesmo se o despacho ocorreu em dia útil",
+        "sem_data_transportadora": int(base.delivered_to_carrier_week_day.isna().sum()),
+        "limites": "Calendário PUBLIC do Brasil (inclui Sexta-feira Santa), sem pontos facultativos ou feriados locais; não representa a escala real da transportadora.",
+    }
+
+
 def engenharia(merge, config, estatisticas):
     if merge.order_id.duplicated().any():
         raise ValueError("datasets_merge deve ter uma linha por pedido.")
@@ -144,12 +231,13 @@ def engenharia(merge, config, estatisticas):
     base["approval_date_in_days"] = (pd.to_datetime(base.order_approved_at, errors="coerce") - compra).dt.total_seconds() / 86400
     base["delay_in_days"] = base.order_delivered_customer_date_in_days - base.order_estimated_delivery_date_in_days
     base["delay_status"] = base.delay_in_days.ge(1).astype("Int64").where(base.delay_in_days.notna())
+    base = adicionar_features_calendario(base)
     return base.drop(columns=["order_delivered_carrier_date", "order_delivered_customer_date",
                               "order_estimated_delivery_date", "order_purchase_timestamp"]), str(origem)
 
 
 def atribuir_transportadoras(base, config):
-    quantidade = config.get("quantidade", 5)
+    quantidade = config.get("quantidade", 2)
     if isinstance(quantidade, bool) or not isinstance(quantidade, int) or quantidade < 1:
         raise ValueError("transportadoras.quantidade deve ser um inteiro positivo.")
     semente = config.get("semente", 42)
@@ -219,11 +307,48 @@ def atualizar_somente_particoes(config):
     return resumos
 
 
-def executar(config_path=None, somente_particoes=False):
+def atualizar_somente_calendario(config):
+    """Enriquece CSVs tratados por order_id, preservando linhas e demais valores."""
+    saida = RAIZ / config.get("saida", "Dados")
+    arquivos = [saida / nome for nome in ["datasets_engineering.csv", "dataset_ml.csv"]]
+    faltantes = [str(p) for p in arquivos if not p.exists()]
+    if faltantes:
+        raise FileNotFoundError("CSVs necessários para atualizar calendário: " + ", ".join(faltantes))
+    pedidos = pd.read_csv(RAIZ / config["originais"] / "olist_orders_dataset.csv", usecols=DATAS_TRANSPORTADORA)
+    tabelas = {}
+    for p in arquivos:
+        d = adicionar_features_calendario(pd.read_csv(p, low_memory=False), pedidos)
+        tabelas[p] = d.drop(columns=FERIADOS_DETALHES) if p.name == "dataset_ml.csv" else d
+    registro_path = saida / "datasets_preparacao.json"
+    registro = json.loads(registro_path.read_text(encoding="utf-8")) if registro_path.exists() else {}
+    backup = saida / "experimentos" / ("antes_preparacao_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
+    backup.mkdir(parents=True, exist_ok=False)
+    for p in [*arquivos, registro_path]:
+        if p.exists():
+            shutil.copy2(p, backup / p.name)
+    # Completa a serialização antes de substituir arquivos já tratados.
+    # A troca de cada arquivo é atômica; em caso de bloqueio, o backup permanece.
+    for p, d in tabelas.items():
+        d.to_csv(backup / (p.name + ".novo"), index=False)
+    for p, d in tabelas.items():
+        (backup / (p.name + ".novo")).replace(p)
+        print(f"{p.name}: calendário atualizado; {len(d)} pedidos preservados.")
+    registro["calendario_transportadora"] = registro_calendario(tabelas[arquivos[0]])
+    registro["ausencias_engineering"] = tabelas[arquivos[0]].isna().sum().to_dict()
+    registro["ausencias_ml"] = tabelas[arquivos[1]].isna().sum().to_dict()
+    registro.setdefault("sha256", {}).update({p.name: sha256(p) for p in arquivos})
+    registro_path.write_text(json.dumps(registro, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Backup: {backup}")
+    return tabelas[arquivos[0]], tabelas[arquivos[1]]
+
+
+def executar(config_path=None, somente_particoes=False, somente_calendario=False):
     config_path = Path(config_path or RAIZ / "src/configuracoes/1_dados.json")
     config = json.loads(config_path.read_text(encoding="utf-8"))
     if somente_particoes:
         return atualizar_somente_particoes(config)
+    if somente_calendario:
+        return atualizar_somente_calendario(config)
     originais = RAIZ / config["originais"]
     saida = RAIZ / config.get("saida", "Dados")
     saida.mkdir(parents=True, exist_ok=True)
@@ -234,6 +359,8 @@ def executar(config_path=None, somente_particoes=False):
         # Reutiliza o tratamento já feito pelo usuário; não remonta a base original.
         base = pd.read_csv(arquivos["datasets_engineering.csv"], low_memory=False)
         merge = pd.read_csv(arquivos["datasets_merge.csv"], low_memory=False) if arquivos["datasets_merge.csv"].exists() else None
+        pedidos_calendario = pd.read_csv(originais / "olist_orders_dataset.csv", usecols=DATAS_TRANSPORTADORA)
+        base = adicionar_features_calendario(base, pedidos_calendario)
     else:
         fontes = ler_fontes(originais)
         merge = construir_merge(fontes)
@@ -284,6 +411,7 @@ def executar(config_path=None, somente_particoes=False):
     ml.to_csv(arquivos["dataset_ml.csv"], index=False)
     
     registro.update(unidade_dias="segundos decorridos / 86400, com frações preservadas",
+        calendario_transportadora=registro_calendario(base),
         filtro="exatamente um vendedor distinto", pedidos_engineering=len(base), pedidos_ml=len(ml),
         transportadoras=config.get("transportadoras", {"quantidade": 5, "semente": 42}),
         seller_reliability_score="round(seller_review_score_mean * 0.6 + seller_sales_count / max_vendas * 5 * 0.4, 2)",
@@ -304,6 +432,8 @@ def executar(config_path=None, somente_particoes=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path)
-    parser.add_argument("--somente-particoes", action="store_true", help="Atualizar apenas partições dos CSVs existentes, preservando seu tratamento.")
+    atualizacao = parser.add_mutually_exclusive_group()
+    atualizacao.add_argument("--somente-particoes", action="store_true", help="Atualizar apenas partições dos CSVs existentes, preservando seu tratamento.")
+    atualizacao.add_argument("--somente-calendario", action="store_true", help="Adicionar/recalcular features de calendário nos CSVs existentes, preservando linhas e tratamento.")
     args = parser.parse_args()
-    executar(args.config, args.somente_particoes)
+    executar(args.config, args.somente_particoes, args.somente_calendario)

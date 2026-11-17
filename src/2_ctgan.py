@@ -13,6 +13,7 @@ if str(RAIZ) not in sys.path:
 
 _dados = import_module("src.2_dados_treino")
 CATEGORICAS, ALVO_CLASSE, ALVO_DIAS = _dados.CATEGORICAS, _dados.ALVO_CLASSE, _dados.ALVO_DIAS
+CONTAGENS_CALENDARIO = _dados.CONTAGENS_CALENDARIO
 validar_tabela, exigir_revisao = _dados.validar_tabela, _dados.exigir_revisao
 
 
@@ -27,7 +28,8 @@ def ajustar(treino, config, semente, atributos):
     torch.set_num_threads(config.get("threads", 2))
     torch.manual_seed(semente)
     tabela = treino[atributos + [ALVO_DIAS]].copy()
-    discretas = [c for c in atributos if c in CATEGORICAS or c in config.get("colunas_discretas", ["qtd_items", "payment_sequential", "payment_installments"])]
+    discretas = [c for c in atributos if c in CATEGORICAS or c in CONTAGENS_CALENDARIO
+                 or c in config.get("colunas_discretas", ["qtd_items", "payment_sequential", "payment_installments"])]
     if tabela[ALVO_DIAS].isna().any():
         tabela["__dias_ausentes"] = tabela[ALVO_DIAS].isna().astype(int)
         discretas.append("__dias_ausentes")

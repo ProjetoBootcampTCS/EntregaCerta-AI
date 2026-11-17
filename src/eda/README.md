@@ -22,3 +22,27 @@ em `apoio/fonte_malha.json`. Não é necessário baixar novamente para executar 
 
 Se usar outro ambiente Python, instale `src/eda/requirements.txt`. Para decidir os futuros
 grupos de treino, repita a análise com `PARTICAO='treino'` e compare o volume e a taxa de atraso.
+
+## Comparação de modelos
+
+Abra **02_comparacao_modelos_atraso.ipynb** no mesmo ambiente e execute as células em ordem.
+Ele contém o código completo, protocolo temporal, pesquisa, treinos, avaliação e conclusões.
+O critério de seleção e a meta de 0,5 são **F1 macro**, confirmado pelo usuário.
+Precision e recall representam a classe atrasado; F1 micro coincide com accuracy.
+
+- Ajuste execução, semente, threads e CTGAN na primeira célula; os cortes vêm de
+  `src/configuracoes/2_treinamento.json`. O catálogo/grades estão nas células de implementação.
+- Resultados: `Dados/resultados_modelos/eda_modelos_20261116.csv`, sem subpastas.
+- Dados para inspeção: nove CSVs em `Dados/eda_conjuntos_20261116/`, cobrindo as três
+  origens (real/sintético/misto) e as três partições.
+- Modelos escolhidos: `Modelos/eda_modelos_20261116/`; os estimadores são escolhidos
+  pela validação antes de pontuar o teste. O notebook demonstra como recarregar o pacote.
+- Checkpoints: `.cache/eda_modelos_20261116/`; reexecutar recupera treinos concluídos.
+  Para novos experimentos após a seleção congelada, mude o nome da execução.
+- Gráficos: `src/eda/graficos/eda_modelos_20261116/`, também incorporados no notebook.
+
+A divisão operacional e os atributos experimentais são calculados em cópias; os CSVs
+tratados pelo usuário são preservados. A análise inclui as limitações dos rótulos PLN,
+das notas globais, do status final e da transportadora aleatória.
+PostgreSQL/API/assistente/frontend continuam usando a rede anterior: este notebook
+documenta o que falta para integrar os novos modelos e métricas, sem implantar mudanças.

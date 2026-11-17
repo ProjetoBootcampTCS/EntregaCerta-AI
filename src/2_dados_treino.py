@@ -7,12 +7,19 @@ import pandas as pd
 RAIZ = Path(__file__).resolve().parents[1]
 ALVO_CLASSE = "delay_status"
 ALVO_DIAS = "delay_in_days"
-CATEGORICAS = ["order_status", "customer_state", "seller_state", "predominant_product_category_name", "transportadora"]
+CATEGORICAS = ["order_status", "customer_state", "seller_state", "predominant_product_category_name",
+               "transportadora", "delivered_to_carrier_week_day"]
+ATRIBUTOS_CALENDARIO = [
+    "delivered_to_carrier_minus_estimative_in_days", "delivered_to_carrier_week_day",
+    "delivered_to_carrier_is_holiday", "delivered_to_carrier_to_estimative_holidays",
+    "delivered_to_carrier_to_estimative_business_days", "delivered_to_carrier_days_until_next_business_day",
+]
+CONTAGENS_CALENDARIO = ATRIBUTOS_CALENDARIO[2:]
 ATRIBUTOS = [
     "order_status", "price", "freight_value", "customer_state", "seller_state",
     "qtd_items", "total_volume_cm3", "total_weight", "predominant_product_category_name",
     "distance_customer_seller", "seller_reliability_score", "transportadora", "approval_date_in_days",
-]
+] + ATRIBUTOS_CALENDARIO
 PROIBIDAS = {
     "order_id", "customer_id", "seller_id", "order_approved_at", "label_available_at", "delay_status_source",
     "order_delivered_carrier_date_in_days", "order_delivered_customer_date_in_days",
@@ -91,7 +98,18 @@ def carregar(config):
     exigir_revisao(config)
     atributos = atributos_configurados(config)
     entrada = RAIZ / config.get("entrada", "Dados/dataset_ml.csv")
-    base = validar_tabela(pd.read_csv(entrada, low_memory=False, dtype={"order_id": "string"}), atributos)
+    base = pd.read_csv(entrada, low_memory=False, dtype={"order_id": "string"})
+    linhas_entrada = len(base)
+    descartados = 0
+    # Elegibilidade explícita para previsão após o despacho; o CSV é preservado.
+    if config.get("excluir_sem_data_transportadora", False) and set(atributos) & set(ATRIBUTOS_CALENDARIO):
+        coluna = "delivered_to_carrier_week_day"
+        if coluna not in base:
+            raise ValueError("Features de calendário ausentes; execute 1_preparar_dados.py --somente-calendario.")
+        elegiveis = base[coluna].notna()
+        descartados = int((~elegiveis).sum())
+        base = base.loc[elegiveis].copy()
+    base = validar_tabela(base, atributos)
     base, resumo = atribuir_particoes(base, config)
     if base.particao.isna().any():
         raise ValueError("order_approved_at ausente; necessário para atribuir a partição.")
@@ -99,7 +117,9 @@ def carregar(config):
         raise ValueError("Para este CSV, declare review_score_origem=media_global_vendedor.")
     base["origem_dado"] = "real_olist"
     base["rotulo_observado"] = base.get("delay_status_source", pd.Series("datas", index=base.index)).eq("datas")
-    return base, atributos, {**resumo, "linhas_descartadas": 0,
+    return base, atributos, {**resumo, "pedidos_csv": linhas_entrada,
+        "pedidos_elegiveis": len(base), "linhas_descartadas": descartados,
+        "excluidos_sem_data_transportadora": descartados,
         "review_score_origem": config.get("review_score_origem")}
 
 

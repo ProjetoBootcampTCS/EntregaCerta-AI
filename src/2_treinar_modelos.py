@@ -13,6 +13,8 @@ import joblib
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
+from sklearn.decomposition import PCA
+from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from threadpoolctl import threadpool_limits
@@ -49,6 +51,18 @@ def salvar_json(destino, valor):
 
 
 def validar_config(config):
+    pca = config.get("pca", {})
+    if pca.get("ativado", False):
+        variancia = pca.get("variancia", .95)
+        if type(variancia) not in (int, float) or not 0 < variancia < 1:
+            raise ValueError("pca.variancia deve estar entre 0 e 1, exclusivamente.")
+    kfold = config.get("kfold", {})
+    if kfold.get("ativado", False):
+        if type(kfold.get("n_splits", 5)) is not int or kfold.get("n_splits", 5) < 2:
+            raise ValueError("kfold.n_splits deve ser um inteiro >= 2.")
+        limiar_cv = kfold.get("limiar", .5)
+        if type(limiar_cv) not in (int, float) or not 0 <= limiar_cv <= 1:
+            raise ValueError("kfold.limiar deve estar entre 0 e 1.")
     for campo in ["modelos", "cenarios"]:
         itens = config.get(campo, [])
         nomes = [x["nome"] for x in itens]
@@ -79,8 +93,6 @@ def validar_config(config):
     if config.get("limiar", "f1_validacao") != "f1_validacao":
         if not isinstance(config["limiar"], (int, float)) or not 0 <= config["limiar"] <= 1:
             raise ValueError("limiar deve ser f1_validacao ou número entre 0 e 1.")
-    if any(not 0 < f <= 1 for f in config.get("fracoes_fila", [0.1])):
-        raise ValueError("Frações da fila precisam estar em (0, 1].")
 
 
 def selecionar_reais(dados, n, semente):
@@ -125,6 +137,82 @@ def preprocessador(atributos):
         ("num", StandardScaler(), [c for c in atributos if c not in CATEGORICAS]),
         ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), categorias),
     ], remainder="drop")
+
+
+def pipeline_modelo(atributos, modelo, config):
+    etapas = [("preprocessador", preprocessador(atributos))]
+    if config.get("pca", {}).get("ativado", False):
+        etapas.append(("pca", PCA(n_components=config["pca"].get("variancia", .95), svd_solver="full")))
+    return Pipeline([*etapas, ("modelo", modelo)])
+
+
+def informacoes_pca(classificador, regressor):
+    resultado = {"pca_ativado": "pca" in classificador.named_steps}
+    for nome, modelo in [("classificacao", classificador), ("regressao", regressor)]:
+        pca = modelo.named_steps.get("pca") if modelo is not None else None
+        resultado[f"pca_componentes_{nome}"] = int(pca.n_components_) if pca is not None else None
+        resultado[f"pca_variancia_{nome}"] = float(pca.explained_variance_ratio_.sum()) if pca is not None else None
+    return resultado
+
+
+def validar_cruzado(config, pasta, reais, atributos):
+    """Diagnóstico dos modelos em folds reais; nunca usa validação, teste ou CTGAN.
+
+    O limiar é fixo (padrão 0.5), sem otimização sobre o fold avaliado.
+    Encoder, scaler e PCA novos são ajustados apenas nos dados de cada treino.
+    """
+    if not reais.particao.eq("treino").all() or not reais.origem_dado.eq("real_olist").all():
+        raise ValueError("K-fold aceita exclusivamente a partição de treino real.")
+    reais = _dados.validar_tabela(reais.copy(), atributos)
+    categorias = [c for c in atributos if c in CATEGORICAS]
+    reais[categorias] = reais[categorias].astype(object)
+    opcoes = config["kfold"]
+    n = opcoes.get("n_splits", 5)
+    if set(reais.delay_status.unique()) != {0, 1} or reais.delay_status.value_counts().min() < n:
+        raise ValueError(f"K-fold exige pelo menos {n} pedidos de cada classe no treino real.")
+    semente = config.get("semente", 42)
+    folds = list(StratifiedKFold(n_splits=n, shuffle=True, random_state=semente).split(reais, reais.delay_status))
+    atribuicoes = reais[["order_id"]].copy()
+    atribuicoes["fold_validacao"] = 0
+    for fold, (_, iv) in enumerate(folds, 1):
+        atribuicoes.iloc[iv, atribuicoes.columns.get_loc("fold_validacao")] = fold
+    atribuicoes.to_csv(pasta / "kfold_particoes.csv", index=False)
+    metricas = []
+    limiar = opcoes.get("limiar", .5)
+    print(f"K-fold: {n} folds estratificados exclusivamente no treino real; limiar fixo {limiar}.", flush=True)
+    for m in config["modelos"]:
+        for fold, (it, iv) in enumerate(folds, 1):
+            inicio = time.perf_counter()
+            t, v = reais.iloc[it], reais.iloc[iv]
+            cls, reg = criar_modelos(m, semente)
+            classificador = pipeline_modelo(atributos, cls, config)
+            regressor = pipeline_modelo(atributos, reg, config)
+            conhecidos = t.delay_in_days.notna()
+            with threadpool_limits(limits=config.get("threads", 2)):
+                classificador.fit(t[atributos], t.delay_status)
+                scores = classificador.predict_proba(v[atributos])[:, list(classificador.classes_).index(1)]
+                if conhecidos.any():
+                    regressor.fit(t.loc[conhecidos, atributos], t.loc[conhecidos, "delay_in_days"])
+                    dias = regressor.predict(v[atributos])
+                else:
+                    regressor = None
+                    dias = np.full(len(v), np.nan)
+            met = avaliar(v.delay_status, scores, v.delay_in_days, dias, limiar)
+            met.update(modelo=m["nome"], fold=fold, pedidos_treino=len(t),
+                       pedidos_treino_regressao=int(conhecidos.sum()),
+                       segundos=time.perf_counter() - inicio, **informacoes_pca(classificador, regressor))
+            metricas.append(met)
+            print(f"  {m['nome']} fold {fold}/{n}: F1={met['f1']:.4f}; MAE={met['mae_dias']:.4f} dias", flush=True)
+    metricas = pd.DataFrame(metricas)
+    metricas.to_csv(pasta / "kfold_metricas.csv", index=False)
+    medidas = ["f1", "precision", "recall", "accuracy", "mae_dias", "rmse_dias"]
+    resumo = metricas.groupby("modelo")[medidas].agg(["mean", "std"])
+    resumo.columns = [f"{metrica}_{'media' if estatistica == 'mean' else 'desvio'}" for metrica, estatistica in resumo.columns]
+    resumo = resumo.reset_index()
+    resumo.to_csv(pasta / "kfold_resumo.csv", index=False)
+    print("K-fold no treino real (média e desvio-padrão):", flush=True)
+    print(resumo[["modelo", "f1_media", "f1_desvio", "mae_dias_media", "mae_dias_desvio"]].to_string(index=False), flush=True)
+    return metricas, resumo
 
 
 def preparar(config, pasta, destino):
@@ -200,6 +288,8 @@ def treinar(config, pasta):
     previsoes = pasta / "previsoes.csv"
     if resultado.exists() or previsoes.exists():
         raise FileExistsError("Execução já possui resultados; escolha outro nome.")
+    if config.get("kfold", {}).get("ativado", False):
+        validar_cruzado(config, pasta, pd.read_csv(destino / "reais_treino.csv", low_memory=False), atributos)
     metricas = []
     teste_real = pd.read_csv(destino / "reais_teste.csv", low_memory=False)
     for c in config["cenarios"]:
@@ -215,8 +305,8 @@ def treinar(config, pasta):
             print(f"Treinando {c['nome']} / {m['nome']}...", flush=True)
             inicio = time.perf_counter()
             cls, reg = criar_modelos(m, config.get("semente", 42))
-            classificador = Pipeline([("preprocessador", preprocessador(atributos)), ("modelo", cls)])
-            regressor = Pipeline([("preprocessador", preprocessador(atributos)), ("modelo", reg)])
+            classificador = pipeline_modelo(atributos, cls, config)
+            regressor = pipeline_modelo(atributos, reg, config)
             with threadpool_limits(limits=config.get("threads", 2)):
                 classificador.fit(dados["treino"][atributos], dados["treino"].delay_status)
                 dias_conhecidos = dados["treino"].delay_in_days.notna()
@@ -250,9 +340,10 @@ def treinar(config, pasta):
                     if not mascara.any():
                         continue
                     met = avaliar(d.delay_status.to_numpy()[mascara], scores[mascara], d.delay_in_days.to_numpy()[mascara], dias[mascara],
-                                  limiar, config.get("fracoes_fila", [0.1]))
+                                  limiar)
                     met.update(cenario=c["nome"], modelo=m["nome"], particao=p, segmento=segmento,
                                execucao=pasta.name, segundos_treino=duracao,
+                               criterio_selecao="f1_validacao",
                                entrada_dados=config.get("entrada", "Dados/dataset_ml.csv"),
                                pedidos_treino_regressao=int(dias_conhecidos.sum()),
                                rotulos_pln=int(d.get("delay_status_source", pd.Series("", index=d.index)).loc[mascara].eq("pln").sum()),
@@ -260,6 +351,7 @@ def treinar(config, pasta):
                                interpretacao="retrospectiva: status do pedido e avaliações globais do vendedor",
                                avaliacao_sintetica=bool(d.loc[mascara, "origem_dado"].eq("sintetico_ctgan").any()),
                                limiar_ajustado_com_sinteticos=bool(dados["validacao"].origem_dado.eq("sintetico_ctgan").any()))
+                    met.update(informacoes_pca(classificador, regressor))
                     metricas.append(met)
     resultado.parent.mkdir(parents=True, exist_ok=True)
     # Somente a rodada completa é publicada como CSV de desempenho.
